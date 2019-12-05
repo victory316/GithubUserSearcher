@@ -21,8 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="02월 12일 (수)"
-            android:textSize="24sp"
-            android:textColor="@color/white"
+            style="@style/TextStyle7"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="6dp"
@@ -74,9 +73,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:textColor="@color/black"
+            style="@style/TextStyle"
             android:layout_marginLeft="15dp"
-            android:textSize="18sp"
-            android:textStyle="bold"
             android:text="현재 사용 가능 회의실"/>
 
         <TextView
@@ -87,6 +85,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/conference_text"
             android:layout_marginLeft="5dp"
+            style="@style/TextStyle2"
             android:textColor="@color/deep_sky_blue"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -131,7 +130,7 @@
             app:layout_constraintLeft_toRightOf="@id/indicator_view"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:textSize="12sp"
+            style="@style/TextStyle5"
             android:text="예약가능"
             android:layout_marginLeft="5dp"/>
 
@@ -149,24 +148,21 @@
                 android:id="@+id/button_01"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="@color/brownish_grey"
+                style="@style/TextStyle5"
                 android:text="예약가능"/>
 
             <RadioButton
                 android:id="@+id/button_02"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="@color/brownish_grey"
+                style="@style/TextStyle5"
                 android:text="외부미팅"/>
 
             <RadioButton
                 android:id="@+id/button_03"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="@color/brownish_grey"
+                style="@style/TextStyle5"
                 android:text="내 예"/>
 
         </RadioGroup>
