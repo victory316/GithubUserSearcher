@@ -1,7 +1,10 @@
 package com.example.answer.ui.data
 
-import com.google.gson.JsonArray
-
 data class ConferenceRoom(val name: String,
                          val location: String,
-                          val reservations: List<Reservations>)
+                          val reservations: List<Reservations>) {
+
+    fun getReservationList() : List<Reservations>{
+        return reservations
+    }
+}
