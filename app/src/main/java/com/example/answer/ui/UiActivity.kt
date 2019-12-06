@@ -38,6 +38,13 @@ class UiActivity : AppCompatActivity() {
 
         for(indices in testArray) {
             Log.d("jsonTest" , "$indices")
+            Log.d("jsonTest", "!!reservations : ${indices.reservations}")
+            val testReservation = indices.reservations
+
+            for(indices in testReservation) {
+                Log.d("jsonTest", "starttime : ${indices.startTime}")
+                Log.d("jsonTest", "endtime : ${indices.endTime}")
+            }
         }
     }
 }
