@@ -5,9 +5,11 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.beust.klaxon.*
 import com.example.answer.R
 import com.example.answer.ui.data.ConferenceRoom
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.stream.JsonReader
 import org.json.JSONObject
 import java.io.IOError
 import java.io.IOException
@@ -29,9 +31,13 @@ class UiActivity : AppCompatActivity() {
     }
 
     private fun parseJson() {
-        val jsonArray = Klaxon()
-            .parseArray<ConferenceRoom>( this.assets.open("MUSINSA.json") )
-//                as Array<JsonObject>
-        Log.d("jsonTest", "parsed JSON : ${jsonArray}")
+        val gson = Gson()
+        val testString = applicationContext.assets.open("MUSINSA.json").bufferedReader().use {it.readText()}
+        val testArray = gson.fromJson(testString, Array<ConferenceRoom>::class.java).toList()
+        Log.d("jsonTest", "parsed String : $testString")
+
+        for(indices in testArray) {
+            Log.d("jsonTest" , "$indices")
+        }
     }
 }
