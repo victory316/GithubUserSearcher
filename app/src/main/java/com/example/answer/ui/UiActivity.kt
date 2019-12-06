@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.answer.R
 import com.example.answer.databinding.ActivityUiBinding
 import com.example.answer.ui.data.ConferenceRoom
+import com.example.answer.ui.data.Reservations
 import com.example.answer.ui.recyclerview.ConferenceAdapter
 import com.example.answer.ui.room.ConferenceRoomData
 import com.example.answer.ui.room.ConferenceRoomDatabase
@@ -43,8 +44,11 @@ class UiActivity : AppCompatActivity() {
         // ViewModel의 설정
         cRoomViewModel = ViewModelProviders.of(this).get(ConferenceRoomViewModel::class.java)
 
-//        val testData = ConferenceRoomData()
-//        cRoomViewModel.insert(testData)
+        val tempReservation = Reservations("100", "1000")
+        val tempReservationList = ArrayList<Reservations>()
+        tempReservationList.add(tempReservation)
+        val testData = ConferenceRoomData(1,"아하","여기", tempReservationList)
+        cRoomViewModel.insert(testData)
 //
         cRoomViewModel.getAll().observe(this, Observer<List<ConferenceRoomData>> { roomData ->
             adapter.setContacts(roomData!!)
