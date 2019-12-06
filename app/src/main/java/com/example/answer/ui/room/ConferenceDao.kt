@@ -17,4 +17,6 @@ interface ConferenceDao {
     @Delete
     fun delete(conferenceRoomData: ConferenceRoomData)
 
+    @Query("DELETE FROM room")
+    fun deleteAll()
 }

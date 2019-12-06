@@ -11,20 +11,6 @@ import java.lang.reflect.Type
 class ConferenceTypeConverter {
     companion object {
 
-        val SEPARATOR = ","
-
-//        @TypeConverter
-//        @JvmStatic
-//        fun resevationsToString(reservations: List<Reservations>?): String? {
-//            return reservations?.map { it.startTime }?.joinToString(separator = SEPARATOR)
-//        }
-//
-//        @TypeConverter
-//        @JvmStatic
-//        fun stringToReservations(reservations: String?): List<Reservations>? {
-//            return reservations?.split(SEPARATOR)?.map { reservations.of(it.toInt()) }
-//        }
-
         @TypeConverter
         @JvmStatic
         fun fromString(value: String?): List<Reservations?>? {

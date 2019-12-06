@@ -11,17 +11,17 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.answer.R
 import com.example.answer.databinding.ActivityUiBinding
-import com.example.answer.ui.data.ConferenceRoom
 import com.example.answer.ui.data.Reservations
 import com.example.answer.ui.recyclerview.ConferenceAdapter
+import com.example.answer.ui.recyclerview.ConferenceMiniAdapter
 import com.example.answer.ui.room.ConferenceRoomData
-import com.example.answer.ui.room.ConferenceRoomDatabase
 import com.google.gson.Gson
 
 class UiActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityUiBinding
     private lateinit var cRoomViewModel: ConferenceRoomViewModel
+    private lateinit var dataList: List<ConferenceRoomData>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,17 +29,29 @@ class UiActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_ui)
 
-        val adapter = ConferenceAdapter({ roomData ->
+        val roomDetailAdapter = ConferenceAdapter({ roomData ->
 
         }, {
             roomData ->
         })
 
-        val linearLayoutManager = LinearLayoutManager(this)
+        val roomMiniAdapter = ConferenceMiniAdapter({ roomData ->
 
-        binding.availableRoomView.adapter = adapter
-        binding.availableRoomView.layoutManager = linearLayoutManager
-        binding.availableRoomView.setHasFixedSize(true)
+        }, {
+                roomData ->
+        })
+
+        val roomDetailLayoutManager = LinearLayoutManager(this)
+        val roomMiniLayoutManager = LinearLayoutManager(this,
+            LinearLayoutManager.HORIZONTAL, false)
+
+        binding.roomDetailRecyclerView.adapter = roomDetailAdapter
+        binding.roomDetailRecyclerView.layoutManager = roomDetailLayoutManager
+        binding.roomDetailRecyclerView.setHasFixedSize(true)
+
+        binding.availableRoomRecyclerView.adapter = roomMiniAdapter
+        binding.availableRoomRecyclerView.layoutManager = roomMiniLayoutManager
+        binding.availableRoomRecyclerView.setHasFixedSize(true)
 
         // ViewModel의 설정
         cRoomViewModel = ViewModelProviders.of(this).get(ConferenceRoomViewModel::class.java)
@@ -47,28 +59,33 @@ class UiActivity : AppCompatActivity() {
         val tempReservation = Reservations("100", "1000")
         val tempReservationList = ArrayList<Reservations>()
         tempReservationList.add(tempReservation)
-        val testData = ConferenceRoomData(1,"아하","여기", tempReservationList)
-        cRoomViewModel.insert(testData)
+
+        cRoomViewModel.deleteAll()
+        dataList = parseJson()
+
+        for (indices in dataList) {
+            cRoomViewModel.insert(indices)
+        }
+//        cRoomViewModel.insert(testData)
 //
         cRoomViewModel.getAll().observe(this, Observer<List<ConferenceRoomData>> { roomData ->
-            adapter.setContacts(roomData!!)
+            roomDetailAdapter.setContacts(roomData!!)
+            roomMiniAdapter.setContacts(roomData)
         })
 
         // 기기의 statusBar 색상을 디자인 시안에 맞게 변경
        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.statusBarColor = Color.BLACK
         }
-
-        parseJson()
     }
 
 
     // MUSINSA.json으로부터 json string을 parse
     // Parsing된 string으로부터 ConferenceRoom List를 생성
-    private fun parseJson() {
+    private fun parseJson(): List<ConferenceRoomData> {
         val gson = Gson()
         val testString = applicationContext.assets.open("MUSINSA.json").bufferedReader().use {it.readText()}
-        val testArray = gson.fromJson(testString, Array<ConferenceRoom>::class.java).toList()
+        val testArray = gson.fromJson(testString, Array<ConferenceRoomData>::class.java).toList()
         Log.d("jsonTest", "parsed String : $testString")
 
         for(indices in testArray) {
@@ -82,10 +99,12 @@ class UiActivity : AppCompatActivity() {
                 Log.d("jsonTest", "endtime : ${indices.endTime}")
             }
 
-            for(indices in indices.getReservationList()) {
-                Log.d("jsonTest", "starttime : ${indices.startTime}")
-                Log.d("jsonTest", "endtime : ${indices.endTime}")
-            }
+//            for(indices in indices.getReservationList()) {
+//                Log.d("jsonTest", "starttime : ${indices.startTime}")
+//                Log.d("jsonTest", "endtime : ${indices.endTime}")
+//            }
         }
+
+        return testArray
     }
 }

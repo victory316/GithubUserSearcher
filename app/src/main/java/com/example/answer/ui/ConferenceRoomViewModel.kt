@@ -22,4 +22,8 @@ class ConferenceRoomViewModel(application: Application) : AndroidViewModel(appli
     fun delete(contact: ConferenceRoomData) {
         repository.delete(contact)
     }
+
+    fun deleteAll() {
+        repository.deleteAll()
+    }
 }

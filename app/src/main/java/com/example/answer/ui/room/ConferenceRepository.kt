@@ -29,4 +29,13 @@ class ConferenceRepository(application: Application) {
             thread.start()
         } catch (e: Exception) { }
     }
+
+    fun deleteAll() {
+        try {
+            val thread = Thread(Runnable {
+                conferenceDao.deleteAll()
+            })
+            thread.start()
+        } catch (e: Exception) { }
+    }
 }
