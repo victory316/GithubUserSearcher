@@ -2,7 +2,6 @@ package com.example.answer.ui.room
 
 import android.app.Application
 import androidx.lifecycle.LiveData
-import com.example.answer.ui.data.Reservations
 
 class ConferenceRepository(application: Application) {
 

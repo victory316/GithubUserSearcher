@@ -2,7 +2,6 @@ package com.example.answer.ui.room
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.answer.ui.data.Reservations
 
 // Room DB 구현에 필요한 DAO 클래스
 @Dao
