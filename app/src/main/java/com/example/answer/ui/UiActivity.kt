@@ -5,7 +5,6 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -14,7 +13,8 @@ import com.example.answer.R
 import com.example.answer.databinding.ActivityUiBinding
 import com.example.answer.ui.data.ConferenceRoom
 import com.example.answer.ui.recyclerview.ConferenceAdapter
-import com.example.answer.ui.room.RoomData
+import com.example.answer.ui.room.ConferenceRoomData
+import com.example.answer.ui.room.ConferenceRoomDatabase
 import com.google.gson.Gson
 
 class UiActivity : AppCompatActivity() {
@@ -42,8 +42,12 @@ class UiActivity : AppCompatActivity() {
 
         // ViewModel의 설정
         cRoomViewModel = ViewModelProviders.of(this).get(ConferenceRoomViewModel::class.java)
-        cRoomViewModel.getAll().observe(this, Observer<List<RoomData>> { roomData ->
-            adapter.setContacts(roomData)
+
+//        val testData = ConferenceRoomData()
+//        cRoomViewModel.insert(testData)
+//
+        cRoomViewModel.getAll().observe(this, Observer<List<ConferenceRoomData>> { roomData ->
+            adapter.setContacts(roomData!!)
         })
 
         // 기기의 statusBar 색상을 디자인 시안에 맞게 변경

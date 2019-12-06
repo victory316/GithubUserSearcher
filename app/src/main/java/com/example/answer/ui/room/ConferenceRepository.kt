@@ -7,24 +7,24 @@ class ConferenceRepository(application: Application) {
 
     private val conferenceDatabase = ConferenceRoomDatabase.getInstance(application)!!
     private val conferenceDao: ConferenceDao = conferenceDatabase.conferenceDao()
-    private val roomData: LiveData<List<RoomData>> = conferenceDao.getAll()
+    private val conferenceRoomData: LiveData<List<ConferenceRoomData>> = conferenceDao.getAll()
 
-    fun getAll(): LiveData<List<RoomData>> {
-        return roomData
+    fun getAll(): LiveData<List<ConferenceRoomData>> {
+        return conferenceRoomData
     }
 
-    fun insert(roomData: RoomData) {
+    fun insert(conferenceRoomData: ConferenceRoomData) {
         try {
             val thread = Thread(Runnable {
-                conferenceDao.insert(roomData) })
+                conferenceDao.insert(conferenceRoomData) })
             thread.start()
         } catch (e: Exception) { }
     }
 
-    fun delete(roomData: RoomData) {
+    fun delete(conferenceRoomData: ConferenceRoomData) {
         try {
             val thread = Thread(Runnable {
-                conferenceDao.delete(roomData)
+                conferenceDao.delete(conferenceRoomData)
             })
             thread.start()
         } catch (e: Exception) { }

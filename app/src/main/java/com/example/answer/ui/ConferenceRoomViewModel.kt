@@ -4,22 +4,22 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import com.example.answer.ui.room.ConferenceRepository
-import com.example.answer.ui.room.RoomData
+import com.example.answer.ui.room.ConferenceRoomData
 
 class ConferenceRoomViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = ConferenceRepository(application)
     private val contacts = repository.getAll()
 
-    fun getAll(): LiveData<List<RoomData>> {
+    fun getAll(): LiveData<List<ConferenceRoomData>> {
         return this.contacts
     }
 
-    fun insert(contact: RoomData) {
+    fun insert(contact: ConferenceRoomData) {
         repository.insert(contact)
     }
 
-    fun delete(contact: RoomData) {
+    fun delete(contact: ConferenceRoomData) {
         repository.delete(contact)
     }
 }
