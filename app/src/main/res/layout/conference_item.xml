@@ -55,7 +55,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:orientation="horizontal"
-        android:background="@color/very_light_pink"
+        android:background="@color/deep_sky_blue"
         app:layout_constraintBottom_toTopOf="@id/time_view">
 
         <View
@@ -64,126 +64,126 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:visibility="invisible"
-            android:background="@color/deep_sky_blue"/>
+            android:background="@color/very_light_pink"/>
         <View
             android:id="@+id/bar_2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:visibility="invisible"
-            android:background="@color/deep_sky_blue"/>
+            android:background="@color/very_light_pink"/>
         <View
             android:id="@+id/bar_3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:visibility="invisible"
-            android:background="@color/deep_sky_blue"/>
+            android:background="@color/very_light_pink"/>
         <View
             android:id="@+id/bar_4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:visibility="invisible"
-            android:background="@color/deep_sky_blue"/>
+            android:background="@color/very_light_pink"/>
         <View
             android:id="@+id/bar_5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:visibility="invisible"
-            android:background="@color/deep_sky_blue"/>
+            android:background="@color/very_light_pink"/>
         <View
             android:id="@+id/bar_6"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:visibility="invisible"
-            android:background="@color/deep_sky_blue"/>
+            android:background="@color/very_light_pink"/>
         <View
             android:id="@+id/bar_7"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:visibility="invisible"
-            android:background="@color/deep_sky_blue"/>
+            android:background="@color/very_light_pink"/>
         <View
             android:id="@+id/bar_8"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:visibility="invisible"
-            android:background="@color/deep_sky_blue"/>
+            android:background="@color/very_light_pink"/>
         <View
             android:id="@+id/bar_9"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:visibility="invisible"
-            android:background="@color/deep_sky_blue"/>
+            android:background="@color/very_light_pink"/>
         <View
             android:id="@+id/bar_10"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:visibility="invisible"
-            android:background="@color/deep_sky_blue"/>
+            android:background="@color/very_light_pink"/>
         <View
             android:id="@+id/bar_11"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:visibility="invisible"
-            android:background="@color/deep_sky_blue"/>
+            android:background="@color/very_light_pink"/>
         <View
             android:id="@+id/bar_12"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:visibility="invisible"
-            android:background="@color/deep_sky_blue"/>
+            android:background="@color/very_light_pink"/>
         <View
             android:id="@+id/bar_13"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:visibility="invisible"
-            android:background="@color/deep_sky_blue"/>
+            android:background="@color/very_light_pink"/>
         <View
             android:id="@+id/bar_14"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:visibility="invisible"
-            android:background="@color/deep_sky_blue"/>
+            android:background="@color/very_light_pink"/>
         <View
             android:id="@+id/bar_15"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:visibility="invisible"
-            android:background="@color/deep_sky_blue"/>
+            android:background="@color/very_light_pink"/>
         <View
             android:id="@+id/bar_16"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:visibility="invisible"
-            android:background="@color/deep_sky_blue"/>
+            android:background="@color/very_light_pink"/>
         <View
             android:id="@+id/bar_17"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:visibility="invisible"
-            android:background="@color/deep_sky_blue"/>
+            android:background="@color/very_light_pink"/>
         <View
             android:id="@+id/bar_18"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:visibility="invisible"
-            android:background="@color/deep_sky_blue"/>
+            android:background="@color/very_light_pink"/>
     </LinearLayout>
 
     <TextView
