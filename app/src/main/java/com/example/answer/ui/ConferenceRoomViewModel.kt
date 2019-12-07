@@ -15,6 +15,17 @@ class ConferenceRoomViewModel(application: Application) : AndroidViewModel(appli
         return this.contacts
     }
 
+    fun setupDefaultData() {
+        repository.insert(ConferenceRoomData("대회의실1", "MUSINSA 1 / B1", null))
+        repository.insert(ConferenceRoomData("회의실1", "MUSINSA 1 / B1", null))
+        repository.insert(ConferenceRoomData("회의실2", "MUSINSA 1 / B1", null))
+        repository.insert(ConferenceRoomData("회의실3", "MUSINSA 1 / B1", null))
+        repository.insert(ConferenceRoomData("회의실4", "MUSINSA 1 / B1", null))
+        repository.insert(ConferenceRoomData("회의실5", "MUSINSA 1 / B1", null))
+        repository.insert(ConferenceRoomData("회의실6", "MUSINSA 1 / B1", null))
+        repository.insert(ConferenceRoomData("회의실7", "MUSINSA 1 / B1", null))
+    }
+
     fun insert(contact: ConferenceRoomData) {
         repository.insert(contact)
     }

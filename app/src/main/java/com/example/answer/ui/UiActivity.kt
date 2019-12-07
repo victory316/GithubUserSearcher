@@ -60,7 +60,8 @@ class UiActivity : AppCompatActivity() {
         val tempReservationList = ArrayList<Reservations>()
         tempReservationList.add(tempReservation)
 
-        cRoomViewModel.deleteAll()
+//        cRoomViewModel.deleteAll()
+        cRoomViewModel.setupDefaultData()
         dataList = parseJson()
 
         for (indices in dataList) {
@@ -94,7 +95,7 @@ class UiActivity : AppCompatActivity() {
 
             val testReservation = indices.reservations
 
-            for(indices in testReservation) {
+            for(indices in testReservation!!) {
                 Log.d("jsonTest", "starttime : ${indices.startTime}")
                 Log.d("jsonTest", "endtime : ${indices.endTime}")
             }
@@ -107,4 +108,6 @@ class UiActivity : AppCompatActivity() {
 
         return testArray
     }
+
+
 }
