@@ -8,13 +8,20 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.answer.R
 import com.example.answer.ui.room.ConferenceRoomData
+import kotlinx.android.synthetic.main.conference_item.view.*
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+
 
 class ConferenceAdapter(val contactItemClick: (ConferenceRoomData) -> Unit, val contactItemLongClick: (ConferenceRoomData) -> Unit)
     : RecyclerView.Adapter<ConferenceAdapter.ViewHolder>() {
     private var contacts: List<ConferenceRoomData> = listOf()
+    private var barWidth = 0
+    private var barStartX = 0f
 
     override fun onCreateViewHolder(parent: ViewGroup, i: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.conference_item, parent, false)
+
         return ViewHolder(view)
     }
 
@@ -23,6 +30,15 @@ class ConferenceAdapter(val contactItemClick: (ConferenceRoomData) -> Unit, val 
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+
+        viewHolder.itemView.timeline_view.post {
+            Log.d("uiTest", "width from holder : ${viewHolder.itemView.timeline_view.width}")
+            Log.d("uiTest", "x pos : ${viewHolder.itemView.timeline_view.x}")
+
+            setupCurrentTimeIndicator(viewHolder, viewHolder.itemView.timeline_view.x,
+                viewHolder.itemView.timeline_view.width)
+        }
+
         viewHolder.bind(contacts[position])
     }
 
@@ -77,6 +93,8 @@ class ConferenceAdapter(val contactItemClick: (ConferenceRoomData) -> Unit, val 
                 contactItemLongClick(conferenceRoomData)
                 true
             }
+
+//            setupCurrentTimeIndicator(itemView)
         }
     }
 
@@ -85,7 +103,24 @@ class ConferenceAdapter(val contactItemClick: (ConferenceRoomData) -> Unit, val 
         notifyDataSetChanged()
     }
 
-    fun setupTimelineBars(startTime: String, endTime: String, timeArray: List<View>){
+    fun setupCurrentTimeIndicator(viewHolder: ViewHolder, startX: Float, width: Int) {
+        val current = System.currentTimeMillis()
+
+        val hourFormat: DateFormat = SimpleDateFormat("HH")
+        val minuitFormat: DateFormat = SimpleDateFormat("mm")
+        val currentHour = hourFormat.format(current).toInt()
+        val currentMin = minuitFormat.format(current).toInt()
+        Log.d("widthTest" , "startX : $startX | width : $width")
+
+        val widthForMove = width / 19
+
+        viewHolder.itemView.line_indicator.x = startX + widthForMove * (currentHour - 9)
+
+
+        Log.d("timeTest" , "time : $currentHour | $currentMin")
+    }
+
+    private fun setupTimelineBars(startTime: String, endTime: String, timeArray: List<View>) {
         val startTimeInt = startTime.toInt()
         val endTimeInt = endTime.toInt()
 
@@ -111,5 +146,4 @@ class ConferenceAdapter(val contactItemClick: (ConferenceRoomData) -> Unit, val 
         }
 
     }
-
 }
