@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.answer.R
 import com.example.answer.ui.room.ConferenceRoomData
+import kotlinx.android.synthetic.main.activity_ui.view.*
 import kotlinx.android.synthetic.main.conference_item.view.*
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -103,7 +104,7 @@ class ConferenceAdapter(val contactItemClick: (ConferenceRoomData) -> Unit, val 
         notifyDataSetChanged()
     }
 
-    fun setupCurrentTimeIndicator(viewHolder: ViewHolder, startX: Float, width: Int) {
+    private fun setupCurrentTimeIndicator(viewHolder: ViewHolder, startX: Float, width: Int) {
         val current = System.currentTimeMillis()
 
         val hourFormat: DateFormat = SimpleDateFormat("HH")
@@ -114,7 +115,14 @@ class ConferenceAdapter(val contactItemClick: (ConferenceRoomData) -> Unit, val 
 
         val widthForMove = width / 19
 
+        val minCount = 0
+
+        if (currentMin / 30 == 0) {
+            minCount
+        }
+
         viewHolder.itemView.line_indicator.x = startX + widthForMove * (currentHour - 9)
+        viewHolder.itemView.current_time_text.x = startX + widthForMove * (currentHour - 9)
 
 
         Log.d("timeTest" , "time : $currentHour | $currentMin")
@@ -144,6 +152,5 @@ class ConferenceAdapter(val contactItemClick: (ConferenceRoomData) -> Unit, val 
         for (i in startIndex..endIndex) {
             timeArray[i].visibility = View.VISIBLE
         }
-
     }
 }
