@@ -97,10 +97,10 @@ class ConferenceAdapter(val contactItemClick: (ConferenceRoomData) -> Unit, val 
         // 9시면 0번 인덱스부터 시작해야하며, 18시가 마지막 19번째 index로 위치함.
         // 각 칸은 30분 단위로 나뉘어짐을 고려해야 함.
 
-        var startIndex = (startHour - 9) * 2 + (startMinute / 30)
-        var endIndex = (endHour - 9) * 2 + (endMinute / 30)
+        val startIndex = (startHour - 9) * 2 + (startMinute / 30)
+        var endIndex = (endHour - 9) * 2 + (endMinute / 30) - 1
 
-        if (endIndex >= timeArray.size) endIndex = 17
+        if (endIndex >= timeArray.size) endIndex = timeArray.size - 1
 
         Log.d("recyclerViewTest", "parsed time : $startHour : $startMinute | $endHour : $endMinute")
         Log.d("recyclerViewTest", "startIndex : $startIndex endIndex : $endIndex")
