@@ -28,6 +28,12 @@ class ConferenceMiniAdapter : RecyclerView.Adapter<ConferenceMiniAdapter.ViewHol
         private val nameTv = itemView.findViewById<TextView>(R.id.room_name_text)
 
         fun bind(conferenceData: ConferenceData) {
+
+            // 방이 가득 찼을경우 visiblilty를 조정
+            if (conferenceData.is_full == 1) {
+                itemView.visibility = View.INVISIBLE
+            }
+
             nameTv.text = conferenceData.name
         }
     }

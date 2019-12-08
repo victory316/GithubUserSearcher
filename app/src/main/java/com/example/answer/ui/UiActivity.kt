@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.answer.R
 import com.example.answer.databinding.ActivityUiBinding
-import com.example.answer.ui.data.Reservations
 import com.example.answer.ui.recyclerview.ConferenceAdapter
 import com.example.answer.ui.recyclerview.ConferenceMiniAdapter
 import com.example.answer.ui.room.ConferenceData
@@ -19,10 +18,10 @@ import com.google.gson.Gson
 class UiActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityUiBinding
-    private lateinit var cRoomViewModel: ConferenceRoomViewModel
+    private lateinit var conferenceViewModel: ConferenceViewModel
     private lateinit var dataList: List<ConferenceData>
-    private lateinit var roomDetailAdapter: ConferenceAdapter
-    private lateinit var roomMiniAdapter: ConferenceMiniAdapter
+    private lateinit var conferenceAdapter: ConferenceAdapter
+    private lateinit var conferenceMiniAdapter: ConferenceMiniAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,18 +34,18 @@ class UiActivity : AppCompatActivity() {
 
     // View 설정
     private fun setupView(){
-        roomDetailAdapter = ConferenceAdapter()
-        roomMiniAdapter = ConferenceMiniAdapter()
+        conferenceAdapter = ConferenceAdapter()
+        conferenceMiniAdapter = ConferenceMiniAdapter()
 
         val roomDetailLayoutManager = LinearLayoutManager(this)
         val roomMiniLayoutManager = LinearLayoutManager(this,
             LinearLayoutManager.HORIZONTAL, false)
 
-        binding.roomDetailRecyclerView.adapter = roomDetailAdapter
+        binding.roomDetailRecyclerView.adapter = conferenceAdapter
         binding.roomDetailRecyclerView.layoutManager = roomDetailLayoutManager
         binding.roomDetailRecyclerView.setHasFixedSize(true)
 
-        binding.availableRoomRecyclerView.adapter = roomMiniAdapter
+        binding.availableRoomRecyclerView.adapter = conferenceMiniAdapter
         binding.availableRoomRecyclerView.layoutManager = roomMiniLayoutManager
         binding.availableRoomRecyclerView.setHasFixedSize(true)
 
@@ -60,17 +59,17 @@ class UiActivity : AppCompatActivity() {
 
     // ViewModel 설정
     private fun setupViewModel() {
-        cRoomViewModel = ViewModelProviders.of(this).get(ConferenceRoomViewModel::class.java)
-        cRoomViewModel.setupDefaultData()
+        conferenceViewModel = ViewModelProviders.of(this).get(ConferenceViewModel::class.java)
+        conferenceViewModel.setupDefaultData()
         dataList = parseJson()
 
         for (indices in dataList) {
-            cRoomViewModel.insert(indices)
+            conferenceViewModel.insert(indices)
         }
 
-        cRoomViewModel.getAll().observe(this, Observer<List<ConferenceData>> { roomData ->
-            roomDetailAdapter.setContacts(roomData!!)
-            roomMiniAdapter.setContacts(roomData)
+        conferenceViewModel.getAll().observe(this, Observer<List<ConferenceData>> { roomData ->
+            conferenceAdapter.setContacts(roomData!!)
+            conferenceMiniAdapter.setContacts(roomData)
         })
     }
 

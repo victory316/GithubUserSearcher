@@ -8,18 +8,18 @@ import androidx.room.TypeConverters
 
 @Database(entities = [ConferenceData::class], version =1)
 @TypeConverters(ConferenceTypeConverter::class)
-abstract class ConferenceRoomDatabase: RoomDatabase() {
+abstract class ConferenceDatabase: RoomDatabase() {
 
     abstract fun conferenceDao(): ConferenceDao
 
     companion object {
-        private var INSTANCE: ConferenceRoomDatabase? = null
+        private var INSTANCE: ConferenceDatabase? = null
 
-        fun getInstance(context: Context): ConferenceRoomDatabase? {
+        fun getInstance(context: Context): ConferenceDatabase? {
             if (INSTANCE == null) {
-                synchronized(ConferenceRoomDatabase::class) {
+                synchronized(ConferenceDatabase::class) {
                     INSTANCE = Room.databaseBuilder(context.applicationContext,
-                        ConferenceRoomDatabase::class.java, "room_database")
+                        ConferenceDatabase::class.java, "room_database")
                         .fallbackToDestructiveMigration()
                         .build()
                 }

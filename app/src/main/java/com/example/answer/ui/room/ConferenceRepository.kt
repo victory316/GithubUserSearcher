@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 
 class ConferenceRepository(application: Application) {
 
-    private val conferenceDatabase = ConferenceRoomDatabase.getInstance(application)!!
+    private val conferenceDatabase = ConferenceDatabase.getInstance(application)!!
     private val conferenceDao: ConferenceDao = conferenceDatabase.conferenceDao()
     private val conferenceData: LiveData<List<ConferenceData>> = conferenceDao.getAll()
 
@@ -34,6 +34,15 @@ class ConferenceRepository(application: Application) {
         try {
             val thread = Thread(Runnable {
                 conferenceDao.deleteAll()
+            })
+            thread.start()
+        } catch (e: Exception) { }
+    }
+
+    fun updateFull(name: String, input: Int) {
+        try {
+            val thread = Thread(Runnable {
+                conferenceDao.updateFull(name, input)
             })
             thread.start()
         } catch (e: Exception) { }

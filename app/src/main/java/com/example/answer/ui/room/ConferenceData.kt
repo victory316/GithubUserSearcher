@@ -21,5 +21,8 @@ data class ConferenceData(
     @ColumnInfo(name = "initial")
     @TypeConverters(ConferenceTypeConverter::class)
     @SerializedName("reservations")
-    var reservations: List<Reservations>?
+    var reservations: List<Reservations>?,
+
+    @ColumnInfo(name = "is_full")
+    var is_full: Int
 )

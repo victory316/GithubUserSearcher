@@ -19,4 +19,7 @@ interface ConferenceDao {
 
     @Query("DELETE FROM room")
     fun deleteAll()
+
+    @Query("UPDATE room SET is_full = (:input) WHERE name = (:name)")
+    fun updateFull(name: String, input: Int)
 }

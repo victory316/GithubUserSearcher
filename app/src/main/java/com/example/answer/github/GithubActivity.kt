@@ -55,7 +55,7 @@ class GithubActivity : AppCompatActivity() {
         binding.topTabLayout.setupWithViewPager(viewPager)
     }
 
-    // ViewModel 설
+    // ViewModel 설정
     private fun setupViewModel() {
         githubViewModel = ViewModelProviders.of(this).get(GithubViewModel::class.java)
         githubViewModel.deleteAll()

@@ -1,13 +1,13 @@
 package com.example.answer.ui.recyclerview
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.answer.R
+import com.example.answer.ui.ConferenceViewModel
 import com.example.answer.ui.room.ConferenceData
 import kotlinx.android.synthetic.main.conference_item.view.*
 import java.text.DateFormat
@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat
 
 class ConferenceAdapter: RecyclerView.Adapter<ConferenceAdapter.ViewHolder>() {
     private var contacts: List<ConferenceData> = listOf()
+    private lateinit var viewModel : ConferenceViewModel
 
     override fun onCreateViewHolder(parent: ViewGroup, i: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.conference_item, parent, false)
@@ -68,7 +69,8 @@ class ConferenceAdapter: RecyclerView.Adapter<ConferenceAdapter.ViewHolder>() {
             if (testReservation != null) {
                 for(indices in testReservation) {
                     // 예약시간에 따라 timeline bar의 색상을 지정
-                    setupTimelineBars(indices.startTime, indices.endTime, timeBarArray)
+                    setupTimelineBars(indices.startTime, indices.endTime, timeBarArray,
+                        conferenceData.name)
                 }
             }
 
@@ -80,6 +82,10 @@ class ConferenceAdapter: RecyclerView.Adapter<ConferenceAdapter.ViewHolder>() {
     fun setContacts(contacts: List<ConferenceData>) {
         this.contacts = contacts
         notifyDataSetChanged()
+    }
+
+    fun setViewModel(viewModel: ConferenceViewModel) {
+        this.viewModel = viewModel
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -94,31 +100,31 @@ class ConferenceAdapter: RecyclerView.Adapter<ConferenceAdapter.ViewHolder>() {
         val currentMin = minuitFormat.format(current).toInt()
 
         // 30분당 움직여야 할 width를 계산
-        val widthForMove = width / 20
+        val widthForMove = width / (END_TIME - START_TIME + 1) * 2
 
         val minCount: Int
 
         val lineMovement: Float
-        var textMovement = 0f
+        val textMovement: Float
 
-        minCount = if (currentMin > 30) {
+        minCount = if (currentMin > HALF_HOUR) {
             1
         } else {
             0
         }
 
         when {
-            currentHour <= 9 -> {
+            currentHour <= START_TIME -> {
                 lineMovement = startX
                 textMovement = startX
             }
-            currentHour >= 18 -> {
+            currentHour >= END_TIME -> {
                 lineMovement = startX + width
                 textMovement = startX + width - widthForMove * 2
             }
             else -> {
-                lineMovement = startX + widthForMove * ((currentHour - 8) * 2 + minCount - 1)
-                textMovement = startX + widthForMove * ((currentHour - 9) * 2 + minCount)
+                lineMovement = startX + widthForMove * ((currentHour - START_TIME - 1) * 2 + minCount - 1)
+                textMovement = startX + widthForMove * ((currentHour - START_TIME) * 2 + minCount)
             }
         }
 
@@ -126,8 +132,9 @@ class ConferenceAdapter: RecyclerView.Adapter<ConferenceAdapter.ViewHolder>() {
         viewHolder.itemView.current_time_text.x = textMovement
     }
 
-    // 예약된 시간에 한해 회색 bar의 visibility를 조
-    private fun setupTimelineBars(startTime: String, endTime: String, timeArray: List<View>) {
+    // 예약된 시간에 한해 회색 bar의 visibility를 조정
+    private fun setupTimelineBars(startTime: String, endTime: String, timeArray: List<View>,
+                                  name : String) {
         val startTimeInt = startTime.toInt()
         val endTimeInt = endTime.toInt()
 
@@ -138,13 +145,36 @@ class ConferenceAdapter: RecyclerView.Adapter<ConferenceAdapter.ViewHolder>() {
 
         // 9시면 0번 인덱스부터 시작해야하며, 18시가 마지막 19번째 index로 위치함.
         // 각 칸은 30분 단위로 나뉘어짐을 고려해야 함.
-        val startIndex = (startHour - 9) * 2 + (startMinute / 30)
-        var endIndex = (endHour - 9) * 2 + (endMinute / 30) - 1
+        val startIndex = (startHour - START_TIME) * 2 + (startMinute / HALF_HOUR)
+        var endIndex = (endHour - START_TIME) * 2 + (endMinute / HALF_HOUR) - 1
 
         if (endIndex >= timeArray.size) endIndex = timeArray.size - 1
 
         for (i in startIndex..endIndex) {
             timeArray[i].visibility = View.VISIBLE
         }
+
+        // 방 예약이 가득 찼을 경우 viewModel을 통해 RoomDB 업데이트
+        if (isFull(timeArray)) {
+            viewModel.updateFull(name,1)
+        }
+    }
+
+    // 방 예약이 가득 찼는지 확인하는 function
+    private fun isFull(timeArray: List<View>): Boolean{
+        for (indices in timeArray) {
+            if (indices.visibility == View.VISIBLE) {
+                return false
+            }
+        }
+
+        return true
+    }
+
+    // 회의실의 예약 가능시간 및 View 드로잉에 필요한 상수 설정
+    companion object {
+        const val START_TIME = 9
+        const val END_TIME = 18
+        const val HALF_HOUR = 30
     }
 }
