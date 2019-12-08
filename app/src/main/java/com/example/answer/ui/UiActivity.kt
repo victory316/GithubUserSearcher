@@ -14,14 +14,14 @@ import com.example.answer.databinding.ActivityUiBinding
 import com.example.answer.ui.data.Reservations
 import com.example.answer.ui.recyclerview.ConferenceAdapter
 import com.example.answer.ui.recyclerview.ConferenceMiniAdapter
-import com.example.answer.ui.room.ConferenceRoomData
+import com.example.answer.ui.room.ConferenceData
 import com.google.gson.Gson
 
 class UiActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityUiBinding
     private lateinit var cRoomViewModel: ConferenceRoomViewModel
-    private lateinit var dataList: List<ConferenceRoomData>
+    private lateinit var dataList: List<ConferenceData>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +69,7 @@ class UiActivity : AppCompatActivity() {
         }
 //        cRoomViewModel.insert(testData)
 //
-        cRoomViewModel.getAll().observe(this, Observer<List<ConferenceRoomData>> { roomData ->
+        cRoomViewModel.getAll().observe(this, Observer<List<ConferenceData>> { roomData ->
             roomDetailAdapter.setContacts(roomData!!)
             roomMiniAdapter.setContacts(roomData)
         })
@@ -83,10 +83,10 @@ class UiActivity : AppCompatActivity() {
 
     // MUSINSA.json으로부터 json string을 parse
     // Parsing된 string으로부터 ConferenceRoom List를 생성
-    private fun parseJson(): List<ConferenceRoomData> {
+    private fun parseJson(): List<ConferenceData> {
         val gson = Gson()
         val testString = applicationContext.assets.open("MUSINSA.json").bufferedReader().use {it.readText()}
-        val testArray = gson.fromJson(testString, Array<ConferenceRoomData>::class.java).toList()
+        val testArray = gson.fromJson(testString, Array<ConferenceData>::class.java).toList()
         Log.d("jsonTest", "parsed String : $testString")
 
         for(indices in testArray) {

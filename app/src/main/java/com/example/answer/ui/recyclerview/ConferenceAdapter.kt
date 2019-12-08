@@ -7,16 +7,15 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.answer.R
-import com.example.answer.ui.room.ConferenceRoomData
-import kotlinx.android.synthetic.main.activity_ui.view.*
+import com.example.answer.ui.room.ConferenceData
 import kotlinx.android.synthetic.main.conference_item.view.*
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 
 
-class ConferenceAdapter(val contactItemClick: (ConferenceRoomData) -> Unit, val contactItemLongClick: (ConferenceRoomData) -> Unit)
+class ConferenceAdapter(val contactItemClick: (ConferenceData) -> Unit, val contactItemLongClick: (ConferenceData) -> Unit)
     : RecyclerView.Adapter<ConferenceAdapter.ViewHolder>() {
-    private var contacts: List<ConferenceRoomData> = listOf()
+    private var contacts: List<ConferenceData> = listOf()
     private var barWidth = 0
     private var barStartX = 0f
 
@@ -67,11 +66,11 @@ class ConferenceAdapter(val contactItemClick: (ConferenceRoomData) -> Unit, val 
             itemView.findViewById<View>(R.id.bar_18)
         )
 
-        fun bind(conferenceRoomData: ConferenceRoomData) {
+        fun bind(conferenceData: ConferenceData) {
 
-            Log.d("recyclerViewTest", "name : ${conferenceRoomData.name}")
+            Log.d("recyclerViewTest", "name : ${conferenceData.name}")
 
-            val testReservation = conferenceRoomData.reservations
+            val testReservation = conferenceData.reservations
 
             if (testReservation != null) {
                 for(indices in testReservation) {
@@ -83,15 +82,15 @@ class ConferenceAdapter(val contactItemClick: (ConferenceRoomData) -> Unit, val 
                 }
             }
 
-            nameTv.text = conferenceRoomData.name
-            numberTv.text = conferenceRoomData.location
+            nameTv.text = conferenceData.name
+            numberTv.text = conferenceData.location
 
             itemView.setOnClickListener {
-                contactItemClick(conferenceRoomData)
+                contactItemClick(conferenceData)
             }
 
             itemView.setOnLongClickListener {
-                contactItemLongClick(conferenceRoomData)
+                contactItemLongClick(conferenceData)
                 true
             }
 
@@ -99,7 +98,7 @@ class ConferenceAdapter(val contactItemClick: (ConferenceRoomData) -> Unit, val 
         }
     }
 
-    fun setContacts(contacts: List<ConferenceRoomData>) {
+    fun setContacts(contacts: List<ConferenceData>) {
         this.contacts = contacts
         notifyDataSetChanged()
     }

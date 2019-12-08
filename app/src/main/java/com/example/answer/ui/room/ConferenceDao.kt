@@ -9,13 +9,13 @@ import androidx.room.*
 interface ConferenceDao {
 
     @Query("SELECT * FROM room ORDER BY name ASC")
-    fun getAll(): LiveData<List<ConferenceRoomData>>
+    fun getAll(): LiveData<List<ConferenceData>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(conferenceRoomData: ConferenceRoomData)
+    fun insert(conferenceData: ConferenceData)
 
     @Delete
-    fun delete(conferenceRoomData: ConferenceRoomData)
+    fun delete(conferenceData: ConferenceData)
 
     @Query("DELETE FROM room")
     fun deleteAll()

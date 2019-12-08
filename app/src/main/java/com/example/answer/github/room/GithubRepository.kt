@@ -1,19 +1,19 @@
-package com.example.answer.ui.room
+package com.example.answer.github.room
 
 import android.app.Application
 import androidx.lifecycle.LiveData
 
-class ConferenceRepository(application: Application) {
+class GithubRepository(application: Application) {
 
-    private val conferenceDatabase = ConferenceRoomDatabase.getInstance(application)!!
-    private val conferenceDao: ConferenceDao = conferenceDatabase.conferenceDao()
-    private val conferenceData: LiveData<List<ConferenceData>> = conferenceDao.getAll()
+    private val conferenceDatabase = GithubDatabase.getInstance(application)!!
+    private val conferenceDao: GithubDao = conferenceDatabase.conferenceDao()
+    private val conferenceData: LiveData<List<GithubData>> = conferenceDao.getAll()
 
-    fun getAll(): LiveData<List<ConferenceData>> {
+    fun getAll(): LiveData<List<GithubData>> {
         return conferenceData
     }
 
-    fun insert(conferenceData: ConferenceData) {
+    fun insert(conferenceData: GithubData) {
         try {
             val thread = Thread(Runnable {
                 conferenceDao.insert(conferenceData) })
@@ -21,7 +21,7 @@ class ConferenceRepository(application: Application) {
         } catch (e: Exception) { }
     }
 
-    fun delete(conferenceData: ConferenceData) {
+    fun delete(conferenceData: GithubData) {
         try {
             val thread = Thread(Runnable {
                 conferenceDao.delete(conferenceData)

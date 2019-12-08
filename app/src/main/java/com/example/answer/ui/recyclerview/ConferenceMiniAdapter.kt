@@ -6,11 +6,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.answer.R
-import com.example.answer.ui.room.ConferenceRoomData
+import com.example.answer.ui.room.ConferenceData
 
-class ConferenceMiniAdapter(val contactItemClick: (ConferenceRoomData) -> Unit, val contactItemLongClick: (ConferenceRoomData) -> Unit)
+class ConferenceMiniAdapter(val contactItemClick: (ConferenceData) -> Unit, val contactItemLongClick: (ConferenceData) -> Unit)
     : RecyclerView.Adapter<ConferenceMiniAdapter.ViewHolder>() {
-    private var contacts: List<ConferenceRoomData> = listOf()
+    private var contacts: List<ConferenceData> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, i: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.conference_mini_item, parent, false)
@@ -28,8 +28,8 @@ class ConferenceMiniAdapter(val contactItemClick: (ConferenceRoomData) -> Unit, 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private val nameTv = itemView.findViewById<TextView>(R.id.room_name_text)
 
-        fun bind(conferenceRoomData: ConferenceRoomData) {
-            nameTv.text = conferenceRoomData.name
+        fun bind(conferenceData: ConferenceData) {
+            nameTv.text = conferenceData.name
 //            numberTv.text = conferenceRoomData.location
 
             itemView.setOnClickListener {
@@ -43,7 +43,7 @@ class ConferenceMiniAdapter(val contactItemClick: (ConferenceRoomData) -> Unit, 
         }
     }
 
-    fun setContacts(contacts: List<ConferenceRoomData>) {
+    fun setContacts(contacts: List<ConferenceData>) {
         this.contacts = contacts
         notifyDataSetChanged()
     }
