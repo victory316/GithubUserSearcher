@@ -20,6 +20,4 @@ data class FavoriteData(
 
     @ColumnInfo(name = "favorite")
     var favorite: Int
-) {
-//    constructor() : this(null, "", "", null)
-}
+)

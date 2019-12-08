@@ -33,7 +33,7 @@
             android:id="@+id/top_bar_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="02월 12일 (수)"
+            android:text="@string/dummy_date_ui"
             style="@style/TextStyle7"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="20dp"
@@ -88,7 +88,7 @@
             android:textColor="@color/black"
             style="@style/TextStyle"
             android:layout_marginLeft="15dp"
-            android:text="현재 사용 가능 회의실"/>
+            android:text="@string/avaliable_room"/>
 
         <TextView
             android:id="@+id/conference_capacity_text"
@@ -102,7 +102,7 @@
             android:textColor="@color/deep_sky_blue"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:text="7"/>
+            android:text=""/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -144,7 +144,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             style="@style/TextStyle5"
-            android:text="예약가능"
+            android:text="@string/avaliable"
             android:layout_marginLeft="5dp"/>
 
         <RadioGroup
@@ -165,7 +165,7 @@
                 android:padding="4dp"
                 android:layout_marginRight="10dp"
                 style="@style/TextStyle5"
-                android:text="예약가능"/>
+                android:text="@string/avaliable"/>
 
             <RadioButton
                 android:id="@+id/button_02"
@@ -175,7 +175,7 @@
                 android:padding="4dp"
                 android:layout_marginRight="10dp"
                 style="@style/TextStyle5"
-                android:text="외부미팅"/>
+                android:text="@string/out"/>
 
             <RadioButton
                 android:id="@+id/button_03"
@@ -184,7 +184,7 @@
                 android:button="@drawable/custom_selector"
                 android:padding="4dp"
                 style="@style/TextStyle5"
-               android:text="내 예약"/>
+               android:text="@string/my_reservation"/>
 
         </RadioGroup>
 
@@ -203,7 +203,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/radio_constraint"
         app:layout_constraintBottom_toBottomOf="parent"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,6 +1,5 @@
 package com.example.answer.github
 
-import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
@@ -10,7 +9,6 @@ import com.example.answer.github.recyclerview.GithubLikeAdapter
 import com.example.answer.github.recyclerview.GithubSearchAdapter
 
 class GithubViewPagerAdapter(
-    private val mContext: Context,
     fm: FragmentManager?
 ) :
     FragmentPagerAdapter(fm!!) {

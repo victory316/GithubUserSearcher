@@ -16,7 +16,7 @@
         style="@style/TextStyle"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="대회의실 1"/>
+        android:text="@string/supreme_room"/>
 
     <ImageView
         android:id="@+id/question_icon"
@@ -36,7 +36,7 @@
         app:layout_constraintLeft_toLeftOf="@id/room_name"
         app:layout_constraintTop_toBottomOf="@id/room_name"
         style="@style/TextStyle5"
-        android:text="MUSINSA 1 / B1"/>
+        android:text="@string/room_location"/>
 
     <View
         android:layout_width="match_parent"
@@ -194,7 +194,7 @@
         app:layout_constraintLeft_toLeftOf="@id/line_indicator"
         app:layout_constraintTop_toBottomOf="@id/room_location"
         app:layout_constraintBottom_toTopOf="@id/line_indicator"
-        android:text="현재시간"/>
+        android:text="@string/current_time"/>
 
     <View
         android:id="@+id/line_indicator"
@@ -220,61 +220,61 @@
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="9"/>
+            android:text="@string/_9"/>
 
         <TextView
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10"/>
+            android:text="@string/_10"/>
 
         <TextView
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="11"/>
+            android:text="@string/_11"/>
 
         <TextView
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="12"/>
+            android:text="@string/_12"/>
 
         <TextView
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="13"/>
+            android:text="@string/_13"/>
 
         <TextView
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="14"/>
+            android:text="@string/_14"/>
 
         <TextView
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="15"/>
+            android:text="@string/_15"/>
 
         <TextView
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="16"/>
+            android:text="@string/_16"/>
 
         <TextView
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="17"/>
+            android:text="@string/_17"/>
 
         <TextView
             android:layout_weight="0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="18"/>
+            android:text="@string/_18"/>
     </LinearLayout>
 
 

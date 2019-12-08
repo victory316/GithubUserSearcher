@@ -3,8 +3,6 @@ package com.example.answer.github
 import android.app.Activity
 import android.content.Context
 import android.graphics.Color
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -49,7 +47,7 @@ class GithubActivity : AppCompatActivity() {
             window.statusBarColor = Color.BLACK
         }
 
-        viewPagerAdapter = GithubViewPagerAdapter(this, supportFragmentManager)
+        viewPagerAdapter = GithubViewPagerAdapter(supportFragmentManager)
         val viewPager: ViewPager = findViewById(R.id.bottom_view_pager)
         viewPager.adapter = viewPagerAdapter
         binding.topTabLayout.setupWithViewPager(viewPager)
@@ -99,6 +97,7 @@ class GithubActivity : AppCompatActivity() {
 
         viewPagerAdapter.clearText()
 
+        // Gihub search query로 찾고자 하는 유저를 검색
         searchDisposable = GithubClient().getApi().searchUser(target)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
@@ -118,6 +117,7 @@ class GithubActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         githubViewModel.deleteAll()
+        searchDisposable?.dispose()
 
         super.onDestroy()
     }

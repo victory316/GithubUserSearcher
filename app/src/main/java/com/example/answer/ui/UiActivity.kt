@@ -73,6 +73,7 @@ class UiActivity : AppCompatActivity() {
         })
 
         conferenceViewModel.getAllAvailable().observe(this, Observer<List<ConferenceData>> { roomData ->
+            binding.conferenceCapacityText.text = roomData.size.toString()
             conferenceMiniAdapter.setContacts(roomData!!)
         })
 

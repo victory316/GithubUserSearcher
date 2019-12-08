@@ -39,7 +39,7 @@
                 android:textColor="@color/white"
                 android:padding="5dp"
                 android:textSize="18sp"
-                android:text="GITHUB Activity"/>
+                android:text="@string/github_button"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -55,13 +55,13 @@
                 android:id="@+id/first_tab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="검색"/>
+                android:text="@string/search"/>
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/second_tab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="좋아요"/>
+                android:text="@string/favorite"/>
 
         </com.google.android.material.tabs.TabLayout>
 

@@ -41,9 +41,9 @@ class ConferenceViewModel(application: Application) : AndroidViewModel(applicati
         repository.delete(contact)
     }
 
-    fun deleteAll() {
-        repository.deleteAll()
-    }
+//    fun deleteAll() {
+//        repository.deleteAll()
+//    }
 
     fun updateFull(name: String, input: Int){
         repository.updateFull(name, input)
