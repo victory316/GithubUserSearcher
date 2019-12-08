@@ -11,6 +11,9 @@ interface ConferenceDao {
     @Query("SELECT * FROM room ORDER BY name ASC")
     fun getAll(): LiveData<List<ConferenceData>>
 
+    @Query("SELECT * FROM room WHERE is_full = 0 ORDER BY name ASC")
+    fun getAllAvailable(): LiveData<List<ConferenceData>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(conferenceData: ConferenceData)
 

@@ -8,9 +8,14 @@ class ConferenceRepository(application: Application) {
     private val conferenceDatabase = ConferenceDatabase.getInstance(application)!!
     private val conferenceDao: ConferenceDao = conferenceDatabase.conferenceDao()
     private val conferenceData: LiveData<List<ConferenceData>> = conferenceDao.getAll()
+    private val conferenceMiniData: LiveData<List<ConferenceData>> = conferenceDao.getAllAvailable()
 
     fun getAll(): LiveData<List<ConferenceData>> {
         return conferenceData
+    }
+
+    fun getAllAvaliable(): LiveData<List<ConferenceData>> {
+        return conferenceMiniData
     }
 
     fun insert(conferenceData: ConferenceData) {

@@ -10,9 +10,15 @@ class ConferenceViewModel(application: Application) : AndroidViewModel(applicati
 
     private val repository = ConferenceRepository(application)
     private val contacts = repository.getAll()
+    private val miniContacts = repository.getAllAvaliable()
+
 
     fun getAll(): LiveData<List<ConferenceData>> {
         return this.contacts
+    }
+
+    fun getAllAvailable(): LiveData<List<ConferenceData>> {
+        return this.miniContacts
     }
 
     // 최초 회의실 설정을 위해 우선적으로 dummy 데이터를 insert

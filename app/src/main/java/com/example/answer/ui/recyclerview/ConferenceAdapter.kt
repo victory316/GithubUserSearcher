@@ -1,6 +1,7 @@
 package com.example.answer.ui.recyclerview
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,7 +71,7 @@ class ConferenceAdapter: RecyclerView.Adapter<ConferenceAdapter.ViewHolder>() {
                 for(indices in testReservation) {
                     // 예약시간에 따라 timeline bar의 색상을 지정
                     setupTimelineBars(indices.startTime, indices.endTime, timeBarArray,
-                        conferenceData.name)
+                        conferenceData)
                 }
             }
 
@@ -134,7 +135,7 @@ class ConferenceAdapter: RecyclerView.Adapter<ConferenceAdapter.ViewHolder>() {
 
     // 예약된 시간에 한해 회색 bar의 visibility를 조정
     private fun setupTimelineBars(startTime: String, endTime: String, timeArray: List<View>,
-                                  name : String) {
+                                  conferenceData: ConferenceData) {
         val startTimeInt = startTime.toInt()
         val endTimeInt = endTime.toInt()
 
@@ -156,14 +157,17 @@ class ConferenceAdapter: RecyclerView.Adapter<ConferenceAdapter.ViewHolder>() {
 
         // 방 예약이 가득 찼을 경우 viewModel을 통해 RoomDB 업데이트
         if (isFull(timeArray)) {
-            viewModel.updateFull(name,1)
+            if (conferenceData.is_full != 1) {
+                viewModel.updateFull(conferenceData.name,1)
+                Log.d("roomTest", "is Full : ${conferenceData.name} ")
+            }
         }
     }
 
     // 방 예약이 가득 찼는지 확인하는 function
     private fun isFull(timeArray: List<View>): Boolean{
         for (indices in timeArray) {
-            if (indices.visibility == View.VISIBLE) {
+            if (indices.visibility == View.INVISIBLE) {
                 return false
             }
         }

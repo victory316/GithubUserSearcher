@@ -69,8 +69,13 @@ class UiActivity : AppCompatActivity() {
 
         conferenceViewModel.getAll().observe(this, Observer<List<ConferenceData>> { roomData ->
             conferenceAdapter.setContacts(roomData!!)
-            conferenceMiniAdapter.setContacts(roomData)
         })
+
+        conferenceViewModel.getAllAvailable().observe(this, Observer<List<ConferenceData>> { roomData ->
+            conferenceMiniAdapter.setContacts(roomData!!)
+        })
+
+        conferenceAdapter.setViewModel(conferenceViewModel)
     }
 
     // MUSINSA.json으로부터 json string을 parse
