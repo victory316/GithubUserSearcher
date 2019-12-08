@@ -6,6 +6,6 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface GitHubService {
-    @GET("users/{user}/repos")
-    fun listRepos(@Path("owner") user: String?): Call<List<GithubData?>?>?
+    @GET("users/{owner}/repos")
+    fun listRepos(@Path("owner") owner: String?): Call<List<GithubData?>?>?
 }

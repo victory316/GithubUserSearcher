@@ -1,6 +1,9 @@
 package com.example.answer.github
 
+import android.content.Context
 import android.graphics.Color
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -20,6 +23,7 @@ import com.example.answer.ui.room.ConferenceData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class GithubActivity : AppCompatActivity() {
 
@@ -35,6 +39,12 @@ class GithubActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.statusBarColor = Color.BLACK
         }
+
+        val cm = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
+        val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
+
+        Log.d("networkTest", "network status : $isConnected")
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_github)
         githubViewModel = ViewModelProviders.of(this).get(GithubViewModel::class.java)
@@ -67,14 +77,20 @@ class GithubActivity : AppCompatActivity() {
 
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.github.com/")
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        val service: GitHubService = retrofit.create<GitHubService>(GitHubService::class.java)
+//        val service: GitHubService = retrofit.create<GitHubService>(GitHubService::class.java)
 
-        val callList = service.listRepos("victory316")
-        Log.d("retrofit", "callList : $callList")
+//        val callList = service.listRepos("victory316")
+////        Log.d("retrofit", "callList : $callList")
 
-        val disposable = GithubClient().getApi().getRepos(intent.extras!!.get("owner").toString())
+//        val disposable = GithubClient().getApi().getRepos(intent.extras!!.get("victory316").toString())
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe { items -> githubLikeAdapter.update(items) }
+
+        val disposable = GithubClient().getApi().getRepos("victory316")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { items -> githubLikeAdapter.update(items) }

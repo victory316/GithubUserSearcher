@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat
 class GithubSearchAdapter(val contactItemClick: (GithubData) -> Unit, val contactItemLongClick: (GithubData) -> Unit)
     : RecyclerView.Adapter<GithubSearchAdapter.ViewHolder>() {
     private var contacts: List<GithubData> = listOf()
+    private val githubRepos: ArrayList<GithubData> = ArrayList()
     private var barWidth = 0
     private var barStartX = 0f
 
@@ -58,6 +59,12 @@ class GithubSearchAdapter(val contactItemClick: (GithubData) -> Unit, val contac
 
 //            setupCurrentTimeIndicator(itemView)
         }
+    }
+
+    fun update(githubRepos: ArrayList<GithubData>) {
+        this.githubRepos.clear()
+        this.githubRepos.addAll(githubRepos)
+        notifyDataSetChanged()
     }
 
     fun setContacts(contacts: List<GithubData>) {

@@ -57,6 +57,10 @@ class GithubLikeAdapter(val contactItemClick: (GithubData) -> Unit, val contactI
     }
 
     fun update(githubRepos: ArrayList<GithubData>) {
+        for (indices in githubRepos) {
+            Log.d("updateTest","updating with retrofit : $indices")
+        }
+
         this.githubRepos.clear()
         this.githubRepos.addAll(githubRepos)
         notifyDataSetChanged()

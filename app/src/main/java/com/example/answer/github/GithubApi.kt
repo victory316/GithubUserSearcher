@@ -7,6 +7,6 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface GithubApi {
-    @GET
+    @GET("users/{owner}/repos")
     fun getRepos(@Path("owner") owner: String) : Single<ArrayList<GithubData>>
 }
