@@ -14,6 +14,7 @@ import com.example.answer.ui.recyclerview.ConferenceAdapter
 import com.example.answer.ui.recyclerview.ConferenceMiniAdapter
 import com.example.answer.ui.room.ConferenceData
 import com.google.gson.Gson
+import java.io.FileNotFoundException
 
 class UiActivity : AppCompatActivity() {
 
@@ -82,7 +83,16 @@ class UiActivity : AppCompatActivity() {
     // Parsing된 string으로부터 ConferenceRoom List를 생성
     private fun parseJson(): List<ConferenceData> {
         val gson = Gson()
-        val testString = applicationContext.assets.open("MUSINSA.json").bufferedReader().use {it.readText()}
+        val testString: String
+
+        // 파일 입력에 오류가 있을 경우의 예외처리
+       try {
+            testString = applicationContext.assets.open("MUSINSA.json").bufferedReader().use {it.readText()}
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+            return emptyList()
+        }
+
         return gson.fromJson(testString, Array<ConferenceData>::class.java).toList()
     }
 }
