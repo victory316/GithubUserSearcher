@@ -86,6 +86,7 @@ class GithubActivity : AppCompatActivity() {
         })
 
         githubSearchAdapter.setViewModel(githubViewModel)
+        githubLikeAdapter.setViewModel(githubViewModel)
 
         githubViewModel.setView(this)
         viewPagerAdapter = GithubViewPagerAdapter(this, supportFragmentManager)
@@ -133,7 +134,6 @@ class GithubActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         githubViewModel.deleteAll()
-        searchDisposable!!.dispose()
 
         super.onDestroy()
     }
