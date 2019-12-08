@@ -19,7 +19,7 @@ data class GithubData(
     var image: String,
 
     @ColumnInfo(name = "score")
-    var location: String,
+    var score: String,
 
     @ColumnInfo(name = "like")
     var like: Int

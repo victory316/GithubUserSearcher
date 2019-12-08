@@ -5,12 +5,18 @@ import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import com.example.answer.R
 import com.example.answer.databinding.ActivityGithubBinding
+import com.example.answer.github.recyclerview.GithubLikeAdapter
+import com.example.answer.github.recyclerview.GithubSearchAdapter
 import com.example.answer.github.room.GithubData
-import com.google.android.material.tabs.TabLayout
-
+import com.example.answer.ui.ConferenceRoomViewModel
+import com.example.answer.ui.recyclerview.ConferenceAdapter
+import com.example.answer.ui.room.ConferenceData
+import retrofit2.Retrofit
 
 class GithubActivity : AppCompatActivity() {
 
@@ -28,11 +34,38 @@ class GithubActivity : AppCompatActivity() {
         }
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_github)
+        githubViewModel = ViewModelProviders.of(this).get(GithubViewModel::class.java)
+        githubViewModel.setupDefaultData()
+
+        val githubSearchAdapter = GithubSearchAdapter({ githubData ->
+
+        }, {
+                githubData ->
+        })
+
+        val githubLikeAdapter = GithubLikeAdapter({ githubData ->
+
+        }, {
+                githubData ->
+        })
+
+        githubViewModel.getAll().observe(this, Observer<List<GithubData>> { githubData ->
+            githubSearchAdapter.setContacts(githubData!!)
+            githubLikeAdapter.setContacts(githubData)
+        })
 
         val viewPagerAdapter = GithubViewPagerAdapter(this, supportFragmentManager)
         val viewPager: ViewPager = findViewById(R.id.bottom_view_pager)
+        viewPagerAdapter.setView(this)
+        viewPagerAdapter.setAdapter(githubSearchAdapter, githubLikeAdapter)
         viewPager.adapter = viewPagerAdapter
 
         binding.topTabLayout.setupWithViewPager(viewPager)
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://api.github.com/")
+            .build()
+
+        val service: GitHubService = retrofit.create<GitHubService>(GitHubService::class.java)
     }
 }

@@ -5,6 +5,10 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import com.example.answer.github.fragments.LikeFragment
+import com.example.answer.github.fragments.SearchFragment
+import com.example.answer.github.recyclerview.GithubLikeAdapter
+import com.example.answer.github.recyclerview.GithubSearchAdapter
 
 
 /**
@@ -16,11 +20,23 @@ class GithubViewPagerAdapter(
     fm: FragmentManager?
 ) :
     FragmentPagerAdapter(fm!!) {
+    private lateinit var view: GithubActivity
+    private lateinit var searchAdapter: GithubSearchAdapter
+    private lateinit var likeAdapter: GithubLikeAdapter
+
     override fun getItem(position: Int): Fragment { // getItem is called to instantiate the fragment for the given page.
         return if (position == 0) {
-            SearchFragment.newInstance()
+            val searchFragment : SearchFragment = SearchFragment.newInstance()
+            searchFragment.setContext(view)
+            searchFragment.setAdapter(searchAdapter)
+
+            searchFragment
         } else {
-            LikeFragment.newInstance()
+            val likeFragment : LikeFragment = LikeFragment.newInstance()
+            likeFragment.setContext(view)
+            likeFragment.setAdapter(likeAdapter)
+
+            likeFragment
         }
     }
 
@@ -37,6 +53,15 @@ class GithubViewPagerAdapter(
 
     override fun getCount(): Int { // Show 2 total pages.
         return 2
+    }
+
+    fun setView(input: GithubActivity) {
+        view = input
+    }
+
+    fun setAdapter(searchAdapter: GithubSearchAdapter, likeAdapter: GithubLikeAdapter) {
+        this.searchAdapter = searchAdapter
+        this.likeAdapter = likeAdapter
     }
 
     companion object {

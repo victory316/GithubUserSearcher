@@ -18,7 +18,7 @@ abstract class GithubDatabase: RoomDatabase() {
             if (INSTANCE == null) {
                 synchronized(GithubDatabase::class) {
                     INSTANCE = Room.databaseBuilder(context.applicationContext,
-                        GithubDatabase::class.java, "room_database")
+                        GithubDatabase::class.java, "github_database")
                         .fallbackToDestructiveMigration()
                         .build()
                 }

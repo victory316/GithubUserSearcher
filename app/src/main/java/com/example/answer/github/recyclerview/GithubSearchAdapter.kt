@@ -35,31 +35,34 @@ class GithubSearchAdapter(val contactItemClick: (GithubData) -> Unit, val contac
     }
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        private val nameTv = itemView.findViewById<TextView>(R.id.room_name)
-        private val numberTv = itemView.findViewById<TextView>(R.id.room_location)
+        private val nameTv = itemView.findViewById<TextView>(R.id.user_name)
 
         fun bind(githubData: GithubData) {
 
             Log.d("recyclerViewTest", "name : ${githubData.name}")
 
-
-            nameTv.text = githubData.name
-            numberTv.text = githubData.location
-
-            itemView.setOnClickListener {
-                contactItemClick(githubData)
-            }
-
-            itemView.setOnLongClickListener {
-                contactItemLongClick(githubData)
-                true
-            }
+//            Log.d("recyclerViewTest", "name : ${githubData.name}")
+//
+//
+//            nameTv.text = githubData.name
+////            numberTv.text = githubData.location
+//
+//            itemView.setOnClickListener {
+//                contactItemClick(githubData)
+//            }
+//
+//            itemView.setOnLongClickListener {
+//                contactItemLongClick(githubData)
+//                true
+//            }
 
 //            setupCurrentTimeIndicator(itemView)
         }
     }
 
     fun setContacts(contacts: List<GithubData>) {
+        Log.d("viewTest", "contacts was set : ${contacts.size}")
+
         this.contacts = contacts
         notifyDataSetChanged()
     }

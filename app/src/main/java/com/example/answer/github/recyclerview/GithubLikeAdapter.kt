@@ -33,47 +33,25 @@ class GithubLikeAdapter(val contactItemClick: (GithubData) -> Unit, val contactI
     }
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        private val nameTv = itemView.findViewById<TextView>(R.id.room_name)
-        private val numberTv = itemView.findViewById<TextView>(R.id.room_location)
-        private val timeBarArray = listOf(
-            itemView.findViewById<View>(R.id.bar_1),
-            itemView.findViewById<View>(R.id.bar_2),
-            itemView.findViewById<View>(R.id.bar_3),
-            itemView.findViewById<View>(R.id.bar_4),
-            itemView.findViewById<View>(R.id.bar_5),
-            itemView.findViewById<View>(R.id.bar_6),
-            itemView.findViewById<View>(R.id.bar_7),
-            itemView.findViewById<View>(R.id.bar_8),
-            itemView.findViewById<View>(R.id.bar_9),
-            itemView.findViewById<View>(R.id.bar_10),
-            itemView.findViewById<View>(R.id.bar_11),
-            itemView.findViewById<View>(R.id.bar_12),
-            itemView.findViewById<View>(R.id.bar_13),
-            itemView.findViewById<View>(R.id.bar_14),
-            itemView.findViewById<View>(R.id.bar_15),
-            itemView.findViewById<View>(R.id.bar_16),
-            itemView.findViewById<View>(R.id.bar_17),
-            itemView.findViewById<View>(R.id.bar_18)
-        )
+        private val nameTv = itemView.findViewById<TextView>(R.id.user_name)
 
         fun bind(githubData: GithubData) {
 
             Log.d("recyclerViewTest", "name : ${githubData.name}")
-
-
             nameTv.text = githubData.name
-            numberTv.text = githubData.location
 
-            itemView.setOnClickListener {
-                contactItemClick(githubData)
-            }
-
-            itemView.setOnLongClickListener {
-                contactItemLongClick(githubData)
-                true
-            }
-
-//            setupCurrentTimeIndicator(itemView)
+//
+//            nameTv.text = githubData.name
+//            numberTv.text = githubData.
+//
+//            itemView.setOnClickListener {
+//                contactItemClick(githubData)
+//            }
+//
+//            itemView.setOnLongClickListener {
+//                contactItemLongClick(githubData)
+//                true
+//            }
         }
     }
 

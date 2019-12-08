@@ -18,7 +18,12 @@ class GithubViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun setupDefaultData() {
-
+        repository.insert(GithubData("대회의실1", "image", "image", 0))
+        repository.insert(GithubData("대회의실2", "image", "image", 0))
+        repository.insert(GithubData("대회의실3", "image", "image", 0))
+        repository.insert(GithubData("대회의실4", "image", "image", 0))
+        repository.insert(GithubData("대회의실5", "image", "image", 0))
+        repository.insert(GithubData("대회의실6", "image", "image", 0))
     }
 
     fun insert(contact: GithubData) {
