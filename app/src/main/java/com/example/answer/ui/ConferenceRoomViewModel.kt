@@ -15,6 +15,7 @@ class ConferenceRoomViewModel(application: Application) : AndroidViewModel(appli
         return this.contacts
     }
 
+    // 최초 회의실 설정을 위해 우선적으로 dummy 데이터를 insert
     fun setupDefaultData() {
         repository.insert(ConferenceData("대회의실1", "MUSINSA 1 / B1", null))
         repository.insert(ConferenceData("회의실1", "MUSINSA 1 / B1", null))

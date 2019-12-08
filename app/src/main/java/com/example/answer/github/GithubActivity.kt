@@ -36,22 +36,38 @@ class GithubActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ui)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_github)
 
+        setupView()
+        setupViewModel()
+    }
+
+    // View 설정
+    private fun setupView() {
         // 기기의 statusBar 색상을 디자인 시안에 맞게 변경
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.statusBarColor = Color.BLACK
         }
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_github)
+        viewPagerAdapter = GithubViewPagerAdapter(this, supportFragmentManager)
+        val viewPager: ViewPager = findViewById(R.id.bottom_view_pager)
+        viewPagerAdapter.setView(this)
+        viewPagerAdapter.setAdapter(githubSearchAdapter, githubLikeAdapter)
+        viewPager.adapter = viewPagerAdapter
+
+        binding.topTabLayout.setupWithViewPager(viewPager)
+    }
+
+    // ViewModel 설
+    private fun setupViewModel() {
         githubViewModel = ViewModelProviders.of(this).get(GithubViewModel::class.java)
+        githubViewModel.deleteAll()
 
         githubSearchAdapter = GithubSearchAdapter()
         githubLikeAdapter = GithubLikeAdapter()
-
         githubLikeAdapter.setView(this)
         githubSearchAdapter.setView(this)
 
-        githubViewModel.deleteAll()
         githubViewModel.getAll().observe(this, Observer<List<GithubData>> { githubData ->
             githubSearchAdapter.setContacts(githubData!!)
         })
@@ -64,13 +80,7 @@ class GithubActivity : AppCompatActivity() {
         githubLikeAdapter.setViewModel(githubViewModel)
 
         githubViewModel.setView(this)
-        viewPagerAdapter = GithubViewPagerAdapter(this, supportFragmentManager)
-        val viewPager: ViewPager = findViewById(R.id.bottom_view_pager)
-        viewPagerAdapter.setView(this)
-        viewPagerAdapter.setAdapter(githubSearchAdapter, githubLikeAdapter)
-        viewPager.adapter = viewPagerAdapter
 
-        binding.topTabLayout.setupWithViewPager(viewPager)
         githubViewModel.setViewPagerAdapter(viewPagerAdapter)
     }
 

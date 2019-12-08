@@ -1,6 +1,5 @@
 package com.example.answer.github
 
-
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -10,11 +9,6 @@ import com.example.answer.github.fragments.SearchFragment
 import com.example.answer.github.recyclerview.GithubLikeAdapter
 import com.example.answer.github.recyclerview.GithubSearchAdapter
 
-
-/**
- * A [FragmentPagerAdapter] that returns a fragment corresponding to
- * one of the sections/tabs/pages.
- */
 class GithubViewPagerAdapter(
     private val mContext: Context,
     fm: FragmentManager?
@@ -26,7 +20,7 @@ class GithubViewPagerAdapter(
     private lateinit var searchFragment: SearchFragment
     private lateinit var likeFragment: LikeFragment
 
-    override fun getItem(position: Int): Fragment { // getItem is called to instantiate the fragment for the given page.
+    override fun getItem(position: Int): Fragment {
         return if (position == 0) {
             searchFragment = SearchFragment.newInstance()
             searchFragment.setContext(view)
@@ -51,7 +45,7 @@ class GithubViewPagerAdapter(
         return titleText
     }
 
-    override fun getCount(): Int { // Show 2 total pages.
+    override fun getCount(): Int {
         return 2
     }
 

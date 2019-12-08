@@ -21,15 +21,22 @@ class UiActivity : AppCompatActivity() {
     private lateinit var binding : ActivityUiBinding
     private lateinit var cRoomViewModel: ConferenceRoomViewModel
     private lateinit var dataList: List<ConferenceData>
+    private lateinit var roomDetailAdapter: ConferenceAdapter
+    private lateinit var roomMiniAdapter: ConferenceMiniAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ui)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_ui)
+        setupView()
+        setupViewModel()
+    }
 
-        val roomDetailAdapter = ConferenceAdapter()
-        val roomMiniAdapter = ConferenceMiniAdapter()
+    // View 설정
+    private fun setupView(){
+        roomDetailAdapter = ConferenceAdapter()
+        roomMiniAdapter = ConferenceMiniAdapter()
 
         val roomDetailLayoutManager = LinearLayoutManager(this)
         val roomMiniLayoutManager = LinearLayoutManager(this,
@@ -43,13 +50,17 @@ class UiActivity : AppCompatActivity() {
         binding.availableRoomRecyclerView.layoutManager = roomMiniLayoutManager
         binding.availableRoomRecyclerView.setHasFixedSize(true)
 
-        // ViewModel의 설정
+        binding.button01.isChecked = true
+
+        // 기기의 statusBar 색상을 디자인 시안에 맞게 변경
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.statusBarColor = Color.BLACK
+        }
+    }
+
+    // ViewModel 설정
+    private fun setupViewModel() {
         cRoomViewModel = ViewModelProviders.of(this).get(ConferenceRoomViewModel::class.java)
-
-        val tempReservation = Reservations("100", "1000")
-        val tempReservationList = ArrayList<Reservations>()
-        tempReservationList.add(tempReservation)
-
         cRoomViewModel.setupDefaultData()
         dataList = parseJson()
 
@@ -61,11 +72,6 @@ class UiActivity : AppCompatActivity() {
             roomDetailAdapter.setContacts(roomData!!)
             roomMiniAdapter.setContacts(roomData)
         })
-
-        // 기기의 statusBar 색상을 디자인 시안에 맞게 변경
-       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.statusBarColor = Color.BLACK
-        }
     }
 
     // MUSINSA.json으로부터 json string을 parse
@@ -73,9 +79,6 @@ class UiActivity : AppCompatActivity() {
     private fun parseJson(): List<ConferenceData> {
         val gson = Gson()
         val testString = applicationContext.assets.open("MUSINSA.json").bufferedReader().use {it.readText()}
-
         return gson.fromJson(testString, Array<ConferenceData>::class.java).toList()
     }
-
-
 }
