@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat
 class GithubLikeAdapter(val contactItemClick: (GithubData) -> Unit, val contactItemLongClick: (GithubData) -> Unit)
     : RecyclerView.Adapter<GithubLikeAdapter.ViewHolder>() {
     private var contacts: List<GithubData> = listOf()
+    private val githubRepos: ArrayList<GithubData> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, i: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.github_item, parent, false)
@@ -53,6 +54,12 @@ class GithubLikeAdapter(val contactItemClick: (GithubData) -> Unit, val contactI
 //                true
 //            }
         }
+    }
+
+    fun update(githubRepos: ArrayList<GithubData>) {
+        this.githubRepos.clear()
+        this.githubRepos.addAll(githubRepos)
+        notifyDataSetChanged()
     }
 
     fun setContacts(contacts: List<GithubData>) {

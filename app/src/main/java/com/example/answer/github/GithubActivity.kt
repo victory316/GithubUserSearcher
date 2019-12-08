@@ -3,6 +3,7 @@ package com.example.answer.github
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -16,6 +17,8 @@ import com.example.answer.github.room.GithubData
 import com.example.answer.ui.ConferenceRoomViewModel
 import com.example.answer.ui.recyclerview.ConferenceAdapter
 import com.example.answer.ui.room.ConferenceData
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import retrofit2.Retrofit
 
 class GithubActivity : AppCompatActivity() {
@@ -67,5 +70,13 @@ class GithubActivity : AppCompatActivity() {
             .build()
 
         val service: GitHubService = retrofit.create<GitHubService>(GitHubService::class.java)
+
+        val callList = service.listRepos("victory316")
+        Log.d("retrofit", "callList : $callList")
+
+        val disposable = GithubClient().getApi().getRepos(intent.extras!!.get("owner").toString())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { items -> githubLikeAdapter.update(items) }
     }
 }
