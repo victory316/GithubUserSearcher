@@ -2,111 +2,37 @@ package com.example.answer.github
 
 import android.graphics.Color
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager.widget.ViewPager
 import com.example.answer.R
 import com.example.answer.databinding.ActivityGithubBinding
 import com.example.answer.github.room.GithubData
-import com.example.answer.ui.data.Reservations
-import com.example.answer.ui.recyclerview.ConferenceAdapter
-import com.example.answer.ui.recyclerview.ConferenceMiniAdapter
-import com.example.answer.ui.room.ConferenceData
-import com.google.gson.Gson
+import com.google.android.material.tabs.TabLayout
+
 
 class GithubActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityGithubBinding
-    private lateinit var cRoomViewModel: GithubViewModel
-    private lateinit var dataList: List<ConferenceData>
+    private lateinit var githubViewModel: GithubViewModel
+    private lateinit var dataList: List<GithubData>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ui)
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_github)
-
-//        val roomDetailAdapter = ConferenceAdapter({ roomData ->
-//
-//        }, {
-//            roomData ->
-//        })
-//
-//        val roomMiniAdapter = ConferenceMiniAdapter({ roomData ->
-//
-//        }, {
-//                roomData ->
-//        })
-//
-//        val roomDetailLayoutManager = LinearLayoutManager(this)
-//        val roomMiniLayoutManager = LinearLayoutManager(this,
-//            LinearLayoutManager.HORIZONTAL, false)
-//
-//        binding.roomDetailRecyclerView.adapter = roomDetailAdapter
-//        binding.roomDetailRecyclerView.layoutManager = roomDetailLayoutManager
-//        binding.roomDetailRecyclerView.setHasFixedSize(true)
-//
-//        binding.availableRoomRecyclerView.adapter = roomMiniAdapter
-//        binding.availableRoomRecyclerView.layoutManager = roomMiniLayoutManager
-//        binding.availableRoomRecyclerView.setHasFixedSize(true)
-//
-//        // ViewModel의 설정
-//        cRoomViewModel = ViewModelProviders.of(this).get(GithubViewModel::class.java)
-//
-//        val tempReservation = Reservations("100", "1000")
-//        val tempReservationList = ArrayList<Reservations>()
-//        tempReservationList.add(tempReservation)
-//
-////        cRoomViewModel.deleteAll()
-//        cRoomViewModel.setupDefaultData()
-//        dataList = parseJson()
-//
-//        for (indices in dataList) {
-//            cRoomViewModel.insert(indices)
-//        }
-////        cRoomViewModel.insert(testData)
-////
-//        cRoomViewModel.getAll().observe(this, Observer<List<GithubData>> { roomData ->
-//            roomDetailAdapter.setContacts(roomData!!)
-//            roomMiniAdapter.setContacts(roomData)
-//        })
-
         // 기기의 statusBar 색상을 디자인 시안에 맞게 변경
-       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.statusBarColor = Color.BLACK
         }
-    }
 
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_github)
 
-    // MUSINSA.json으로부터 json string을 parse
-    // Parsing된 string으로부터 ConferenceRoom List를 생성
-    private fun parseJson(): List<ConferenceData> {
-        val gson = Gson()
-        val testString = applicationContext.assets.open("MUSINSA.json").bufferedReader().use {it.readText()}
-        val testArray = gson.fromJson(testString, Array<ConferenceData>::class.java).toList()
-        Log.d("jsonTest", "parsed String : $testString")
+        val viewPagerAdapter = GithubViewPagerAdapter(this, supportFragmentManager)
+        val viewPager: ViewPager = findViewById(R.id.bottom_view_pager)
+        viewPager.adapter = viewPagerAdapter
 
-        for(indices in testArray) {
-            Log.d("jsonTest" , "$indices")
-            Log.d("jsonTest", "!!reservations : ${indices.reservations}")
-
-            val testReservation = indices.reservations
-
-            for(indices in testReservation!!) {
-                Log.d("jsonTest", "starttime : ${indices.startTime}")
-                Log.d("jsonTest", "endtime : ${indices.endTime}")
-            }
-
-//            for(indices in indices.getReservationList()) {
-//                Log.d("jsonTest", "starttime : ${indices.startTime}")
-//                Log.d("jsonTest", "endtime : ${indices.endTime}")
-//            }
-        }
-
-        return testArray
+        binding.topTabLayout.setupWithViewPager(viewPager)
     }
 }
