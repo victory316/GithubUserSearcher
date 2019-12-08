@@ -1,5 +1,6 @@
 package com.example.answer.github
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.net.ConnectivityManager
@@ -7,6 +8,8 @@ import android.net.NetworkInfo
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -24,6 +27,7 @@ import com.example.answer.ui.ConferenceRoomViewModel
 import com.example.answer.ui.recyclerview.ConferenceAdapter
 import com.example.answer.ui.room.ConferenceData
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Call
 import retrofit2.Callback
@@ -37,6 +41,7 @@ class GithubActivity : AppCompatActivity() {
     private lateinit var githubViewModel: GithubViewModel
     private lateinit var viewPagerAdapter: GithubViewPagerAdapter
     private lateinit var dataList: List<GithubData>
+    private var searchDisposable: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +60,6 @@ class GithubActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_github)
         githubViewModel = ViewModelProviders.of(this).get(GithubViewModel::class.java)
-        githubViewModel.setupDefaultData()
 
         val githubSearchAdapter = GithubSearchAdapter({ githubData ->
 
@@ -72,6 +76,7 @@ class GithubActivity : AppCompatActivity() {
         githubLikeAdapter.setView(this)
         githubSearchAdapter.setView(this)
 
+        githubViewModel.deleteAll()
         githubViewModel.getAll().observe(this, Observer<List<GithubData>> { githubData ->
             githubSearchAdapter.setContacts(githubData!!)
             githubLikeAdapter.setContacts(githubData)
@@ -86,34 +91,19 @@ class GithubActivity : AppCompatActivity() {
 
         binding.topTabLayout.setupWithViewPager(viewPager)
         githubViewModel.setViewPagerAdapter(viewPagerAdapter)
+    }
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.github.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+    private fun Context.hideKeyboard(view: View) {
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
 
-//        val service: GitHubService = retrofit.create<GitHubService>(GitHubService::class.java)
-
-//        val callList = service.listRepos("victory316")
-////        Log.d("retrofit", "callList : $callList")
-
-//        val disposable = GithubClient().getApi().getRepos(intent.extras!!.get("victory316").toString())
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe { items -> githubLikeAdapter.update(items) }
-
-        val searchDisposable = GithubClient().getApi().getRepos("victory316")
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { items -> githubViewModel.insertList(items) }
-
-        val likeDisposable = GithubClient().getApi().getRepos("victory316")
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { items -> githubViewModel.insertList(items) }
+    private fun Activity.hideKeyboard() {
+        if (currentFocus == null) View(this) else currentFocus?.let { hideKeyboard(it) }
     }
 
     fun doSearch(){
+        hideKeyboard()
 
         val target = viewPagerAdapter.getText()
 
@@ -121,13 +111,12 @@ class GithubActivity : AppCompatActivity() {
 
         Log.d("test", "target : $target")
 
-        val disposable = GithubClient().getApi().searchUser("user:$target")
+        searchDisposable = GithubClient().getApi().searchUser("$target")
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({ result ->
-                for(indices in result.getUserList()) {
-                    Log.d("test", "this is it! : $indices")
-                }
+                githubViewModel.insertList(result.getUserList())
+
             }, {
                 error ->
                 run {
@@ -135,9 +124,14 @@ class GithubActivity : AppCompatActivity() {
                     Toast.makeText(this, "결과가 존재하지 않습니다.", Toast.LENGTH_SHORT).show()
                 }
             })
+
+        githubViewModel.deleteAll()
     }
 
     override fun onDestroy() {
+        githubViewModel.deleteAll()
+        searchDisposable!!.dispose()
+
         super.onDestroy()
     }
 }

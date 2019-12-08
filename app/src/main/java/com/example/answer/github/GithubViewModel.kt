@@ -34,10 +34,11 @@ class GithubViewModel(application: Application) : AndroidViewModel(application) 
         repository.insert(contact)
     }
 
-    fun insertList(contactList: ArrayList<GithubData>) {
+    fun insertList(contactList: List<GithubRepo>) {
         for (indices in contactList) {
             Log.d("test", "github data : $indices")
-            repository.insert(indices)
+            val githubData = GithubData(indices.login, indices.avatar_url, indices.score.toInt(), 0)
+            repository.insert(githubData)
         }
     }
 

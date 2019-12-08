@@ -41,27 +41,15 @@ class GithubLikeAdapter(val contactItemClick: (GithubData) -> Unit, val contactI
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private val nameTv = itemView.findViewById<TextView>(R.id.user_name)
+        private val scoreTv = itemView.findViewById<TextView>(R.id.score)
         private val profileImage = itemView.findViewById<ImageView>(R.id.avatar_image)
 
         fun bind(githubData: GithubData) {
 
             Log.d("recyclerViewTest", "name : ${githubData.name}")
             nameTv.text = githubData.name
-
-//            Glide.with(view.applicationContext).load(githubData.avatar_url).into(profileImage)
-
-//
-//            nameTv.text = githubData.name
-//            numberTv.text = githubData.
-//
-//            itemView.setOnClickListener {
-//                contactItemClick(githubData)
-//            }
-//
-//            itemView.setOnLongClickListener {
-//                contactItemLongClick(githubData)
-//                true
-//            }
+            scoreTv.text = githubData.score.toString()
+            Glide.with(view.applicationContext).load(githubData.avatar_url).into(profileImage)
         }
     }
 

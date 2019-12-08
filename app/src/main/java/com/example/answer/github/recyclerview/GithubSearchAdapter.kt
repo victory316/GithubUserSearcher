@@ -41,14 +41,16 @@ class GithubSearchAdapter(val contactItemClick: (GithubData) -> Unit, val contac
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private val nameTv = itemView.findViewById<TextView>(R.id.user_name)
+        private val scoreTv = itemView.findViewById<TextView>(R.id.score)
         private val profileImage = itemView.findViewById<ImageView>(R.id.avatar_image)
 
         fun bind(githubData: GithubData) {
 
             Log.d("recyclerViewTest", "name : ${githubData.name}")
             nameTv.text = githubData.name
+            scoreTv.text = githubData.score.toString()
 
-//            Glide.with(view.applicationContext).load(githubData.avatar_url).into(profileImage)
+            Glide.with(view.applicationContext).load(githubData.avatar_url).into(profileImage)
         }
     }
 
