@@ -48,8 +48,15 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(@NonNull view: View, @Nullable savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.lifecycleOwner = this
+        binding.viewModel = githubViewModel
 //        val name: TextView = view.findViewById(R.id.user_name)
         // Add Text Watcher on name input text
+    }
+
+    fun clearText() {
+        binding.searchEditText.text.clear()
     }
 
     fun setContext(view: GithubActivity){

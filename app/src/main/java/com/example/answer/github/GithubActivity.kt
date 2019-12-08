@@ -62,11 +62,15 @@ class GithubActivity : AppCompatActivity() {
                 githubData ->
         })
 
+        githubLikeAdapter.setView(this)
+        githubSearchAdapter.setView(this)
+
         githubViewModel.getAll().observe(this, Observer<List<GithubData>> { githubData ->
             githubSearchAdapter.setContacts(githubData!!)
             githubLikeAdapter.setContacts(githubData)
         })
 
+        githubViewModel.setView(this)
         val viewPagerAdapter = GithubViewPagerAdapter(this, supportFragmentManager)
         val viewPager: ViewPager = findViewById(R.id.bottom_view_pager)
         viewPagerAdapter.setView(this)
@@ -74,6 +78,7 @@ class GithubActivity : AppCompatActivity() {
         viewPager.adapter = viewPagerAdapter
 
         binding.topTabLayout.setupWithViewPager(viewPager)
+        githubViewModel.setViewPagerAdapter(viewPagerAdapter)
 
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.github.com/")
@@ -90,9 +95,22 @@ class GithubActivity : AppCompatActivity() {
 //            .observeOn(AndroidSchedulers.mainThread())
 //            .subscribe { items -> githubLikeAdapter.update(items) }
 
-        val disposable = GithubClient().getApi().getRepos("victory316")
+        val searchDisposable = GithubClient().getApi().getRepos("victory316")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { items -> githubLikeAdapter.update(items) }
+            .subscribe { items -> githubViewModel.insertList(items) }
+
+        val likeDisposable = GithubClient().getApi().getRepos("victory316")
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { items -> githubViewModel.insertList(items) }
+    }
+
+    fun clearText() {
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }

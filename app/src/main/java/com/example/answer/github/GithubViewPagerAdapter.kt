@@ -23,16 +23,18 @@ class GithubViewPagerAdapter(
     private lateinit var view: GithubActivity
     private lateinit var searchAdapter: GithubSearchAdapter
     private lateinit var likeAdapter: GithubLikeAdapter
+    private lateinit var searchFragment: SearchFragment
+    private lateinit var likeFragment: LikeFragment
 
     override fun getItem(position: Int): Fragment { // getItem is called to instantiate the fragment for the given page.
         return if (position == 0) {
-            val searchFragment : SearchFragment = SearchFragment.newInstance()
+            searchFragment = SearchFragment.newInstance()
             searchFragment.setContext(view)
             searchFragment.setAdapter(searchAdapter)
 
             searchFragment
         } else {
-            val likeFragment : LikeFragment = LikeFragment.newInstance()
+            likeFragment = LikeFragment.newInstance()
             likeFragment.setContext(view)
             likeFragment.setAdapter(likeAdapter)
 
@@ -53,6 +55,10 @@ class GithubViewPagerAdapter(
 
     override fun getCount(): Int { // Show 2 total pages.
         return 2
+    }
+
+    fun clearText() {
+        searchFragment.clearText()
     }
 
     fun setView(input: GithubActivity) {

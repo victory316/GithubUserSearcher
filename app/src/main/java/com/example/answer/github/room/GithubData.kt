@@ -13,16 +13,10 @@ data class GithubData(
 
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "name")
-    var name: String,
+    var name: String
 
-    @ColumnInfo(name = "image")
-    var image: String,
-
-    @ColumnInfo(name = "score")
-    var score: String,
-
-    @ColumnInfo(name = "like")
-    var like: Int
+//    @SerializedName("avatar_url")
+//    var avatar_url: String
 ) {
 //    constructor() : this(null, "", "", null)
 }

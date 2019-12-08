@@ -2,34 +2,16 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "656c21bf5e23a982ff1e17fb6fac403e",
+    "identityHash": "e04cda16c869f56991d58c950ec3292f",
     "entities": [
       {
         "tableName": "github",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `image` TEXT NOT NULL, `score` TEXT NOT NULL, `like` INTEGER NOT NULL, PRIMARY KEY(`name`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, PRIMARY KEY(`name`))",
         "fields": [
           {
             "fieldPath": "name",
             "columnName": "name",
             "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "image",
-            "columnName": "image",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "location",
-            "columnName": "score",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "like",
-            "columnName": "like",
-            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -46,7 +28,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '656c21bf5e23a982ff1e17fb6fac403e')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e04cda16c869f56991d58c950ec3292f')"
     ]
   }
 }

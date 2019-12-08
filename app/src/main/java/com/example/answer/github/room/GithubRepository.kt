@@ -5,26 +5,26 @@ import androidx.lifecycle.LiveData
 
 class GithubRepository(application: Application) {
 
-    private val conferenceDatabase = GithubDatabase.getInstance(application)!!
-    private val conferenceDao: GithubDao = conferenceDatabase.conferenceDao()
-    private val conferenceData: LiveData<List<GithubData>> = conferenceDao.getAll()
+    private val githubDatabase = GithubDatabase.getInstance(application)!!
+    private val githubDao: GithubDao = githubDatabase.conferenceDao()
+    private val githubData: LiveData<List<GithubData>> = githubDao.getAll()
 
     fun getAll(): LiveData<List<GithubData>> {
-        return conferenceData
+        return githubData
     }
 
-    fun insert(conferenceData: GithubData) {
+    fun insert(githubData: GithubData) {
         try {
             val thread = Thread(Runnable {
-                conferenceDao.insert(conferenceData) })
+                githubDao.insert(githubData) })
             thread.start()
         } catch (e: Exception) { }
     }
 
-    fun delete(conferenceData: GithubData) {
+    fun delete(githubData: GithubData) {
         try {
             val thread = Thread(Runnable {
-                conferenceDao.delete(conferenceData)
+                githubDao.delete(githubData)
             })
             thread.start()
         } catch (e: Exception) { }
@@ -33,7 +33,7 @@ class GithubRepository(application: Application) {
     fun deleteAll() {
         try {
             val thread = Thread(Runnable {
-                conferenceDao.deleteAll()
+                githubDao.deleteAll()
             })
             thread.start()
         } catch (e: Exception) { }
