@@ -67,6 +67,10 @@ class SearchFragment : Fragment() {
         this.adapter = adapter
     }
 
+    fun getString() : String {
+        return binding.searchEditText.text.toString()
+    }
+
     companion object {
         /**
          * Create a new instance of this fragment

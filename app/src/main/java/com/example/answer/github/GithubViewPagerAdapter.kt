@@ -65,6 +65,10 @@ class GithubViewPagerAdapter(
         view = input
     }
 
+    fun getText(): String {
+        return searchFragment.getString()
+    }
+
     fun setAdapter(searchAdapter: GithubSearchAdapter, likeAdapter: GithubLikeAdapter) {
         this.searchAdapter = searchAdapter
         this.likeAdapter = likeAdapter

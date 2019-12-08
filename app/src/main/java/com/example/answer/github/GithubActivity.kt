@@ -7,6 +7,7 @@ import android.net.NetworkInfo
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -14,14 +15,19 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import com.example.answer.R
 import com.example.answer.databinding.ActivityGithubBinding
+import com.example.answer.github.data.UserList
 import com.example.answer.github.recyclerview.GithubLikeAdapter
 import com.example.answer.github.recyclerview.GithubSearchAdapter
 import com.example.answer.github.room.GithubData
+import com.example.answer.github.room.GithubRepo
 import com.example.answer.ui.ConferenceRoomViewModel
 import com.example.answer.ui.recyclerview.ConferenceAdapter
 import com.example.answer.ui.room.ConferenceData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -29,6 +35,7 @@ class GithubActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityGithubBinding
     private lateinit var githubViewModel: GithubViewModel
+    private lateinit var viewPagerAdapter: GithubViewPagerAdapter
     private lateinit var dataList: List<GithubData>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,7 +78,7 @@ class GithubActivity : AppCompatActivity() {
         })
 
         githubViewModel.setView(this)
-        val viewPagerAdapter = GithubViewPagerAdapter(this, supportFragmentManager)
+        viewPagerAdapter = GithubViewPagerAdapter(this, supportFragmentManager)
         val viewPager: ViewPager = findViewById(R.id.bottom_view_pager)
         viewPagerAdapter.setView(this)
         viewPagerAdapter.setAdapter(githubSearchAdapter, githubLikeAdapter)
@@ -106,8 +113,28 @@ class GithubActivity : AppCompatActivity() {
             .subscribe { items -> githubViewModel.insertList(items) }
     }
 
-    fun clearText() {
+    fun doSearch(){
 
+        val target = viewPagerAdapter.getText()
+
+        viewPagerAdapter.clearText()
+
+        Log.d("test", "target : $target")
+
+        val disposable = GithubClient().getApi().searchUser("user:$target")
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe({ result ->
+                for(indices in result.getUserList()) {
+                    Log.d("test", "this is it! : $indices")
+                }
+            }, {
+                error ->
+                run {
+                    error.printStackTrace()
+                    Toast.makeText(this, "결과가 존재하지 않습니다.", Toast.LENGTH_SHORT).show()
+                }
+            })
     }
 
     override fun onDestroy() {

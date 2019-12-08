@@ -41,8 +41,12 @@ class GithubViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+    fun testList(contactList: GithubRepo){
+        Log.d("test", "list : $contactList")
+    }
+
     fun doSearch() {
-        Log.d("click", "click click")
+        githubView.doSearch()
     }
 
     fun clearText() {
