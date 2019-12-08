@@ -1,5 +1,6 @@
 package com.example.answer.ui.recyclerview
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -81,38 +82,51 @@ class ConferenceAdapter: RecyclerView.Adapter<ConferenceAdapter.ViewHolder>() {
         notifyDataSetChanged()
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun setupCurrentTimeIndicator(viewHolder: ViewHolder, startX: Float, width: Int) {
         val current = System.currentTimeMillis()
 
         val hourFormat: DateFormat = SimpleDateFormat("HH")
         val minuitFormat: DateFormat = SimpleDateFormat("mm")
+
+        // 현재 시간을 가져옴
         val currentHour = hourFormat.format(current).toInt()
         val currentMin = minuitFormat.format(current).toInt()
-        Log.d("widthTest" , "startX : $startX | width : $width")
 
-        val widthForMove = width / 19
+        // 30분당 움직여야 할 width를 계산
+        val widthForMove = width / 20
 
-        var minCount = 0
+        val minCount: Int
 
-        if (currentMin > 30) {
-            minCount = 1
-        }
+        val lineMovement: Float
+        var textMovement = 0f
 
-        Log.d("timeTest", "minCount : $minCount")
-
-        if (currentHour <= 9) {
-            viewHolder.itemView.line_indicator.x = startX
-            viewHolder.itemView.current_time_text.x = startX
-        } else if (currentHour >= 18) {
-            viewHolder.itemView.line_indicator.x = startX + width
+        minCount = if (currentMin > 30) {
+            1
         } else {
-            viewHolder.itemView.line_indicator.x = startX + widthForMove * (currentHour - 9 + minCount)
-            viewHolder.itemView.current_time_text.x = startX + widthForMove * (currentHour - 9 + minCount)
+            0
         }
 
-        Log.d("timeTest" , "time : $currentHour | $currentMin")
+        when {
+            currentHour <= 9 -> {
+                lineMovement = startX
+                textMovement = startX
+            }
+            currentHour >= 18 -> {
+                lineMovement = startX + width
+                textMovement = startX + width - widthForMove * 2
+            }
+            else -> {
+                lineMovement = startX + widthForMove * ((currentHour - 8) * 2 + minCount - 1)
+                textMovement = startX + widthForMove * ((currentHour - 9) * 2 + minCount)
+            }
+        }
+
+        viewHolder.itemView.line_indicator.x = lineMovement
+        viewHolder.itemView.current_time_text.x = textMovement
     }
 
+    // 예약된 시간에 한해 회색 bar의 visibility를 조
     private fun setupTimelineBars(startTime: String, endTime: String, timeArray: List<View>) {
         val startTimeInt = startTime.toInt()
         val endTimeInt = endTime.toInt()
@@ -124,14 +138,10 @@ class ConferenceAdapter: RecyclerView.Adapter<ConferenceAdapter.ViewHolder>() {
 
         // 9시면 0번 인덱스부터 시작해야하며, 18시가 마지막 19번째 index로 위치함.
         // 각 칸은 30분 단위로 나뉘어짐을 고려해야 함.
-
         val startIndex = (startHour - 9) * 2 + (startMinute / 30)
         var endIndex = (endHour - 9) * 2 + (endMinute / 30) - 1
 
         if (endIndex >= timeArray.size) endIndex = timeArray.size - 1
-
-        Log.d("recyclerViewTest", "parsed time : $startHour : $startMinute | $endHour : $endMinute")
-        Log.d("recyclerViewTest", "startIndex : $startIndex endIndex : $endIndex")
 
         for (i in startIndex..endIndex) {
             timeArray[i].visibility = View.VISIBLE

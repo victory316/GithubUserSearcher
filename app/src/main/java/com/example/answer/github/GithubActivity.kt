@@ -51,10 +51,7 @@ class GithubActivity : AppCompatActivity() {
 
         viewPagerAdapter = GithubViewPagerAdapter(this, supportFragmentManager)
         val viewPager: ViewPager = findViewById(R.id.bottom_view_pager)
-        viewPagerAdapter.setView(this)
-        viewPagerAdapter.setAdapter(githubSearchAdapter, githubLikeAdapter)
         viewPager.adapter = viewPagerAdapter
-
         binding.topTabLayout.setupWithViewPager(viewPager)
     }
 
@@ -79,8 +76,10 @@ class GithubActivity : AppCompatActivity() {
         githubSearchAdapter.setViewModel(githubViewModel)
         githubLikeAdapter.setViewModel(githubViewModel)
 
-        githubViewModel.setView(this)
+        viewPagerAdapter.setView(this)
+        viewPagerAdapter.setAdapter(githubSearchAdapter, githubLikeAdapter)
 
+        githubViewModel.setView(this)
         githubViewModel.setViewPagerAdapter(viewPagerAdapter)
     }
 
