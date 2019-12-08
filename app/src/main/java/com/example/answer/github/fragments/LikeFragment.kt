@@ -15,7 +15,6 @@ import com.example.answer.databinding.FragmentLikeBinding
 import com.example.answer.github.GithubActivity
 import com.example.answer.github.GithubViewModel
 import com.example.answer.github.recyclerview.GithubLikeAdapter
-import com.example.answer.github.recyclerview.GithubSearchAdapter
 
 class LikeFragment : Fragment() {
     private var githubViewModel: GithubViewModel? = null
@@ -25,7 +24,7 @@ class LikeFragment : Fragment() {
 
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // init ViewModel
+
         githubViewModel =
             ViewModelProviders.of(requireActivity()).get(GithubViewModel::class.java)
     }
@@ -33,7 +32,7 @@ class LikeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View { // Inflate the layout for this fragment
+    ): View {
         val roomDetailLayoutManager = LinearLayoutManager(view)
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_like, container, false)
@@ -43,11 +42,6 @@ class LikeFragment : Fragment() {
         binding.searchRecyclerView.setHasFixedSize(true)
 
         return binding.root
-    }
-
-    override fun onViewCreated(@NonNull view: View, @Nullable savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
     }
 
 
@@ -61,10 +55,6 @@ class LikeFragment : Fragment() {
 
 
     companion object {
-        /**
-         * Create a new instance of this fragment
-         * @return A new instance of fragment FirstFragment.
-         */
         fun newInstance(): LikeFragment {
             return LikeFragment()
         }

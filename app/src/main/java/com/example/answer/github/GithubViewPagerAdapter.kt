@@ -43,8 +43,6 @@ class GithubViewPagerAdapter(
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
-//        return mContext.resources
-//            .getString(TAB_TITLES[position])
         var titleText = ""
         when (position) {
             0 -> titleText = "SEARCH"
@@ -73,10 +71,4 @@ class GithubViewPagerAdapter(
         this.searchAdapter = searchAdapter
         this.likeAdapter = likeAdapter
     }
-
-    companion object {
-//        @StringRes
-//        private val TAB_TITLES = intArrayOf(R.string.tab_text_1, R.string.tab_text_2)
-    }
-
 }

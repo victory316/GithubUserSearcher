@@ -8,8 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.answer.R
 import com.example.answer.ui.room.ConferenceData
 
-class ConferenceMiniAdapter(val contactItemClick: (ConferenceData) -> Unit, val contactItemLongClick: (ConferenceData) -> Unit)
-    : RecyclerView.Adapter<ConferenceMiniAdapter.ViewHolder>() {
+class ConferenceMiniAdapter : RecyclerView.Adapter<ConferenceMiniAdapter.ViewHolder>() {
     private var contacts: List<ConferenceData> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, i: Int): ViewHolder {
@@ -30,16 +29,6 @@ class ConferenceMiniAdapter(val contactItemClick: (ConferenceData) -> Unit, val 
 
         fun bind(conferenceData: ConferenceData) {
             nameTv.text = conferenceData.name
-//            numberTv.text = conferenceRoomData.location
-
-            itemView.setOnClickListener {
-//                contactItemClick(conferenceRoomData)
-            }
-
-            itemView.setOnLongClickListener {
-//                contactItemLongClick(conferenceRoomData)
-                true
-            }
         }
     }
 

@@ -1,6 +1,5 @@
 package com.example.answer.github.recyclerview
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,16 +12,10 @@ import com.example.answer.R
 import com.example.answer.github.GithubActivity
 import com.example.answer.github.GithubViewModel
 import com.example.answer.github.room.GithubData
-import com.example.answer.ui.room.ConferenceData
-import kotlinx.android.synthetic.main.conference_item.view.*
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 
 
-class GithubLikeAdapter(val contactItemClick: (GithubData) -> Unit, val contactItemLongClick: (GithubData) -> Unit)
-    : RecyclerView.Adapter<GithubLikeAdapter.ViewHolder>() {
+class GithubLikeAdapter : RecyclerView.Adapter<GithubLikeAdapter.ViewHolder>() {
     private var contacts: List<GithubData> = listOf()
-    private val githubRepos: ArrayList<GithubData> = ArrayList()
     private lateinit var viewModel: GithubViewModel
     private lateinit var view: GithubActivity
 
@@ -37,8 +30,6 @@ class GithubLikeAdapter(val contactItemClick: (GithubData) -> Unit, val contactI
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-//        viewHolder.nameTv.text = githubRepos[position].name
-
         viewHolder.bind(contacts[position])
     }
 
@@ -49,37 +40,37 @@ class GithubLikeAdapter(val contactItemClick: (GithubData) -> Unit, val contactI
         private val favorite = itemView.findViewById<ImageView>(R.id.favorite_icon)
 
         fun bind(githubData: GithubData) {
-
-            Log.d("recyclerViewTest", "name : ${githubData.name}")
             nameTv.text = githubData.name
             scoreTv.text = githubData.score.toString()
             Glide.with(view.applicationContext).load(githubData.avatar_url).into(profileImage)
 
             if (githubData.favorite != 0) {
-                favorite.setImageDrawable(
-                    ContextCompat.getDrawable(view.applicationContext,
-                        R.drawable.like_icon))
+                checkFavorite()
             } else {
-                favorite.setImageDrawable(
-                    ContextCompat.getDrawable(view.applicationContext,
-                        R.drawable.unlike_icon))
+                uncheckFavorite()
             }
 
             favorite.setOnClickListener {
                 if (githubData.favorite == 0) {
-                    favorite.setImageDrawable(
-                        ContextCompat.getDrawable(view.applicationContext,
-                            R.drawable.like_icon))
-
+                    checkFavorite()
                     viewModel.updateList(1, githubData.name)
                 } else {
-                    favorite.setImageDrawable(
-                        ContextCompat.getDrawable(view.applicationContext,
-                            R.drawable.unlike_icon))
-
+                    uncheckFavorite()
                     viewModel.updateList(0, githubData.name)
                 }
             }
+        }
+
+        private fun checkFavorite() {
+            favorite.setImageDrawable(
+                ContextCompat.getDrawable(view.applicationContext,
+                    R.drawable.like_icon))
+        }
+
+        private fun uncheckFavorite() {
+            favorite.setImageDrawable(
+                ContextCompat.getDrawable(view.applicationContext,
+                    R.drawable.unlike_icon))
         }
     }
 
@@ -89,17 +80,6 @@ class GithubLikeAdapter(val contactItemClick: (GithubData) -> Unit, val contactI
 
     fun setViewModel(model: GithubViewModel) {
         viewModel = model
-    }
-
-
-    fun update(githubRepos: ArrayList<GithubData>) {
-        for (indices in githubRepos) {
-            Log.d("updateTest","updating with retrofit : $indices")
-        }
-
-        this.githubRepos.clear()
-        this.githubRepos.addAll(githubRepos)
-        notifyDataSetChanged()
     }
 
     fun setContacts(contacts: List<GithubData>) {

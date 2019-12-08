@@ -13,11 +13,8 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 
 
-class ConferenceAdapter(val contactItemClick: (ConferenceData) -> Unit, val contactItemLongClick: (ConferenceData) -> Unit)
-    : RecyclerView.Adapter<ConferenceAdapter.ViewHolder>() {
+class ConferenceAdapter: RecyclerView.Adapter<ConferenceAdapter.ViewHolder>() {
     private var contacts: List<ConferenceData> = listOf()
-    private var barWidth = 0
-    private var barStartX = 0f
 
     override fun onCreateViewHolder(parent: ViewGroup, i: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.conference_item, parent, false)
@@ -32,9 +29,6 @@ class ConferenceAdapter(val contactItemClick: (ConferenceData) -> Unit, val cont
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
 
         viewHolder.itemView.timeline_view.post {
-            Log.d("uiTest", "width from holder : ${viewHolder.itemView.timeline_view.width}")
-            Log.d("uiTest", "x pos : ${viewHolder.itemView.timeline_view.x}")
-
             setupCurrentTimeIndicator(viewHolder, viewHolder.itemView.timeline_view.x,
                 viewHolder.itemView.timeline_view.width)
         }
@@ -68,15 +62,10 @@ class ConferenceAdapter(val contactItemClick: (ConferenceData) -> Unit, val cont
 
         fun bind(conferenceData: ConferenceData) {
 
-            Log.d("recyclerViewTest", "name : ${conferenceData.name}")
-
             val testReservation = conferenceData.reservations
 
             if (testReservation != null) {
                 for(indices in testReservation) {
-                    Log.d("recyclerViewTest", "starttime : ${indices.startTime}")
-                    Log.d("recyclerViewTest", "endtime : ${indices.endTime}")
-
                     // 예약시간에 따라 timeline bar의 색상을 지정
                     setupTimelineBars(indices.startTime, indices.endTime, timeBarArray)
                 }
@@ -84,17 +73,6 @@ class ConferenceAdapter(val contactItemClick: (ConferenceData) -> Unit, val cont
 
             nameTv.text = conferenceData.name
             numberTv.text = conferenceData.location
-
-            itemView.setOnClickListener {
-                contactItemClick(conferenceData)
-            }
-
-            itemView.setOnLongClickListener {
-                contactItemLongClick(conferenceData)
-                true
-            }
-
-//            setupCurrentTimeIndicator(itemView)
         }
     }
 
@@ -114,15 +92,23 @@ class ConferenceAdapter(val contactItemClick: (ConferenceData) -> Unit, val cont
 
         val widthForMove = width / 19
 
-        val minCount = 0
+        var minCount = 0
 
-        if (currentMin / 30 == 0) {
-            minCount
+        if (currentMin > 30) {
+            minCount = 1
         }
 
-        viewHolder.itemView.line_indicator.x = startX + widthForMove * (currentHour - 9)
-        viewHolder.itemView.current_time_text.x = startX + widthForMove * (currentHour - 9)
+        Log.d("timeTest", "minCount : $minCount")
 
+        if (currentHour <= 9) {
+            viewHolder.itemView.line_indicator.x = startX
+            viewHolder.itemView.current_time_text.x = startX
+        } else if (currentHour >= 18) {
+            viewHolder.itemView.line_indicator.x = startX + width
+        } else {
+            viewHolder.itemView.line_indicator.x = startX + widthForMove * (currentHour - 9 + minCount)
+            viewHolder.itemView.current_time_text.x = startX + widthForMove * (currentHour - 9 + minCount)
+        }
 
         Log.d("timeTest" , "time : $currentHour | $currentMin")
     }
@@ -146,7 +132,6 @@ class ConferenceAdapter(val contactItemClick: (ConferenceData) -> Unit, val cont
 
         Log.d("recyclerViewTest", "parsed time : $startHour : $startMinute | $endHour : $endMinute")
         Log.d("recyclerViewTest", "startIndex : $startIndex endIndex : $endIndex")
-
 
         for (i in startIndex..endIndex) {
             timeArray[i].visibility = View.VISIBLE

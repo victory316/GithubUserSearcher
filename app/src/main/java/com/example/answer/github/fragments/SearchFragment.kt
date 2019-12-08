@@ -25,7 +25,7 @@ class SearchFragment : Fragment() {
 
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // init ViewModel
+
         githubViewModel =
             ViewModelProviders.of(requireActivity()).get(GithubViewModel::class.java)
     }
@@ -33,7 +33,7 @@ class SearchFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View { // Inflate the layout for this fragment
+    ): View {
 
         val roomDetailLayoutManager = LinearLayoutManager(view)
 
@@ -70,10 +70,6 @@ class SearchFragment : Fragment() {
     }
 
     companion object {
-        /**
-         * Create a new instance of this fragment
-         * @return A new instance of fragment FirstFragment.
-         */
         fun newInstance(): SearchFragment {
             return SearchFragment()
         }

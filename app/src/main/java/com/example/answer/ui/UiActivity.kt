@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -29,17 +28,8 @@ class UiActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_ui)
 
-        val roomDetailAdapter = ConferenceAdapter({ roomData ->
-
-        }, {
-            roomData ->
-        })
-
-        val roomMiniAdapter = ConferenceMiniAdapter({ roomData ->
-
-        }, {
-                roomData ->
-        })
+        val roomDetailAdapter = ConferenceAdapter()
+        val roomMiniAdapter = ConferenceMiniAdapter()
 
         val roomDetailLayoutManager = LinearLayoutManager(this)
         val roomMiniLayoutManager = LinearLayoutManager(this,
@@ -60,15 +50,13 @@ class UiActivity : AppCompatActivity() {
         val tempReservationList = ArrayList<Reservations>()
         tempReservationList.add(tempReservation)
 
-//        cRoomViewModel.deleteAll()
         cRoomViewModel.setupDefaultData()
         dataList = parseJson()
 
         for (indices in dataList) {
             cRoomViewModel.insert(indices)
         }
-//        cRoomViewModel.insert(testData)
-//
+
         cRoomViewModel.getAll().observe(this, Observer<List<ConferenceData>> { roomData ->
             roomDetailAdapter.setContacts(roomData!!)
             roomMiniAdapter.setContacts(roomData)
@@ -80,33 +68,13 @@ class UiActivity : AppCompatActivity() {
         }
     }
 
-
     // MUSINSA.json으로부터 json string을 parse
     // Parsing된 string으로부터 ConferenceRoom List를 생성
     private fun parseJson(): List<ConferenceData> {
         val gson = Gson()
         val testString = applicationContext.assets.open("MUSINSA.json").bufferedReader().use {it.readText()}
-        val testArray = gson.fromJson(testString, Array<ConferenceData>::class.java).toList()
-        Log.d("jsonTest", "parsed String : $testString")
 
-        for(indices in testArray) {
-            Log.d("jsonTest" , "$indices")
-            Log.d("jsonTest", "!!reservations : ${indices.reservations}")
-
-            val testReservation = indices.reservations
-
-            for(indices in testReservation!!) {
-                Log.d("jsonTest", "starttime : ${indices.startTime}")
-                Log.d("jsonTest", "endtime : ${indices.endTime}")
-            }
-
-//            for(indices in indices.getReservationList()) {
-//                Log.d("jsonTest", "starttime : ${indices.startTime}")
-//                Log.d("jsonTest", "endtime : ${indices.endTime}")
-//            }
-        }
-
-        return testArray
+        return gson.fromJson(testString, Array<ConferenceData>::class.java).toList()
     }
 
 
