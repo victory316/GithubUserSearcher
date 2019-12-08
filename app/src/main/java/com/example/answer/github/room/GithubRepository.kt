@@ -6,11 +6,16 @@ import androidx.lifecycle.LiveData
 class GithubRepository(application: Application) {
 
     private val githubDatabase = GithubDatabase.getInstance(application)!!
-    private val githubDao: GithubDao = githubDatabase.conferenceDao()
+    private val githubDao: GithubDao = githubDatabase.githubDao()
     private val githubData: LiveData<List<GithubData>> = githubDao.getAll()
+    private val favoriteData: LiveData<List<GithubData>> = githubDao.getAllFavorites()
 
     fun getAll(): LiveData<List<GithubData>> {
         return githubData
+    }
+
+    fun getAllFavorites(): LiveData<List<GithubData>> {
+        return favoriteData
     }
 
     fun insert(githubData: GithubData) {

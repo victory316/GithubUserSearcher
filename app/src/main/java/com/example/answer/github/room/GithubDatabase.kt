@@ -6,10 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [GithubData::class], version =1)
+@Database(entities = [GithubData::class, FavoriteData::class], version =2)
 abstract class GithubDatabase: RoomDatabase() {
 
-    abstract fun conferenceDao(): GithubDao
+    abstract fun githubDao(): GithubDao
 
     companion object {
         private var INSTANCE: GithubDatabase? = null

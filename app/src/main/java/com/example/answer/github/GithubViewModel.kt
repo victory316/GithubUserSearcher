@@ -14,11 +14,16 @@ class GithubViewModel(application: Application) : AndroidViewModel(application) 
 
     private val repository = GithubRepository(application)
     private val contacts = repository.getAll()
+    private val favorites = repository.getAllFavorites()
     private lateinit var githubView: GithubActivity
     private lateinit var viewPagerAdapter: GithubViewPagerAdapter
 
     fun getAll(): LiveData<List<GithubData>> {
         return this.contacts
+    }
+
+    fun getAllFavorites(): LiveData<List<GithubData>> {
+        return this.favorites
     }
 
     fun insert(contact: GithubData) {

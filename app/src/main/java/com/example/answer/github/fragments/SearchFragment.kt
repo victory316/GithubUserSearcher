@@ -51,8 +51,6 @@ class SearchFragment : Fragment() {
 
         binding.lifecycleOwner = this
         binding.viewModel = githubViewModel
-//        val name: TextView = view.findViewById(R.id.user_name)
-        // Add Text Watcher on name input text
     }
 
     fun clearText() {

@@ -58,8 +58,6 @@ class GithubActivity : AppCompatActivity() {
         val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
         val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
 
-        Log.d("networkTest", "network status : $isConnected")
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_github)
         githubViewModel = ViewModelProviders.of(this).get(GithubViewModel::class.java)
 
@@ -81,7 +79,10 @@ class GithubActivity : AppCompatActivity() {
         githubViewModel.deleteAll()
         githubViewModel.getAll().observe(this, Observer<List<GithubData>> { githubData ->
             githubSearchAdapter.setContacts(githubData!!)
-//            githubLikeAdapter.setContacts(githubData)
+        })
+
+        githubViewModel.getAllFavorites().observe(this, Observer<List<GithubData>> { githubData ->
+            githubLikeAdapter.setContacts(githubData!!)
         })
 
         githubSearchAdapter.setViewModel(githubViewModel)
@@ -104,12 +105,6 @@ class GithubActivity : AppCompatActivity() {
 
     private fun Activity.hideKeyboard() {
         if (currentFocus == null) View(this) else currentFocus?.let { hideKeyboard(it) }
-    }
-
-    fun updateList() {
-        githubViewModel.getAll().observe(this, Observer<List<GithubData>> { githubData ->
-            githubSearchAdapter.setContacts(githubData!!)
-        })
     }
 
     fun doSearch(){
