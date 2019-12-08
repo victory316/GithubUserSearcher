@@ -40,6 +40,8 @@ class GithubActivity : AppCompatActivity() {
     private lateinit var binding : ActivityGithubBinding
     private lateinit var githubViewModel: GithubViewModel
     private lateinit var viewPagerAdapter: GithubViewPagerAdapter
+    private lateinit var githubSearchAdapter: GithubSearchAdapter
+    private lateinit var githubLikeAdapter: GithubLikeAdapter
     private lateinit var dataList: List<GithubData>
     private var searchDisposable: Disposable? = null
 
@@ -61,13 +63,13 @@ class GithubActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_github)
         githubViewModel = ViewModelProviders.of(this).get(GithubViewModel::class.java)
 
-        val githubSearchAdapter = GithubSearchAdapter({ githubData ->
+        githubSearchAdapter = GithubSearchAdapter({ githubData ->
 
         }, {
                 githubData ->
         })
 
-        val githubLikeAdapter = GithubLikeAdapter({ githubData ->
+        githubLikeAdapter = GithubLikeAdapter({ githubData ->
 
         }, {
                 githubData ->
@@ -79,8 +81,10 @@ class GithubActivity : AppCompatActivity() {
         githubViewModel.deleteAll()
         githubViewModel.getAll().observe(this, Observer<List<GithubData>> { githubData ->
             githubSearchAdapter.setContacts(githubData!!)
-            githubLikeAdapter.setContacts(githubData)
+//            githubLikeAdapter.setContacts(githubData)
         })
+
+        githubSearchAdapter.setViewModel(githubViewModel)
 
         githubViewModel.setView(this)
         viewPagerAdapter = GithubViewPagerAdapter(this, supportFragmentManager)
@@ -102,6 +106,12 @@ class GithubActivity : AppCompatActivity() {
         if (currentFocus == null) View(this) else currentFocus?.let { hideKeyboard(it) }
     }
 
+    fun updateList() {
+        githubViewModel.getAll().observe(this, Observer<List<GithubData>> { githubData ->
+            githubSearchAdapter.setContacts(githubData!!)
+        })
+    }
+
     fun doSearch(){
         hideKeyboard()
 
@@ -109,9 +119,7 @@ class GithubActivity : AppCompatActivity() {
 
         viewPagerAdapter.clearText()
 
-        Log.d("test", "target : $target")
-
-        searchDisposable = GithubClient().getApi().searchUser("$target")
+        searchDisposable = GithubClient().getApi().searchUser(target)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({ result ->

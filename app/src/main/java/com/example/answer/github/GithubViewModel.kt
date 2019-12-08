@@ -21,15 +21,6 @@ class GithubViewModel(application: Application) : AndroidViewModel(application) 
         return this.contacts
     }
 
-    fun setupDefaultData() {
-//        repository.insert(GithubData("대회의실1", "image", "image", 0))
-//        repository.insert(GithubData("대회의실2", "image", "image", 0))
-//        repository.insert(GithubData("대회의실3", "image", "image", 0))
-//        repository.insert(GithubData("대회의실4", "image", "image", 0))
-//        repository.insert(GithubData("대회의실5", "image", "image", 0))
-//        repository.insert(GithubData("대회의실6", "image", "image", 0))
-    }
-
     fun insert(contact: GithubData) {
         repository.insert(contact)
     }
@@ -42,8 +33,10 @@ class GithubViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun testList(contactList: GithubRepo){
-        Log.d("test", "list : $contactList")
+    fun updateList(input: Int, name: String) {
+        Log.d("test", "updating $name to $input")
+
+        repository.update(input, name)
     }
 
     fun doSearch() {

@@ -19,4 +19,7 @@ interface GithubDao {
 
     @Query("DELETE FROM github")
     fun deleteAll()
+
+    @Query("UPDATE github SET favorite = (:input) WHERE name = (:name)")
+    fun updateColumn(input: Int, name: String)
 }
