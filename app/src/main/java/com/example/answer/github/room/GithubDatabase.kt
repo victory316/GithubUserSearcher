@@ -1,0 +1,28 @@
+package com.example.answer.github.room
+
+import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+
+@Database(entities = [GithubData::class, FavoriteData::class], version =2)
+abstract class GithubDatabase: RoomDatabase() {
+
+    abstract fun githubDao(): GithubDao
+
+    companion object {
+        private var INSTANCE: GithubDatabase? = null
+
+        fun getInstance(context: Context): GithubDatabase? {
+            if (INSTANCE == null) {
+                synchronized(GithubDatabase::class) {
+                    INSTANCE = Room.databaseBuilder(context.applicationContext,
+                        GithubDatabase::class.java, "github_database")
+                        .fallbackToDestructiveMigration()
+                        .build()
+                }
+            }
+            return INSTANCE
+        }
+    }
+}
