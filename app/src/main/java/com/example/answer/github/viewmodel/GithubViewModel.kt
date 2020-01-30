@@ -1,6 +1,8 @@
 package com.example.answer.github.viewmodel
 
 import android.app.Application
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import com.example.answer.github.view.adapter.GithubViewPagerAdapter
@@ -18,9 +20,12 @@ class GithubViewModel(application: Application) : AndroidViewModel(application) 
     private val contacts = repository.getAll()
     private val favorites = repository.getAllFavorites()
     private lateinit var viewPagerAdapter: GithubViewPagerAdapter
+    var hideKeyboard = ObservableBoolean()
 
     fun doSearch(){
         val target = viewPagerAdapter.getText()
+
+        hideKeyboard.set(true)
 
         viewPagerAdapter.clearText()
 

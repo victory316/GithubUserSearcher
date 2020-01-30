@@ -9,6 +9,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.Observable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
@@ -60,10 +61,8 @@ class GithubActivity : AppCompatActivity() {
         githubViewModel = ViewModelProviders.of(this).get(GithubViewModel::class.java)
         githubViewModel.deleteAll()
 
-        githubSearchAdapter =
-            GithubSearchAdapter()
-        githubLikeAdapter =
-            GithubLikeAdapter()
+        githubSearchAdapter = GithubSearchAdapter()
+        githubLikeAdapter = GithubLikeAdapter()
         githubLikeAdapter.setView(this)
         githubSearchAdapter.setView(this)
 
@@ -82,6 +81,16 @@ class GithubActivity : AppCompatActivity() {
         viewPagerAdapter.setAdapter(githubSearchAdapter, githubLikeAdapter)
 
         githubViewModel.setViewPagerAdapter(viewPagerAdapter)
+
+        githubViewModel.hideKeyboard.addOnPropertyChangedCallback(
+            object: Observable.OnPropertyChangedCallback() {
+                override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+
+                    githubViewModel.hideKeyboard.set(false)
+                    hideKeyboard()
+                }
+            }
+        )
     }
 
     private fun Context.hideKeyboard(view: View) {
