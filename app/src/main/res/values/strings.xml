@@ -6,26 +6,6 @@
     <string name="search">검색</string>
     <string name="favorite">좋아요</string>
 
-    <string name="dummy_date_ui">02월 12일 (수)</string>
-    <string name="avaliable_room">현재 사용 가능 회의실</string>
-
-    <string name="avaliable">예약가능</string>
-    <string name="out">외부미팅</string>
-    <string name="my_reservation">내 예약</string>
-
-    <string name="supreme_room">대회의실 1</string>
-    <string name="current_time">현재시간</string>
-    <string name="room_location">MUSINSA1 / B1</string>
     <string name="score">SCORE : </string>
 
-    <string name="_9">9</string>
-    <string name="_10">10</string>
-    <string name="_11">11</string>
-    <string name="_12">12</string>
-    <string name="_13">13</string>
-    <string name="_14">14</string>
-    <string name="_15">15</string>
-    <string name="_16">16</string>
-    <string name="_17">17</string>
-    <string name="_18">18</string>
 </resources>

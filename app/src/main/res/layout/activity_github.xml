@@ -9,9 +9,6 @@
         <variable
             name="optionID"
             type="Integer" />
-        <variable
-            name="viewModel"
-            type="com.example.answer.ui.UiViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

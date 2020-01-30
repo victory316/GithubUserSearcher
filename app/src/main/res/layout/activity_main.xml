@@ -40,11 +40,23 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:padding="20dp"
+        android:visibility="gone"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/github_button"
         android:text="@string/ui_button"/>
+
+    <TextView
+        android:id="@+id/developer_tag_view_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="https://github.com/victory316"
+        android:layout_margin="20dp"
+        android:autoLink="web"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

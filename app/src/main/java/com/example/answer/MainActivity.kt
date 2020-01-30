@@ -8,7 +8,6 @@ import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.example.answer.databinding.ActivityMainBinding
 import com.example.answer.github.GithubActivity
-import com.example.answer.ui.UiActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,12 +29,6 @@ class MainActivity : AppCompatActivity() {
         binding.githubButton.setOnClickListener {
             val githubIntent = Intent(this, GithubActivity::class.java)
             startActivity(githubIntent)
-        }
-
-        // ui 관련 페이지로 넘어가기 위한 Button의 onClickListener 설정
-        binding.uiButton.setOnClickListener {
-            val uiIntent = Intent(this, UiActivity::class.java)
-            startActivity(uiIntent)
         }
     }
 }
