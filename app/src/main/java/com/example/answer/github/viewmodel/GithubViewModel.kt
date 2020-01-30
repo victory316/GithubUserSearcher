@@ -3,11 +3,13 @@ package com.example.answer.github.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.example.answer.github.view.GithubActivity
 import com.example.answer.github.view.GithubViewPagerAdapter
 import com.example.answer.github.data.GithubData
 import com.example.answer.github.data.GithubRepo
 import com.example.answer.github.data.source.GithubRepository
+import com.example.answer.github.data.source.remote.GithubClient
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class GithubViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -15,8 +17,30 @@ class GithubViewModel(application: Application) : AndroidViewModel(application) 
         GithubRepository(application)
     private val contacts = repository.getAll()
     private val favorites = repository.getAllFavorites()
-    private lateinit var githubView: GithubActivity
     private lateinit var viewPagerAdapter: GithubViewPagerAdapter
+
+    fun doSearch(){
+        val target = viewPagerAdapter.getText()
+
+        viewPagerAdapter.clearText()
+
+        // Gihub search query로 찾고자 하는 유저를 검색
+        val searchDisposable = GithubClient()
+            .getApi().searchUser(target)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe({ result ->
+                insertList(result.getUserList())
+
+            }, {
+                    error ->
+                run {
+                    error.printStackTrace()
+                }
+            })
+
+        deleteAll()
+    }
 
     fun getAll(): LiveData<List<GithubData>> {
         return this.contacts
@@ -46,16 +70,8 @@ class GithubViewModel(application: Application) : AndroidViewModel(application) 
         repository.update(input, name)
     }
 
-    fun doSearch() {
-        githubView.doSearch()
-    }
-
     fun clearText() {
         viewPagerAdapter.clearText()
-    }
-
-    fun setView(view: GithubActivity) {
-        githubView = view
     }
 
     fun setViewPagerAdapter(adapter: GithubViewPagerAdapter) {

@@ -80,7 +80,6 @@ class GithubActivity : AppCompatActivity() {
         viewPagerAdapter.setView(this)
         viewPagerAdapter.setAdapter(githubSearchAdapter, githubLikeAdapter)
 
-        githubViewModel.setView(this)
         githubViewModel.setViewPagerAdapter(viewPagerAdapter)
     }
 
@@ -91,32 +90,6 @@ class GithubActivity : AppCompatActivity() {
 
     private fun Activity.hideKeyboard() {
         if (currentFocus == null) View(this) else currentFocus?.let { hideKeyboard(it) }
-    }
-
-    fun doSearch(){
-        hideKeyboard()
-
-        val target = viewPagerAdapter.getText()
-
-        viewPagerAdapter.clearText()
-
-        // Gihub search query로 찾고자 하는 유저를 검색
-        searchDisposable = GithubClient()
-            .getApi().searchUser(target)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe({ result ->
-                githubViewModel.insertList(result.getUserList())
-
-            }, {
-                error ->
-                run {
-                    error.printStackTrace()
-                    Toast.makeText(this, "결과가 존재하지 않습니다.", Toast.LENGTH_SHORT).show()
-                }
-            })
-
-        githubViewModel.deleteAll()
     }
 
     override fun onDestroy() {
