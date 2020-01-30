@@ -1,10 +1,11 @@
-package com.example.answer.github.view
+package com.example.answer.github.view.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.example.answer.github.fragments.LikeFragment
-import com.example.answer.github.fragments.SearchFragment
+import com.example.answer.github.view.LikeFragment
+import com.example.answer.github.view.SearchFragment
+import com.example.answer.github.view.GithubActivity
 
 class GithubViewPagerAdapter(
     fm: FragmentManager?

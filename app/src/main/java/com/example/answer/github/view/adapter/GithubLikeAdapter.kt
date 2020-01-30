@@ -1,4 +1,4 @@
-package com.example.answer.github.view
+package com.example.answer.github.view.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.answer.R
 import com.example.answer.github.viewmodel.GithubViewModel
 import com.example.answer.github.data.GithubData
+import com.example.answer.github.view.GithubActivity
 
 
 class GithubLikeAdapter : RecyclerView.Adapter<GithubLikeAdapter.ViewHolder>() {

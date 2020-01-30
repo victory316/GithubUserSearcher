@@ -3,7 +3,7 @@ package com.example.answer.github.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.example.answer.github.view.GithubViewPagerAdapter
+import com.example.answer.github.view.adapter.GithubViewPagerAdapter
 import com.example.answer.github.data.GithubData
 import com.example.answer.github.data.GithubRepo
 import com.example.answer.github.data.source.GithubRepository

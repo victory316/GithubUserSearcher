@@ -7,7 +7,6 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -15,12 +14,12 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import com.example.answer.R
 import com.example.answer.databinding.ActivityGithubBinding
-import com.example.answer.github.data.source.remote.GithubClient
 import com.example.answer.github.data.GithubData
+import com.example.answer.github.view.adapter.GithubLikeAdapter
+import com.example.answer.github.view.adapter.GithubSearchAdapter
+import com.example.answer.github.view.adapter.GithubViewPagerAdapter
 import com.example.answer.github.viewmodel.GithubViewModel
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 
 class GithubActivity : AppCompatActivity() {
 
@@ -47,9 +46,10 @@ class GithubActivity : AppCompatActivity() {
             window.statusBarColor = Color.BLACK
         }
 
-        viewPagerAdapter = GithubViewPagerAdapter(
-            supportFragmentManager
-        )
+        viewPagerAdapter =
+            GithubViewPagerAdapter(
+                supportFragmentManager
+            )
         val viewPager: ViewPager = findViewById(R.id.bottom_view_pager)
         viewPager.adapter = viewPagerAdapter
         binding.topTabLayout.setupWithViewPager(viewPager)
@@ -62,7 +62,8 @@ class GithubActivity : AppCompatActivity() {
 
         githubSearchAdapter =
             GithubSearchAdapter()
-        githubLikeAdapter = GithubLikeAdapter()
+        githubLikeAdapter =
+            GithubLikeAdapter()
         githubLikeAdapter.setView(this)
         githubSearchAdapter.setView(this)
 
