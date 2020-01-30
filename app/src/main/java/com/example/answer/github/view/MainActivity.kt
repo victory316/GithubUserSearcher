@@ -1,4 +1,4 @@
-package com.example.answer
+package com.example.answer.github.view
 
 import android.content.Intent
 import android.graphics.Color
@@ -6,8 +6,8 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import com.example.answer.R
 import com.example.answer.databinding.ActivityMainBinding
-import com.example.answer.github.GithubActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,7 +18,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // 데이터바인딩 setup
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this,
+            R.layout.activity_main
+        )
 
         // Status bar 색상 변경
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

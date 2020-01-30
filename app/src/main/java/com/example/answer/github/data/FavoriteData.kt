@@ -1,6 +1,6 @@
 @file:Suppress("SpellCheckingInspection")
 
-package com.example.answer.github.room
+package com.example.answer.github.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

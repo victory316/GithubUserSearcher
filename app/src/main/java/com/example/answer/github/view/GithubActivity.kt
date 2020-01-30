@@ -1,4 +1,4 @@
-package com.example.answer.github
+package com.example.answer.github.view
 
 import android.app.Activity
 import android.content.Context
@@ -15,9 +15,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import com.example.answer.R
 import com.example.answer.databinding.ActivityGithubBinding
-import com.example.answer.github.recyclerview.GithubLikeAdapter
-import com.example.answer.github.recyclerview.GithubSearchAdapter
-import com.example.answer.github.room.GithubData
+import com.example.answer.github.data.source.remote.GithubClient
+import com.example.answer.github.data.GithubData
+import com.example.answer.github.viewmodel.GithubViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -47,7 +47,9 @@ class GithubActivity : AppCompatActivity() {
             window.statusBarColor = Color.BLACK
         }
 
-        viewPagerAdapter = GithubViewPagerAdapter(supportFragmentManager)
+        viewPagerAdapter = GithubViewPagerAdapter(
+            supportFragmentManager
+        )
         val viewPager: ViewPager = findViewById(R.id.bottom_view_pager)
         viewPager.adapter = viewPagerAdapter
         binding.topTabLayout.setupWithViewPager(viewPager)
@@ -58,7 +60,8 @@ class GithubActivity : AppCompatActivity() {
         githubViewModel = ViewModelProviders.of(this).get(GithubViewModel::class.java)
         githubViewModel.deleteAll()
 
-        githubSearchAdapter = GithubSearchAdapter()
+        githubSearchAdapter =
+            GithubSearchAdapter()
         githubLikeAdapter = GithubLikeAdapter()
         githubLikeAdapter.setView(this)
         githubSearchAdapter.setView(this)
@@ -98,7 +101,8 @@ class GithubActivity : AppCompatActivity() {
         viewPagerAdapter.clearText()
 
         // Gihub search query로 찾고자 하는 유저를 검색
-        searchDisposable = GithubClient().getApi().searchUser(target)
+        searchDisposable = GithubClient()
+            .getApi().searchUser(target)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({ result ->

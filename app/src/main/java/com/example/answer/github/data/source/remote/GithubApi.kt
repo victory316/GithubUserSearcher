@@ -1,4 +1,4 @@
-package com.example.answer.github
+package com.example.answer.github.data.source.remote
 
 import com.example.answer.github.data.UserList
 import io.reactivex.Observable

@@ -11,9 +11,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.answer.R
 import com.example.answer.databinding.FragmentLikeBinding
-import com.example.answer.github.GithubActivity
-import com.example.answer.github.GithubViewModel
-import com.example.answer.github.recyclerview.GithubLikeAdapter
+import com.example.answer.github.view.GithubActivity
+import com.example.answer.github.viewmodel.GithubViewModel
+import com.example.answer.github.view.GithubLikeAdapter
 
 class LikeFragment : Fragment() {
     private var githubViewModel: GithubViewModel? = null

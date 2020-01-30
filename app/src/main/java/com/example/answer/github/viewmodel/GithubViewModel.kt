@@ -1,15 +1,18 @@
-package com.example.answer.github
+package com.example.answer.github.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.example.answer.github.room.GithubData
-import com.example.answer.github.room.GithubRepo
-import com.example.answer.github.room.GithubRepository
+import com.example.answer.github.view.GithubActivity
+import com.example.answer.github.view.GithubViewPagerAdapter
+import com.example.answer.github.data.GithubData
+import com.example.answer.github.data.GithubRepo
+import com.example.answer.github.data.source.GithubRepository
 
 class GithubViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository = GithubRepository(application)
+    private val repository =
+        GithubRepository(application)
     private val contacts = repository.getAll()
     private val favorites = repository.getAllFavorites()
     private lateinit var githubView: GithubActivity
@@ -29,7 +32,12 @@ class GithubViewModel(application: Application) : AndroidViewModel(application) 
 
     fun insertList(contactList: List<GithubRepo>) {
         for (indices in contactList) {
-            val githubData = GithubData(indices.login, indices.avatar_url, indices.score.toInt(), 0)
+            val githubData = GithubData(
+                indices.login,
+                indices.avatar_url,
+                indices.score.toInt(),
+                0
+            )
             repository.insert(githubData)
         }
     }

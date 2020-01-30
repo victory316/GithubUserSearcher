@@ -1,4 +1,4 @@
-package com.example.answer.github.recyclerview
+package com.example.answer.github.view
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,15 +9,14 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.answer.R
-import com.example.answer.github.GithubActivity
-import com.example.answer.github.GithubViewModel
-import com.example.answer.github.room.GithubData
+import com.example.answer.github.viewmodel.GithubViewModel
+import com.example.answer.github.data.GithubData
 
 
-class GithubSearchAdapter : RecyclerView.Adapter<GithubSearchAdapter.ViewHolder>() {
+class GithubLikeAdapter : RecyclerView.Adapter<GithubLikeAdapter.ViewHolder>() {
     private var contacts: List<GithubData> = listOf()
     private lateinit var viewModel: GithubViewModel
-    private lateinit var view : GithubActivity
+    private lateinit var view: GithubActivity
 
     override fun onCreateViewHolder(parent: ViewGroup, i: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.github_item, parent, false)
@@ -42,6 +41,7 @@ class GithubSearchAdapter : RecyclerView.Adapter<GithubSearchAdapter.ViewHolder>
         fun bind(githubData: GithubData) {
             nameTv.text = githubData.name
             scoreTv.text = githubData.score.toString()
+            Glide.with(view.applicationContext).load(githubData.avatar_url).into(profileImage)
 
             if (githubData.favorite != 0) {
                 checkFavorite()
@@ -58,8 +58,6 @@ class GithubSearchAdapter : RecyclerView.Adapter<GithubSearchAdapter.ViewHolder>
                     viewModel.updateList(0, githubData.name)
                 }
             }
-
-            Glide.with(view.applicationContext).load(githubData.avatar_url).into(profileImage)
         }
 
         private fun checkFavorite() {

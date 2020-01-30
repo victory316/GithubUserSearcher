@@ -11,7 +11,7 @@
             type="Integer" />
         <variable
             name="viewModel"
-            type="com.example.answer.github.GithubViewModel" />
+            type="com.example.answer.github.viewmodel.GithubViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

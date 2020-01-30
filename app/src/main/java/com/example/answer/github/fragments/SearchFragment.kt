@@ -12,9 +12,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.answer.R
 import com.example.answer.databinding.FragmentSearchBinding
-import com.example.answer.github.GithubActivity
-import com.example.answer.github.GithubViewModel
-import com.example.answer.github.recyclerview.GithubSearchAdapter
+import com.example.answer.github.view.GithubActivity
+import com.example.answer.github.viewmodel.GithubViewModel
+import com.example.answer.github.view.GithubSearchAdapter
 
 
 class SearchFragment : Fragment() {
