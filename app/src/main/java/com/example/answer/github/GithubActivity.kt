@@ -33,7 +33,7 @@ class GithubActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_ui)
+        setContentView(R.layout.activity_github)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_github)
 
         setupView()

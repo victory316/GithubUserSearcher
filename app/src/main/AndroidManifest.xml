@@ -14,8 +14,6 @@
         android:theme="@style/MainTheme">
         <activity android:name=".github.GithubActivity"
             android:theme="@style/MainTheme"/>
-        <activity android:name=".ui.UiActivity"
-            android:theme="@style/MainTheme" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
