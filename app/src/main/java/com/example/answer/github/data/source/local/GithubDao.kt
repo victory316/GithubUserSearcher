@@ -1,7 +1,8 @@
-package com.example.answer.github.room
+package com.example.answer.github.data.source.local
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.answer.github.data.GithubData
 
 
 // Room DB 구현에 필요한 DAO 클래스

@@ -1,11 +1,16 @@
-package com.example.answer.github.room
+package com.example.answer.github.data.source
 
 import android.app.Application
 import androidx.lifecycle.LiveData
+import com.example.answer.github.data.source.local.GithubDao
+import com.example.answer.github.data.GithubData
+import com.example.answer.github.data.source.local.GithubDatabase
 
 class GithubRepository(application: Application) {
 
-    private val githubDatabase = GithubDatabase.getInstance(application)!!
+    private val githubDatabase = GithubDatabase.getInstance(
+        application
+    )!!
     private val githubDao: GithubDao = githubDatabase.githubDao()
     private val githubData: LiveData<List<GithubData>> = githubDao.getAll()
     private val favoriteData: LiveData<List<GithubData>> = githubDao.getAllFavorites()

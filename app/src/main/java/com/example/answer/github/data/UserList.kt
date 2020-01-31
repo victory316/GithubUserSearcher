@@ -1,6 +1,5 @@
 package com.example.answer.github.data
 
-import com.example.answer.github.room.GithubRepo
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 

@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".github.fragments.SearchFragment">
+    tools:context=".github.view.SearchFragment">
 
     <data>
         <variable
@@ -11,7 +11,7 @@
             type="Integer" />
         <variable
             name="viewModel"
-            type="com.example.answer.github.GithubViewModel" />
+            type="com.example.answer.github.viewmodel.GithubViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -48,7 +48,7 @@
             android:src="@drawable/search_icon"
             android:layout_marginRight="10dp"
             android:scaleType="centerCrop"
-            android:onClick="@{()-> viewModel.doSearch()}"
+            hideKeyboardAndDoSearch="@{viewModel}"
             app:layout_constraintRight_toLeftOf="@id/delete_button"
             app:layout_constraintTop_toTopOf="@id/search_edit_text"
             app:layout_constraintBottom_toBottomOf="@id/search_edit_text"/>

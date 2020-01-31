@@ -1,20 +1,19 @@
-package com.example.answer.github
+package com.example.answer.github.view.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.example.answer.github.fragments.LikeFragment
-import com.example.answer.github.fragments.SearchFragment
-import com.example.answer.github.recyclerview.GithubLikeAdapter
-import com.example.answer.github.recyclerview.GithubSearchAdapter
+import com.example.answer.github.view.LikeFragment
+import com.example.answer.github.view.SearchFragment
+import com.example.answer.github.view.GithubActivity
 
 class GithubViewPagerAdapter(
     fm: FragmentManager?
 ) :
     FragmentPagerAdapter(fm!!) {
     private lateinit var view: GithubActivity
-    private lateinit var searchAdapter: GithubSearchAdapter
-    private lateinit var likeAdapter: GithubLikeAdapter
+    private lateinit var listAdapter: GithubListAdapter
+    private lateinit var likeAdapter: GithubListAdapter
     private lateinit var searchFragment: SearchFragment
     private lateinit var likeFragment: LikeFragment
 
@@ -22,7 +21,7 @@ class GithubViewPagerAdapter(
         return if (position == 0) {
             searchFragment = SearchFragment.newInstance()
             searchFragment.setContext(view)
-            searchFragment.setAdapter(searchAdapter)
+            searchFragment.setAdapter(listAdapter)
 
             searchFragment
         } else {
@@ -59,8 +58,8 @@ class GithubViewPagerAdapter(
         return searchFragment.getString()
     }
 
-    fun setAdapter(searchAdapter: GithubSearchAdapter, likeAdapter: GithubLikeAdapter) {
-        this.searchAdapter = searchAdapter
+    fun setAdapter(listAdapter: GithubListAdapter, likeAdapter: GithubListAdapter) {
+        this.listAdapter = listAdapter
         this.likeAdapter = likeAdapter
     }
 }

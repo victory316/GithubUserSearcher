@@ -1,27 +1,24 @@
-package com.example.answer.github.fragments
+package com.example.answer.github.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.NonNull
 import androidx.annotation.Nullable
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.answer.R
-import com.example.answer.databinding.FragmentSearchBinding
-import com.example.answer.github.GithubActivity
-import com.example.answer.github.GithubViewModel
-import com.example.answer.github.recyclerview.GithubSearchAdapter
+import com.example.answer.databinding.FragmentLikeBinding
+import com.example.answer.github.viewmodel.GithubViewModel
+import com.example.answer.github.view.adapter.GithubListAdapter
 
-
-class SearchFragment : Fragment() {
+class LikeFragment : Fragment() {
     private var githubViewModel: GithubViewModel? = null
-    private lateinit var binding: FragmentSearchBinding
+    private lateinit var binding: FragmentLikeBinding
     private lateinit var view: GithubActivity
-    private lateinit var adapter: GithubSearchAdapter
+    private lateinit var adapter: GithubListAdapter
 
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,11 +31,9 @@ class SearchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         val roomDetailLayoutManager = LinearLayoutManager(view)
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
-
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_like, container, false)
         binding.searchRecyclerView.adapter = adapter
         binding.searchRecyclerView.layoutManager = roomDetailLayoutManager
         binding.searchRecyclerView.setHasFixedSize(true)
@@ -46,32 +41,19 @@ class SearchFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(@NonNull view: View, @Nullable savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.lifecycleOwner = this
-        binding.viewModel = githubViewModel
-    }
-
-    fun clearText() {
-        binding.searchEditText.text.clear()
-    }
 
     fun setContext(view: GithubActivity){
         this.view = view
     }
 
-    fun setAdapter(adapter : GithubSearchAdapter) {
+    fun setAdapter(adapter : GithubListAdapter) {
         this.adapter = adapter
     }
 
-    fun getString() : String {
-        return binding.searchEditText.text.toString()
-    }
 
     companion object {
-        fun newInstance(): SearchFragment {
-            return SearchFragment()
+        fun newInstance(): LikeFragment {
+            return LikeFragment()
         }
     }
 }

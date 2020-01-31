@@ -12,9 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MainTheme">
-        <activity android:name=".github.GithubActivity"
+        <activity android:name=".github.view.GithubActivity"
+            android:configChanges="orientation"
             android:theme="@style/MainTheme"/>
-        <activity android:name=".MainActivity">
+        <activity android:name=".github.view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

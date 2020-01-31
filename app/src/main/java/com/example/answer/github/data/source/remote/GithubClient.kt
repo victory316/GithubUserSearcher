@@ -1,4 +1,4 @@
-package com.example.answer.github
+package com.example.answer.github.data.source.remote
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 private const val BASE_URL = "https://api.github.com"
 
 class GithubClient {
-    fun getApi(): GithubApi  = Retrofit.Builder()
+    fun getApi(): GithubApi = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .client(OkHttpClient())
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
