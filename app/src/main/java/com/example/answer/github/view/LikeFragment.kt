@@ -12,13 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.answer.R
 import com.example.answer.databinding.FragmentLikeBinding
 import com.example.answer.github.viewmodel.GithubViewModel
-import com.example.answer.github.view.adapter.GithubLikeAdapter
+import com.example.answer.github.view.adapter.GithubListAdapter
 
 class LikeFragment : Fragment() {
     private var githubViewModel: GithubViewModel? = null
     private lateinit var binding: FragmentLikeBinding
     private lateinit var view: GithubActivity
-    private lateinit var adapter: GithubLikeAdapter
+    private lateinit var adapter: GithubListAdapter
 
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +46,7 @@ class LikeFragment : Fragment() {
         this.view = view
     }
 
-    fun setAdapter(adapter : GithubLikeAdapter) {
+    fun setAdapter(adapter : GithubListAdapter) {
         this.adapter = adapter
     }
 

@@ -13,14 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.answer.R
 import com.example.answer.databinding.FragmentSearchBinding
 import com.example.answer.github.viewmodel.GithubViewModel
-import com.example.answer.github.view.adapter.GithubSearchAdapter
+import com.example.answer.github.view.adapter.GithubListAdapter
 
 
 class SearchFragment : Fragment() {
     private var githubViewModel: GithubViewModel? = null
     private lateinit var binding: FragmentSearchBinding
     private lateinit var view: GithubActivity
-    private lateinit var adapter: GithubSearchAdapter
+    private lateinit var adapter: GithubListAdapter
 
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +60,7 @@ class SearchFragment : Fragment() {
         this.view = view
     }
 
-    fun setAdapter(adapter : GithubSearchAdapter) {
+    fun setAdapter(adapter : GithubListAdapter) {
         this.adapter = adapter
     }
 

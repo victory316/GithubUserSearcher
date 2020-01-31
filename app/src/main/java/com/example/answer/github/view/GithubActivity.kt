@@ -1,23 +1,17 @@
 package com.example.answer.github.view
 
-import android.app.Activity
-import android.content.Context
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.view.View
-import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.Observable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import com.example.answer.R
 import com.example.answer.databinding.ActivityGithubBinding
 import com.example.answer.github.data.GithubData
-import com.example.answer.github.view.adapter.GithubLikeAdapter
-import com.example.answer.github.view.adapter.GithubSearchAdapter
+import com.example.answer.github.view.adapter.GithubListAdapter
 import com.example.answer.github.view.adapter.GithubViewPagerAdapter
 import com.example.answer.github.viewmodel.GithubViewModel
 import io.reactivex.disposables.Disposable
@@ -27,8 +21,8 @@ class GithubActivity : AppCompatActivity() {
     private lateinit var binding : ActivityGithubBinding
     private lateinit var githubViewModel: GithubViewModel
     private lateinit var viewPagerAdapter: GithubViewPagerAdapter
-    private lateinit var githubSearchAdapter: GithubSearchAdapter
-    private lateinit var githubLikeAdapter: GithubLikeAdapter
+    private lateinit var githubSearchAdapter: GithubListAdapter
+    private lateinit var githubLikeAdapter: GithubListAdapter
     private var searchDisposable: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,8 +55,8 @@ class GithubActivity : AppCompatActivity() {
         githubViewModel = ViewModelProviders.of(this).get(GithubViewModel::class.java)
         githubViewModel.deleteAll()
 
-        githubSearchAdapter = GithubSearchAdapter()
-        githubLikeAdapter = GithubLikeAdapter()
+        githubSearchAdapter = GithubListAdapter()
+        githubLikeAdapter = GithubListAdapter()
         githubLikeAdapter.setView(this)
         githubSearchAdapter.setView(this)
 
