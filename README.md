@@ -10,3 +10,5 @@
 - MVVM
 - Room
 - LiveData
+- Retrofit2
+- AAC ViewModel
