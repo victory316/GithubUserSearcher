@@ -48,7 +48,7 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(@NonNull view: View, @Nullable savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = this // 해제될 수 있음. viewlifecycleowner
         binding.viewModel = githubViewModel
     }
 

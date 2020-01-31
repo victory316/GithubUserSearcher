@@ -42,6 +42,9 @@ class GithubLikeAdapter : RecyclerView.Adapter<GithubLikeAdapter.ViewHolder>() {
         fun bind(githubData: GithubData) {
             nameTv.text = githubData.name
             scoreTv.text = githubData.score.toString()
+
+            // imageview 자체에서 따올 수 있음.
+            // 어댑터 생성시 파라미터로 넘길 수 있음.
             Glide.with(view.applicationContext).load(githubData.avatar_url).into(profileImage)
 
             if (githubData.favorite != 0) {

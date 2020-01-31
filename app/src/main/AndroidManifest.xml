@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/MainTheme">
         <activity android:name=".github.view.GithubActivity"
+            android:configChanges="orientation"
             android:theme="@style/MainTheme"/>
         <activity android:name=".github.view.MainActivity">
             <intent-filter>
