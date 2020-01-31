@@ -57,8 +57,6 @@ class GithubActivity : AppCompatActivity() {
 
         githubSearchAdapter = GithubListAdapter()
         githubLikeAdapter = GithubListAdapter()
-        githubLikeAdapter.setView(this)
-        githubSearchAdapter.setView(this)
 
         githubViewModel.getAll().observe(this, Observer<List<GithubData>> { githubData ->
             githubSearchAdapter.setContacts(githubData!!)

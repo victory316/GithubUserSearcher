@@ -1,14 +1,8 @@
 package com.example.answer.github.view.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.example.answer.R
 import com.example.answer.databinding.GithubItemBinding
 import com.example.answer.github.viewmodel.GithubViewModel
 import com.example.answer.github.data.GithubData
@@ -21,16 +15,15 @@ import com.example.answer.github.view.GithubActivity
  *  - https://github.com/android/sunflower/blob/master/app/src/main/java/com/google/samples/apps/sunflower/adapters/PlantAdapter.kt
  */
 
-class GithubListAdapter : RecyclerView.Adapter< RecyclerView.ViewHolder>() {
+class GithubListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var contacts: List<GithubData> = listOf()
     private lateinit var viewModel: GithubViewModel
-    private lateinit var view : GithubActivity
 
     override fun onCreateViewHolder(parent: ViewGroup, i: Int): RecyclerView.ViewHolder {
         val view = GithubItemBinding.inflate(
             LayoutInflater.from(parent.context), parent, false)
 
-        return PlantViewHolder(view, viewModel)
+        return ViewHolder(view, viewModel)
     }
 
     override fun getItemCount(): Int {
@@ -39,10 +32,10 @@ class GithubListAdapter : RecyclerView.Adapter< RecyclerView.ViewHolder>() {
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         val user = contacts[position]
-        (viewHolder as PlantViewHolder).bind(user)
+        (viewHolder as ViewHolder).bind(user)
     }
 
-    class PlantViewHolder(
+    class ViewHolder(
         private val binding: GithubItemBinding,
         private val viewModel: GithubViewModel
     ) : RecyclerView.ViewHolder(binding.root) {
@@ -63,10 +56,6 @@ class GithubListAdapter : RecyclerView.Adapter< RecyclerView.ViewHolder>() {
 
             binding.imageUrl = item.avatar_url
         }
-    }
-
-    fun setView(view: GithubActivity) {
-        this.view = view
     }
 
     fun setViewModel(model: GithubViewModel) {
