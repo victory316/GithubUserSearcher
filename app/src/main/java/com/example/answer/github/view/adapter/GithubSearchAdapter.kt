@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.answer.R
+import com.example.answer.databinding.GithubItemBinding
 import com.example.answer.github.viewmodel.GithubViewModel
 import com.example.answer.github.data.GithubData
 import com.example.answer.github.view.GithubActivity
@@ -74,6 +75,16 @@ class GithubSearchAdapter : RecyclerView.Adapter<GithubSearchAdapter.ViewHolder>
                     R.drawable.unlike_icon))
         }
     }
+
+//    class PlantViewHolder(
+//        private val binding: GithubItemBinding
+//    ) : RecyclerView.ViewHolder(binding.root) {
+//
+//        fun bind(item: GithubData) {
+//            binding.userName.text = item.name
+//            binding.score.text = item.score
+//        }
+//    }
 
     fun setView(view: GithubActivity) {
         this.view = view
