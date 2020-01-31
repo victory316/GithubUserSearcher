@@ -20,12 +20,9 @@ class GithubViewModel(application: Application) : AndroidViewModel(application) 
     private val contacts = repository.getAll()
     private val favorites = repository.getAllFavorites()
     private lateinit var viewPagerAdapter: GithubViewPagerAdapter
-    var hideKeyboard = ObservableBoolean()
 
     fun doSearch(){
         val target = viewPagerAdapter.getText()
-
-        hideKeyboard.set(true)
 
         viewPagerAdapter.clearText()
 

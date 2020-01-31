@@ -81,25 +81,6 @@ class GithubActivity : AppCompatActivity() {
         viewPagerAdapter.setAdapter(githubSearchAdapter, githubLikeAdapter)
 
         githubViewModel.setViewPagerAdapter(viewPagerAdapter)
-
-        githubViewModel.hideKeyboard.addOnPropertyChangedCallback(
-            object: Observable.OnPropertyChangedCallback() {
-                override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-
-                    githubViewModel.hideKeyboard.set(false)
-                    hideKeyboard()
-                }
-            }
-        )
-    }
-
-    private fun Context.hideKeyboard(view: View) {
-        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-    }
-
-    private fun Activity.hideKeyboard() {
-        if (currentFocus == null) View(this) else currentFocus?.let { hideKeyboard(it) }
     }
 
     override fun onDestroy() {
