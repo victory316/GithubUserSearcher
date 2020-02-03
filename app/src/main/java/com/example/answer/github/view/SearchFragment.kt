@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.annotation.NonNull
 import androidx.annotation.Nullable
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.Observable
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -41,6 +42,18 @@ class SearchFragment : Fragment() {
         binding.searchRecyclerView.adapter = adapter
         binding.searchRecyclerView.layoutManager = roomDetailLayoutManager
         binding.searchRecyclerView.setHasFixedSize(true)
+
+        githubViewModel!!.doShimmerAnimation.addOnPropertyChangedCallback( object: Observable.OnPropertyChangedCallback() {
+            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                if (githubViewModel!!.doShimmerAnimation.get()) {
+                    binding.shimmerViewContainer.startShimmer()
+                    binding.shimmerViewContainer.visibility = View.VISIBLE
+                } else {
+                    binding.shimmerViewContainer.stopShimmer()
+                    binding.shimmerViewContainer.visibility = View.INVISIBLE
+                }
+            }
+        })
 
         return binding.root
     }
