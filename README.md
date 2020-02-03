@@ -4,6 +4,7 @@
 
 - Searching user in github with name
 - Can set favorites on user, saving on local list
+- Show shimmer animation on pending search
 
 ### Used
 
