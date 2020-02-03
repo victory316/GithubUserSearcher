@@ -2,7 +2,6 @@ package com.example.answer.github.viewmodel
 
 import android.app.Application
 import androidx.databinding.ObservableBoolean
-import androidx.databinding.ObservableField
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import com.example.answer.github.view.adapter.GithubViewPagerAdapter
@@ -21,10 +20,13 @@ class GithubViewModel(application: Application) : AndroidViewModel(application) 
     private val favorites = repository.getAllFavorites()
     private lateinit var viewPagerAdapter: GithubViewPagerAdapter
 
+    var doShimmerAnimation: ObservableBoolean = ObservableBoolean()
+
     fun doSearch(){
         val target = viewPagerAdapter.getText()
 
         viewPagerAdapter.clearText()
+        doShimmerAnimation.set(true)
 
         // Gihub search query로 찾고자 하는 유저를 검색
         val searchDisposable = GithubClient()
@@ -34,10 +36,13 @@ class GithubViewModel(application: Application) : AndroidViewModel(application) 
             .subscribe({ result ->
                 insertList(result.getUserList())
 
+                doShimmerAnimation.set(false)
+
             }, {
                     error ->
                 run {
                     error.printStackTrace()
+                    doShimmerAnimation.set(false)
                 }
             })
 

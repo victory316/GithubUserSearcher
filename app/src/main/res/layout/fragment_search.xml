@@ -35,6 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             tools:listitem="@layout/github_item"
+            android:visibility="visible"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/search_edit_text"
@@ -66,6 +67,32 @@
             app:layout_constraintBottom_toBottomOf="@id/search_edit_text"
             app:layout_constraintRight_toRightOf="parent"/>
 
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_view_container"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="invisible"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/search_edit_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/github_shimmer_item"/>
+                <include layout="@layout/github_shimmer_item"/>
+                <include layout="@layout/github_shimmer_item"/>
+                <include layout="@layout/github_shimmer_item"/>
+                <include layout="@layout/github_shimmer_item"/>
+                <include layout="@layout/github_shimmer_item"/>
+                <include layout="@layout/github_shimmer_item"/>
+            </LinearLayout>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -48,6 +48,8 @@ class GithubActivity : AppCompatActivity() {
         val viewPager: ViewPager = findViewById(R.id.bottom_view_pager)
         viewPager.adapter = viewPagerAdapter
         binding.topTabLayout.setupWithViewPager(viewPager)
+
+
     }
 
     // ViewModel 설정
