@@ -1,5 +1,7 @@
 # Github Searcher
 
+## By CSH
+
 ### Features
 
 - Searching user in github with name
