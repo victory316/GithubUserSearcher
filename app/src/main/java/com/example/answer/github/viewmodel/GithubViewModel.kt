@@ -4,10 +4,14 @@ import android.app.Application
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.example.answer.github.view.adapter.GithubViewPagerAdapter
 import com.example.answer.github.data.GithubData
 import com.example.answer.github.data.GithubRepo
 import com.example.answer.github.data.source.GithubRepository
+import com.example.answer.github.data.source.local.GithubDatabase
 import com.example.answer.github.data.source.remote.GithubClient
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -21,6 +25,19 @@ class GithubViewModel(application: Application) : AndroidViewModel(application) 
     private lateinit var viewPagerAdapter: GithubViewPagerAdapter
 
     var doShimmerAnimation: ObservableBoolean = ObservableBoolean()
+
+    private var personsLiveData: LiveData<PagedList<GithubData>>
+
+    init {
+        val factory: DataSource.Factory<Int, GithubData> =
+            GithubDatabase.getInstance(application)!!.githubDao().getAllPaged()
+
+        val pagedListBuilder: LivePagedListBuilder<Int, GithubData> = LivePagedListBuilder<Int, GithubData>(factory,
+            100)
+        personsLiveData = pagedListBuilder.build()
+    }
+
+    fun getPersonsLiveData() = personsLiveData
 
     fun doSearch(){
         val target = viewPagerAdapter.getText()

@@ -15,6 +15,7 @@ import com.example.answer.R
 import com.example.answer.databinding.FragmentSearchBinding
 import com.example.answer.github.viewmodel.GithubViewModel
 import com.example.answer.github.view.adapter.GithubListAdapter
+import com.example.answer.github.view.adapter.PagingAdapter
 
 
 class SearchFragment : Fragment() {
@@ -22,6 +23,7 @@ class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private lateinit var view: GithubActivity
     private lateinit var adapter: GithubListAdapter
+    private lateinit var pagingAdapter: PagingAdapter
 
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,6 +77,10 @@ class SearchFragment : Fragment() {
 
     fun setAdapter(adapter : GithubListAdapter) {
         this.adapter = adapter
+    }
+
+    fun setPagingAdapter(adapter : PagingAdapter) {
+        this.pagingAdapter = adapter
     }
 
     fun getString() : String {

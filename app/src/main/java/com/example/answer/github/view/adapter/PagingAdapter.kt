@@ -1,19 +1,16 @@
 package com.example.answer.github.view.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.databinding.DataBindingUtil
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.answer.R
 import com.example.answer.databinding.GithubItemBinding
 import com.example.answer.github.data.GithubData
 import com.example.answer.github.view.UserDiffCallback
 
-class PersonAdapter(val context: Context) : PagedListAdapter<GithubData, PersonAdapter.PersonViewHolder>(
+class PagingAdapter(val context: Context) : PagedListAdapter<GithubData, PagingAdapter.PersonViewHolder>(
     UserDiffCallback()
 ) {
 
@@ -21,8 +18,11 @@ class PersonAdapter(val context: Context) : PagedListAdapter<GithubData, PersonA
         val person = getItem(position)
 
         if (person == null) {
+            Log.d("pagingTest", "is null")
             holderPerson.clear()
         } else {
+
+            Log.d("pagingTest", "is not null. binding.")
             holderPerson.bind(person)
         }
     }
@@ -40,6 +40,8 @@ class PersonAdapter(val context: Context) : PagedListAdapter<GithubData, PersonA
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(person: GithubData) {
+
+
             binding.userName.text = person.name
             binding.favorite = person.favorite
             binding.imageUrl = person.avatar_url
