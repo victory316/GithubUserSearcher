@@ -48,15 +48,13 @@ class GithubActivity : AppCompatActivity() {
         val viewPager: ViewPager = findViewById(R.id.bottom_view_pager)
         viewPager.adapter = viewPagerAdapter
         binding.topTabLayout.setupWithViewPager(viewPager)
-
-
     }
 
     // ViewModel 설정
+    // TODO ViewModelProviders deprecated 해결
     private fun setupViewModel() {
         githubViewModel = ViewModelProviders.of(this).get(GithubViewModel::class.java)
         githubViewModel.deleteAll()
-
         githubSearchAdapter = GithubListAdapter()
         githubLikeAdapter = GithubListAdapter()
 
