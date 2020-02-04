@@ -23,7 +23,7 @@
             android:id="@+id/avatar_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:background="#444444"
+            android:background="#E9E9E9"
             android:layout_margin="5dp"
             setImageWithGlide="@{imageUrl}"
             app:layout_constraintLeft_toLeftOf="parent"

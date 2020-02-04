@@ -32,7 +32,12 @@ object BindingAdapters {
     // 이미지 적용
     @BindingAdapter("setImageWithGlide")
     @JvmStatic fun setImageWithGlide(view: ImageView, imageUrl: String) {
-        Glide.with(view.context).load(imageUrl).into(view)
+        Glide.with(view.context)
+            .load(imageUrl)
+            .placeholder(ContextCompat.getDrawable(view.context, R.drawable.pending_profile_image))
+            .crossFade()
+            .into(view)
+
     }
 
     // 즐겨찾기 적용
