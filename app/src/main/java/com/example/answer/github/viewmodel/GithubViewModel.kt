@@ -32,8 +32,14 @@ class GithubViewModel(application: Application) : AndroidViewModel(application) 
         val factory: DataSource.Factory<Int, GithubData> =
             GithubDatabase.getInstance(application)!!.githubDao().getAllPaged()
 
+        val config = PagedList.Config.Builder()
+            .setInitialLoadSizeHint(10)
+            .setPageSize(10)
+            .setPrefetchDistance(5)
+            .build()
+
         val pagedListBuilder: LivePagedListBuilder<Int, GithubData> = LivePagedListBuilder<Int, GithubData>(factory,
-            100)
+            config)
         personsLiveData = pagedListBuilder.build()
     }
 

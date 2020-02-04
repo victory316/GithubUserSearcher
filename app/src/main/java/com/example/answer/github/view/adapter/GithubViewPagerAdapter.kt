@@ -22,7 +22,7 @@ class GithubViewPagerAdapter(
         return if (position == 0) {
             searchFragment = SearchFragment.newInstance()
             searchFragment.setContext(view)
-            searchFragment.setAdapter(listAdapter)
+//            searchFragment.setAdapter(listAdapter)
             searchFragment.setPagingAdapter(pagingAdapter)
 
             searchFragment
