@@ -16,3 +16,4 @@
 - Retrofit2
 - AAC ViewModel
 - Shimmer-android https://github.com/facebook/shimmer-android
+- Jetpack Paging
