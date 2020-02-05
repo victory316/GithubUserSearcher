@@ -1,6 +1,7 @@
 package com.example.answer.github.data.source.local
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.*
 import com.example.answer.github.data.GithubData
 
@@ -26,4 +27,7 @@ interface GithubDao {
 
     @Query("UPDATE github SET favorite = (:input) WHERE name = (:name)")
     fun updateColumn(input: Int, name: String)
+
+    @Query("SELECT * FROM github")
+    fun getAllPaged(): DataSource.Factory<Int, GithubData>
 }

@@ -11,8 +11,9 @@ import androidx.viewpager.widget.ViewPager
 import com.example.answer.R
 import com.example.answer.databinding.ActivityGithubBinding
 import com.example.answer.github.data.GithubData
-import com.example.answer.github.view.adapter.GithubListAdapter
-import com.example.answer.github.view.adapter.GithubViewPagerAdapter
+import com.example.answer.github.ui.GithubListAdapter
+import com.example.answer.github.ui.GithubViewPagerAdapter
+import com.example.answer.github.ui.PagingAdapter
 import com.example.answer.github.viewmodel.GithubViewModel
 import io.reactivex.disposables.Disposable
 
@@ -23,6 +24,7 @@ class GithubActivity : AppCompatActivity() {
     private lateinit var viewPagerAdapter: GithubViewPagerAdapter
     private lateinit var githubSearchAdapter: GithubListAdapter
     private lateinit var githubLikeAdapter: GithubListAdapter
+    private lateinit var pagingAdapter: PagingAdapter
     private var searchDisposable: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,15 +50,13 @@ class GithubActivity : AppCompatActivity() {
         val viewPager: ViewPager = findViewById(R.id.bottom_view_pager)
         viewPager.adapter = viewPagerAdapter
         binding.topTabLayout.setupWithViewPager(viewPager)
-
-
     }
 
     // ViewModel 설정
+    // TODO ViewModelProviders deprecated 해결
     private fun setupViewModel() {
         githubViewModel = ViewModelProviders.of(this).get(GithubViewModel::class.java)
         githubViewModel.deleteAll()
-
         githubSearchAdapter = GithubListAdapter()
         githubLikeAdapter = GithubListAdapter()
 
@@ -72,9 +72,22 @@ class GithubActivity : AppCompatActivity() {
         githubLikeAdapter.setViewModel(githubViewModel)
 
         viewPagerAdapter.setView(this)
-        viewPagerAdapter.setAdapter(githubSearchAdapter, githubLikeAdapter)
-
         githubViewModel.setViewPagerAdapter(viewPagerAdapter)
+        pagingAdapter = PagingAdapter(this)
+        pagingAdapter.setViewModel(githubViewModel)
+
+        viewPagerAdapter.setAdapter(githubSearchAdapter, githubLikeAdapter, pagingAdapter)
+
+        subscribeUi(pagingAdapter)
+    }
+
+    private fun subscribeUi(adapter: PagingAdapter) {
+        githubViewModel.getPersonsLiveData().observe(this, Observer { name ->
+
+            if (name != null) {
+                adapter.submitList(name)
+            }
+        })
     }
 
     override fun onDestroy() {

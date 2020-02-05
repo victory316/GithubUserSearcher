@@ -1,14 +1,20 @@
 package com.example.answer.github.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.example.answer.github.view.adapter.GithubViewPagerAdapter
+import androidx.paging.DataSource
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
+import com.example.answer.github.ui.GithubViewPagerAdapter
 import com.example.answer.github.data.GithubData
 import com.example.answer.github.data.GithubRepo
 import com.example.answer.github.data.source.GithubRepository
+import com.example.answer.github.data.source.local.GithubDatabase
 import com.example.answer.github.data.source.remote.GithubClient
+import com.example.answer.github.data.source.DataBoundaryCallback
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -22,19 +28,68 @@ class GithubViewModel(application: Application) : AndroidViewModel(application) 
 
     var doShimmerAnimation: ObservableBoolean = ObservableBoolean()
 
-    fun doSearch(){
-        val target = viewPagerAdapter.getText()
+    private var personsLiveData: LiveData<PagedList<GithubData>>
+    private var factory: DataSource.Factory<Int, GithubData> =
+        GithubDatabase.getInstance(application)!!.githubDao().getAllPaged()
 
-        viewPagerAdapter.clearText()
+    private var pageCount = 1
+
+    init {
+
+        val config = PagedList.Config.Builder()
+            .setInitialLoadSizeHint(10)
+            .setPageSize(10)
+            .setPrefetchDistance(5)
+            .build()
+
+        val boundaryCallback =
+            DataBoundaryCallback("", this)
+
+        val pagedListBuilder: LivePagedListBuilder<Int, GithubData> = LivePagedListBuilder<Int, GithubData>(factory,
+            config).setBoundaryCallback(boundaryCallback)
+
+        personsLiveData = pagedListBuilder.build()
+    }
+
+    private fun doOnNewSearch() {
+        pageCount = 1
+
+        val config = PagedList.Config.Builder()
+            .setInitialLoadSizeHint(10)
+            .setPageSize(10)
+            .setPrefetchDistance(5)
+            .build()
+
+        val boundaryCallback =
+            DataBoundaryCallback("", this)
+
+        val pagedListBuilder: LivePagedListBuilder<Int, GithubData> = LivePagedListBuilder<Int, GithubData>(factory,
+            config).setBoundaryCallback(boundaryCallback)
+
+        personsLiveData = pagedListBuilder.build()
+    }
+
+    fun getPersonsLiveData() = personsLiveData
+
+    fun doSearch(){
+
+        deleteAll()
+
+        val target = viewPagerAdapter.getText()
         doShimmerAnimation.set(true)
+
+        doOnNewSearch()
+
+        Log.d("test", "target : $target | $pageCount")
 
         // Gihub search query로 찾고자 하는 유저를 검색
         val searchDisposable = GithubClient()
-            .getApi().searchUser(target)
+            .getApi().searchUserForPage(target,pageCount, 30)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({ result ->
                 insertList(result.getUserList())
+//                personsLiveData
 
                 doShimmerAnimation.set(false)
 
@@ -45,8 +100,39 @@ class GithubViewModel(application: Application) : AndroidViewModel(application) 
                     doShimmerAnimation.set(false)
                 }
             })
+    }
 
-        deleteAll()
+    private var searchOnProgress = false
+
+    fun doSearchByPaging(){
+
+        if (!searchOnProgress) {
+            searchOnProgress = true
+            val target = viewPagerAdapter.getText()
+            doShimmerAnimation.set(true)
+
+            // Gihub search query로 찾고자 하는 유저를 검색
+            val searchDisposable = GithubClient()
+                .getApi().searchUserForPage(target,pageCount, 30)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ result ->
+                    insertList(result.getUserList())
+//                personsLiveData
+
+                    doShimmerAnimation.set(false)
+                    searchOnProgress = false
+                }, {
+                        error ->
+                    run {
+                        error.printStackTrace()
+                        doShimmerAnimation.set(false)
+                        searchOnProgress = false
+                    }
+                })
+
+            pageCount++
+        }
     }
 
     fun getAll(): LiveData<List<GithubData>> {

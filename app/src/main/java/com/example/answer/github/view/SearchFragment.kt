@@ -14,14 +14,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.answer.R
 import com.example.answer.databinding.FragmentSearchBinding
 import com.example.answer.github.viewmodel.GithubViewModel
-import com.example.answer.github.view.adapter.GithubListAdapter
+import com.example.answer.github.ui.PagingAdapter
 
 
 class SearchFragment : Fragment() {
     private var githubViewModel: GithubViewModel? = null
     private lateinit var binding: FragmentSearchBinding
     private lateinit var view: GithubActivity
-    private lateinit var adapter: GithubListAdapter
+//    private lateinit var adapter: GithubListAdapter
+    private lateinit var pagingAdapter: PagingAdapter
 
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +40,7 @@ class SearchFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
 
-        binding.searchRecyclerView.adapter = adapter
+        binding.searchRecyclerView.adapter = pagingAdapter
         binding.searchRecyclerView.layoutManager = roomDetailLayoutManager
         binding.searchRecyclerView.setHasFixedSize(true)
 
@@ -73,8 +74,12 @@ class SearchFragment : Fragment() {
         this.view = view
     }
 
-    fun setAdapter(adapter : GithubListAdapter) {
-        this.adapter = adapter
+//    fun setAdapter(adapter : GithubListAdapter) {
+//        this.adapter = adapter
+//    }
+
+    fun setPagingAdapter(adapter : PagingAdapter) {
+        this.pagingAdapter = adapter
     }
 
     fun getString() : String {
