@@ -15,5 +15,7 @@ class DataBoundaryCallback(
 
     override fun onItemAtEndLoaded(itemAtEnd: GithubData) {
         Log.d("pagingTest","onItemAtEndLoaded")
+
+        viewModel.doSearchByPaging()
     }
 }
