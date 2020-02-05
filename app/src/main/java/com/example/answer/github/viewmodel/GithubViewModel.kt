@@ -8,13 +8,13 @@ import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.example.answer.github.view.adapter.GithubViewPagerAdapter
+import com.example.answer.github.ui.GithubViewPagerAdapter
 import com.example.answer.github.data.GithubData
 import com.example.answer.github.data.GithubRepo
 import com.example.answer.github.data.source.GithubRepository
 import com.example.answer.github.data.source.local.GithubDatabase
 import com.example.answer.github.data.source.remote.GithubClient
-import com.example.answer.github.view.paging.DataBoundaryCallback
+import com.example.answer.github.data.source.DataBoundaryCallback
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 

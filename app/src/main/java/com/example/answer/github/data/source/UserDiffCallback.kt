@@ -1,4 +1,4 @@
-package com.example.answer.github.view.paging
+package com.example.answer.github.data.source
 
 import android.util.Log
 import androidx.recyclerview.widget.DiffUtil

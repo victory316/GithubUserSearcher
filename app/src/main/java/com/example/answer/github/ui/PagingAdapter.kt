@@ -1,14 +1,13 @@
-package com.example.answer.github.view.adapter
+package com.example.answer.github.ui
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.answer.databinding.GithubItemBinding
 import com.example.answer.github.data.GithubData
-import com.example.answer.github.view.paging.UserDiffCallback
+import com.example.answer.github.data.source.UserDiffCallback
 import com.example.answer.github.viewmodel.GithubViewModel
 
 class PagingAdapter(val context: Context) : PagedListAdapter<GithubData, PagingAdapter.PersonViewHolder>(
@@ -31,7 +30,10 @@ class PagingAdapter(val context: Context) : PagedListAdapter<GithubData, PagingA
         val binding = GithubItemBinding.inflate(
             LayoutInflater.from(parent.context), parent, false)
 
-        return PersonViewHolder(binding, viewModel)
+        return PersonViewHolder(
+            binding,
+            viewModel
+        )
     }
 
 

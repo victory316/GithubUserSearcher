@@ -1,4 +1,4 @@
-package com.example.answer.github.view.adapter
+package com.example.answer.github.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.answer.databinding.GithubItemBinding
 import com.example.answer.github.viewmodel.GithubViewModel
 import com.example.answer.github.data.GithubData
-import com.example.answer.github.view.GithubActivity
 
 /**
  *
@@ -23,7 +22,10 @@ class GithubListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val view = GithubItemBinding.inflate(
             LayoutInflater.from(parent.context), parent, false)
 
-        return ViewHolder(view, viewModel)
+        return ViewHolder(
+            view,
+            viewModel
+        )
     }
 
     override fun getItemCount(): Int {

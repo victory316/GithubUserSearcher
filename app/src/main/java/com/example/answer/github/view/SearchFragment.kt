@@ -14,8 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.answer.R
 import com.example.answer.databinding.FragmentSearchBinding
 import com.example.answer.github.viewmodel.GithubViewModel
-import com.example.answer.github.view.adapter.GithubListAdapter
-import com.example.answer.github.view.adapter.PagingAdapter
+import com.example.answer.github.ui.PagingAdapter
 
 
 class SearchFragment : Fragment() {

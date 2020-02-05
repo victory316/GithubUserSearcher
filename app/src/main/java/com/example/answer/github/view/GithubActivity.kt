@@ -3,7 +3,6 @@ package com.example.answer.github.view
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -12,9 +11,9 @@ import androidx.viewpager.widget.ViewPager
 import com.example.answer.R
 import com.example.answer.databinding.ActivityGithubBinding
 import com.example.answer.github.data.GithubData
-import com.example.answer.github.view.adapter.GithubListAdapter
-import com.example.answer.github.view.adapter.GithubViewPagerAdapter
-import com.example.answer.github.view.adapter.PagingAdapter
+import com.example.answer.github.ui.GithubListAdapter
+import com.example.answer.github.ui.GithubViewPagerAdapter
+import com.example.answer.github.ui.PagingAdapter
 import com.example.answer.github.viewmodel.GithubViewModel
 import io.reactivex.disposables.Disposable
 
