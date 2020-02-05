@@ -73,13 +73,9 @@ class GithubActivity : AppCompatActivity() {
         githubLikeAdapter.setViewModel(githubViewModel)
 
         viewPagerAdapter.setView(this)
-//        viewPagerAdapter.setAdapter(githubSearchAdapter, githubLikeAdapter)
-
         githubViewModel.setViewPagerAdapter(viewPagerAdapter)
-
-
         pagingAdapter = PagingAdapter(this)
-
+        pagingAdapter.setViewModel(githubViewModel)
 
         viewPagerAdapter.setAdapter(githubSearchAdapter, githubLikeAdapter, pagingAdapter)
 
@@ -89,14 +85,8 @@ class GithubActivity : AppCompatActivity() {
     private fun subscribeUi(adapter: PagingAdapter) {
         githubViewModel.getPersonsLiveData().observe(this, Observer { name ->
 
-            Log.d("pagingTest", "observing")
             if (name != null) {
-
-                Log.d("pagingTest", "submitting : $name")
                 adapter.submitList(name)
-            } else {
-
-                Log.d("pagingTest", "observing")
             }
         })
     }

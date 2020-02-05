@@ -1,4 +1,4 @@
-package com.example.answer.github.view
+package com.example.answer.github.view.paging
 
 import android.util.Log
 import androidx.paging.PagedList
@@ -14,8 +14,6 @@ class DataBoundaryCallback(
     }
 
     override fun onItemAtEndLoaded(itemAtEnd: GithubData) {
-        Log.d("pagingTest","onItemAtEndLoaded")
-
         viewModel.doSearchByPaging()
     }
 }

@@ -8,21 +8,21 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.answer.databinding.GithubItemBinding
 import com.example.answer.github.data.GithubData
-import com.example.answer.github.view.UserDiffCallback
+import com.example.answer.github.view.paging.UserDiffCallback
+import com.example.answer.github.viewmodel.GithubViewModel
 
 class PagingAdapter(val context: Context) : PagedListAdapter<GithubData, PagingAdapter.PersonViewHolder>(
     UserDiffCallback()
 ) {
 
+    private lateinit var viewModel: GithubViewModel
+
     override fun onBindViewHolder(holderPerson: PersonViewHolder, position: Int) {
         val person = getItem(position)
 
         if (person == null) {
-            Log.d("pagingTest", "is null")
             holderPerson.clear()
         } else {
-
-            Log.d("pagingTest", "is not null. binding.")
             holderPerson.bind(person)
         }
     }
@@ -31,12 +31,13 @@ class PagingAdapter(val context: Context) : PagedListAdapter<GithubData, PagingA
         val binding = GithubItemBinding.inflate(
             LayoutInflater.from(parent.context), parent, false)
 
-        return PersonViewHolder(binding)
+        return PersonViewHolder(binding, viewModel)
     }
 
 
     class PersonViewHolder (
-        private val binding: GithubItemBinding
+        private val binding: GithubItemBinding,
+        private val viewModel: GithubViewModel
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(person: GithubData) {
@@ -44,6 +45,15 @@ class PagingAdapter(val context: Context) : PagedListAdapter<GithubData, PagingA
             binding.favorite = person.favorite
             binding.imageUrl = person.avatar_url
             binding.score.text = person.score.toString()
+            binding.favoriteIcon.setOnClickListener {
+                if (person.favorite == 0) {
+                    viewModel.updateList(1, person.name)
+                    binding.favorite = 1
+                } else {
+                    viewModel.updateList(0, person.name)
+                    binding.favorite = 0
+                }
+            }
         }
 
         fun clear() {
@@ -52,5 +62,9 @@ class PagingAdapter(val context: Context) : PagedListAdapter<GithubData, PagingA
             binding.imageUrl = null
             binding.score.text = null
         }
+    }
+
+    fun setViewModel(viewModel: GithubViewModel) {
+        this.viewModel = viewModel
     }
 }
