@@ -32,9 +32,13 @@ class LikeFragment : Fragment() {
         val roomDetailLayoutManager = LinearLayoutManager(view)
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_like, container, false)
+        binding.apply {
+            lifecycleOwner = viewLifecycleOwner
+        }
         binding.searchRecyclerView.adapter = GithubListAdapter().apply {
             setViewModel(githubViewModel)
         }
+
         binding.searchRecyclerView.layoutManager = roomDetailLayoutManager
         binding.searchRecyclerView.setHasFixedSize(true)
 

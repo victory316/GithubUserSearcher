@@ -1,6 +1,7 @@
 package com.example.answer.github.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,9 +40,15 @@ class SearchFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
 
-        binding.searchRecyclerView.adapter = pagingAdapter
-        binding.searchRecyclerView.layoutManager = roomDetailLayoutManager
-        binding.searchRecyclerView.setHasFixedSize(true)
+        binding.apply {
+            Log.d("test", "viewModel : ${githubViewModel.hashCode()}")
+
+            viewModel = githubViewModel
+            lifecycleOwner = viewLifecycleOwner
+            searchRecyclerView.adapter = pagingAdapter
+            searchRecyclerView.layoutManager = roomDetailLayoutManager
+            searchRecyclerView.setHasFixedSize(true)
+        }
 
         githubViewModel.doShimmerAnimation.addOnPropertyChangedCallback( object: Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
@@ -56,13 +63,6 @@ class SearchFragment : Fragment() {
         })
 
         return binding.root
-    }
-
-    override fun onViewCreated(@NonNull view: View, @Nullable savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.lifecycleOwner = this // 해제될 수 있음. viewlifecycleowner
-        binding.viewModel = githubViewModel
     }
 
     fun clearText() {

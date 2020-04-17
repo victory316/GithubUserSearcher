@@ -1,11 +1,11 @@
 package com.example.answer.github.viewmodel
 
 import android.util.Log
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
 import androidx.databinding.ObservableBoolean
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
+import androidx.databinding.ObservableField
+import androidx.lifecycle.*
 import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
@@ -35,9 +35,11 @@ class GithubViewModel internal constructor(
 
     private var pageCount = 1
 
-    val _searchString = MutableLiveData<String>()
+    var _searchString = MutableLiveData<String>()
     val searchString: LiveData<String>
         get() = _searchString
+
+    val testString: ObservableField<String> = ObservableField()
 
     init {
 
@@ -50,8 +52,11 @@ class GithubViewModel internal constructor(
         val boundaryCallback =
             DataBoundaryCallback("", this)
 
-        val pagedListBuilder: LivePagedListBuilder<Int, GithubData> = LivePagedListBuilder<Int, GithubData>(factory,
-            config).setBoundaryCallback(boundaryCallback)
+        val pagedListBuilder: LivePagedListBuilder<Int, GithubData> =
+            LivePagedListBuilder<Int, GithubData>(
+                factory,
+                config
+            ).setBoundaryCallback(boundaryCallback)
 
         personsLiveData = pagedListBuilder.build()
     }
@@ -68,15 +73,20 @@ class GithubViewModel internal constructor(
         val boundaryCallback =
             DataBoundaryCallback("", this)
 
-        val pagedListBuilder: LivePagedListBuilder<Int, GithubData> = LivePagedListBuilder<Int, GithubData>(factory,
-            config).setBoundaryCallback(boundaryCallback)
+        val pagedListBuilder: LivePagedListBuilder<Int, GithubData> =
+            LivePagedListBuilder<Int, GithubData>(
+                factory,
+                config
+            ).setBoundaryCallback(boundaryCallback)
 
         personsLiveData = pagedListBuilder.build()
     }
 
     fun getPersonsLiveData() = personsLiveData
 
-    fun doSearch(){
+    fun doSearch() {
+
+        Log.d("test", "viewModel : ${this.hashCode()}")
 
         deleteAll()
 
@@ -85,11 +95,14 @@ class GithubViewModel internal constructor(
 
         doOnNewSearch()
 
-        Log.d("test", "target : ${searchString} | $pageCount")
+        Log.d("test","input : ${testString.get()}")
+
+//        Log.d("test", "target : ${getQueryString()} | $pageCount")
+
 
         // Gihub search query로 찾고자 하는 유저를 검색
         val searchDisposable = GithubClient()
-            .getApi().searchUserForPage(searchString.toString() ,pageCount, 30)
+            .getApi().searchUserForPage(" ", pageCount, 30)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({ result ->
@@ -98,8 +111,7 @@ class GithubViewModel internal constructor(
 
                 doShimmerAnimation.set(false)
 
-            }, {
-                    error ->
+            }, { error ->
                 run {
                     error.printStackTrace()
                     doShimmerAnimation.set(false)
@@ -109,18 +121,16 @@ class GithubViewModel internal constructor(
 
     private var searchOnProgress = false
 
-    fun doSearchByPaging(){
+    fun doSearchByPaging() {
 
         if (!searchOnProgress) {
             searchOnProgress = true
 //            val target = viewPagerAdapter.getText()
             doShimmerAnimation.set(true)
 
-            Log.d("test", "target : $searchString | $pageCount")
-
             // Gihub search query로 찾고자 하는 유저를 검색
             val searchDisposable = GithubClient()
-                .getApi().searchUserForPage(searchString.toString() ,pageCount, 30)
+                .getApi().searchUserForPage("", pageCount, 30)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ result ->
@@ -129,8 +139,7 @@ class GithubViewModel internal constructor(
 
                     doShimmerAnimation.set(false)
                     searchOnProgress = false
-                }, {
-                        error ->
+                }, { error ->
                     run {
                         error.printStackTrace()
                         doShimmerAnimation.set(false)
