@@ -2,6 +2,7 @@ package com.example.answer.github.data.source
 
 import android.app.Application
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import com.example.answer.github.data.source.local.GithubDao
 import com.example.answer.github.data.GithubData
 import com.example.answer.github.data.source.local.GithubDatabase
@@ -11,16 +12,19 @@ class GithubRepository(application: Application) {
     private val githubDatabase = GithubDatabase.getInstance(
         application
     )!!
+
     private val githubDao: GithubDao = githubDatabase.githubDao()
-    private val githubData: LiveData<List<GithubData>> = githubDao.getAll()
-    private val favoriteData: LiveData<List<GithubData>> = githubDao.getAllFavorites()
 
     fun getAll(): LiveData<List<GithubData>> {
-        return githubData
+        return githubDatabase.githubDao().getAll()
     }
 
     fun getAllFavorites(): LiveData<List<GithubData>> {
-        return favoriteData
+        return githubDatabase.githubDao().getAllFavorites()
+    }
+
+    fun getAllPaged(): DataSource.Factory<Int, GithubData> {
+        return githubDatabase.githubDao().getAllPaged()
     }
 
     fun insert(githubData: GithubData) {
