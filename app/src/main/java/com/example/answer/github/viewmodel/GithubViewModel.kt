@@ -1,9 +1,9 @@
 package com.example.answer.github.viewmodel
 
-import android.app.Application
 import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.paging.DataSource
@@ -13,7 +13,6 @@ import com.example.answer.github.ui.GithubViewPagerAdapter
 import com.example.answer.github.data.GithubData
 import com.example.answer.github.data.GithubRepo
 import com.example.answer.github.data.source.GithubRepository
-import com.example.answer.github.data.source.local.GithubDatabase
 import com.example.answer.github.data.source.remote.GithubClient
 import com.example.answer.github.data.source.DataBoundaryCallback
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -26,7 +25,7 @@ class GithubViewModel internal constructor(
 
     private val contacts = repository.getAll()
     private val favorites = repository.getAllFavorites()
-    private lateinit var viewPagerAdapter: GithubViewPagerAdapter
+//    private lateinit var viewPagerAdapter: GithubViewPagerAdapter
 
     var doShimmerAnimation: ObservableBoolean = ObservableBoolean()
 
@@ -35,6 +34,10 @@ class GithubViewModel internal constructor(
         repository.getAllPaged()
 
     private var pageCount = 1
+
+    val _searchString = MutableLiveData<String>()
+    val searchString: LiveData<String>
+        get() = _searchString
 
     init {
 
@@ -77,16 +80,16 @@ class GithubViewModel internal constructor(
 
         deleteAll()
 
-        val target = viewPagerAdapter.getText()
+//        val target = viewPagerAdapter.getText()
         doShimmerAnimation.set(true)
 
         doOnNewSearch()
 
-        Log.d("test", "target : $target | $pageCount")
+        Log.d("test", "target : ${searchString} | $pageCount")
 
         // Gihub search query로 찾고자 하는 유저를 검색
         val searchDisposable = GithubClient()
-            .getApi().searchUserForPage(target,pageCount, 30)
+            .getApi().searchUserForPage(searchString.toString() ,pageCount, 30)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({ result ->
@@ -110,12 +113,14 @@ class GithubViewModel internal constructor(
 
         if (!searchOnProgress) {
             searchOnProgress = true
-            val target = viewPagerAdapter.getText()
+//            val target = viewPagerAdapter.getText()
             doShimmerAnimation.set(true)
+
+            Log.d("test", "target : $searchString | $pageCount")
 
             // Gihub search query로 찾고자 하는 유저를 검색
             val searchDisposable = GithubClient()
-                .getApi().searchUserForPage(target,pageCount, 30)
+                .getApi().searchUserForPage(searchString.toString() ,pageCount, 30)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ result ->
@@ -166,11 +171,11 @@ class GithubViewModel internal constructor(
     }
 
     fun clearText() {
-        viewPagerAdapter.clearText()
+//        viewPagerAdapter.clearText()
     }
 
     fun setViewPagerAdapter(adapter: GithubViewPagerAdapter) {
-        viewPagerAdapter = adapter
+//        viewPagerAdapter = adapter
     }
 
     fun delete(contact: GithubData) {

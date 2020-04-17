@@ -3,8 +3,10 @@ package com.example.answer.github.view
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
@@ -14,13 +16,13 @@ import com.example.answer.github.data.GithubData
 import com.example.answer.github.ui.GithubListAdapter
 import com.example.answer.github.ui.GithubViewPagerAdapter
 import com.example.answer.github.ui.PagingAdapter
+import com.example.answer.github.util.InjectorUtils
 import com.example.answer.github.viewmodel.GithubViewModel
 import io.reactivex.disposables.Disposable
 
 class GithubActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityGithubBinding
-    private lateinit var githubViewModel: GithubViewModel
+    private lateinit var binding: ActivityGithubBinding
     private lateinit var viewPagerAdapter: GithubViewPagerAdapter
     private lateinit var githubSearchAdapter: GithubListAdapter
     private lateinit var githubLikeAdapter: GithubListAdapter
@@ -35,6 +37,7 @@ class GithubActivity : AppCompatActivity() {
         setupView()
         setupViewModel()
     }
+
 
     // View 설정
     private fun setupView() {
@@ -55,43 +58,41 @@ class GithubActivity : AppCompatActivity() {
     // ViewModel 설정
     // TODO ViewModelProviders deprecated 해결
     private fun setupViewModel() {
-//        githubViewModel = ViewModelProviders.of(this).get(GithubViewModel::class.java)
-        githubViewModel.deleteAll()
         githubSearchAdapter = GithubListAdapter()
         githubLikeAdapter = GithubListAdapter()
 
-        githubViewModel.getAll().observe(this, Observer<List<GithubData>> { githubData ->
-            githubSearchAdapter.setContacts(githubData!!)
-        })
+//        githubViewModel.getAll().observe(this, Observer<List<GithubData>> { githubData ->
+//            githubSearchAdapter.setContacts(githubData!!)
+//        })
+//
+//        githubViewModel.getAllFavorites().observe(this, Observer<List<GithubData>> { githubData ->
+//            githubLikeAdapter.setContacts(githubData!!)
+//        })
 
-        githubViewModel.getAllFavorites().observe(this, Observer<List<GithubData>> { githubData ->
-            githubLikeAdapter.setContacts(githubData!!)
-        })
-
-        githubSearchAdapter.setViewModel(githubViewModel)
-        githubLikeAdapter.setViewModel(githubViewModel)
+//        githubSearchAdapter.setViewModel(githubViewModel)
+//        githubLikeAdapter.setViewModel(githubViewModel)
 
         viewPagerAdapter.setView(this)
-        githubViewModel.setViewPagerAdapter(viewPagerAdapter)
+//        githubViewModel.setViewPagerAdapter(viewPagerAdapter)
         pagingAdapter = PagingAdapter(this)
-        pagingAdapter.setViewModel(githubViewModel)
+//        pagingAdapter.setViewModel(githubViewModel)
 
         viewPagerAdapter.setAdapter(githubSearchAdapter, githubLikeAdapter, pagingAdapter)
 
-        subscribeUi(pagingAdapter)
+//        subscribeUi(pagingAdapter)
     }
 
-    private fun subscribeUi(adapter: PagingAdapter) {
-        githubViewModel.getPersonsLiveData().observe(this, Observer { name ->
-
-            if (name != null) {
-                adapter.submitList(name)
-            }
-        })
-    }
+//    private fun subscribeUi(adapter: PagingAdapter) {
+//        githubViewModel.getPersonsLiveData().observe(this, Observer { name ->
+//
+//            if (name != null) {
+//                adapter.submitList(name)
+//            }
+//        })
+//    }
 
     override fun onDestroy() {
-        githubViewModel.deleteAll()
+//        githubViewModel.deleteAll()
         searchDisposable?.dispose()
 
         super.onDestroy()

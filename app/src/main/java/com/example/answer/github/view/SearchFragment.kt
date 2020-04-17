@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.Observable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.answer.R
@@ -29,11 +30,6 @@ class SearchFragment : Fragment() {
         InjectorUtils.proviedGithubViewModel(this)
     }
 
-    override fun onCreate(@Nullable savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,9 +43,9 @@ class SearchFragment : Fragment() {
         binding.searchRecyclerView.layoutManager = roomDetailLayoutManager
         binding.searchRecyclerView.setHasFixedSize(true)
 
-        githubViewModel!!.doShimmerAnimation.addOnPropertyChangedCallback( object: Observable.OnPropertyChangedCallback() {
+        githubViewModel.doShimmerAnimation.addOnPropertyChangedCallback( object: Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                if (githubViewModel!!.doShimmerAnimation.get()) {
+                if (githubViewModel.doShimmerAnimation.get()) {
                     binding.shimmerViewContainer.startShimmer()
                     binding.shimmerViewContainer.visibility = View.VISIBLE
                 } else {
@@ -70,7 +66,7 @@ class SearchFragment : Fragment() {
     }
 
     fun clearText() {
-        binding.searchEditText.text.clear()
+//        binding.searchEditText.text.clear()
     }
 
     fun setContext(view: GithubActivity){
@@ -87,6 +83,15 @@ class SearchFragment : Fragment() {
 
     fun getString() : String {
         return binding.searchEditText.text.toString()
+    }
+
+    private fun subscribeUi(adapter: PagingAdapter) {
+        githubViewModel.getPersonsLiveData().observe(this, Observer { name ->
+
+            if (name != null) {
+                adapter.submitList(name)
+            }
+        })
     }
 
     companion object {
