@@ -9,26 +9,29 @@ import androidx.annotation.Nullable
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.Observable
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.answer.R
 import com.example.answer.databinding.FragmentSearchBinding
 import com.example.answer.github.viewmodel.GithubViewModel
 import com.example.answer.github.ui.PagingAdapter
+import com.example.answer.github.util.InjectorUtils
 
 
 class SearchFragment : Fragment() {
-    private var githubViewModel: GithubViewModel? = null
     private lateinit var binding: FragmentSearchBinding
     private lateinit var view: GithubActivity
 //    private lateinit var adapter: GithubListAdapter
     private lateinit var pagingAdapter: PagingAdapter
 
+    private val githubViewModel: GithubViewModel by viewModels {
+        InjectorUtils.proviedGithubViewModel(this)
+    }
+
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        githubViewModel =
-            ViewModelProviders.of(requireActivity()).get(GithubViewModel::class.java)
     }
 
     override fun onCreateView(

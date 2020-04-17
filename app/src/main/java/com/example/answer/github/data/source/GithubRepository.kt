@@ -7,30 +7,24 @@ import com.example.answer.github.data.source.local.GithubDao
 import com.example.answer.github.data.GithubData
 import com.example.answer.github.data.source.local.GithubDatabase
 
-class GithubRepository(application: Application) {
-
-    private val githubDatabase = GithubDatabase.getInstance(
-        application
-    )!!
-
-    private val githubDao: GithubDao = githubDatabase.githubDao()
+class GithubRepository private constructor(private val dao: GithubDao) {
 
     fun getAll(): LiveData<List<GithubData>> {
-        return githubDatabase.githubDao().getAll()
+        return dao.getAll()
     }
 
     fun getAllFavorites(): LiveData<List<GithubData>> {
-        return githubDatabase.githubDao().getAllFavorites()
+        return dao.getAllFavorites()
     }
 
     fun getAllPaged(): DataSource.Factory<Int, GithubData> {
-        return githubDatabase.githubDao().getAllPaged()
+        return dao.getAllPaged()
     }
 
     fun insert(githubData: GithubData) {
         try {
             val thread = Thread(Runnable {
-                githubDao.insert(githubData) })
+                dao.insert(githubData) })
             thread.start()
         } catch (e: Exception) { }
     }
@@ -38,7 +32,7 @@ class GithubRepository(application: Application) {
     fun delete(githubData: GithubData) {
         try {
             val thread = Thread(Runnable {
-                githubDao.delete(githubData)
+                dao.delete(githubData)
             })
             thread.start()
         } catch (e: Exception) { }
@@ -47,7 +41,7 @@ class GithubRepository(application: Application) {
     fun update(input: Int, name: String) {
         try {
             val thread = Thread(Runnable {
-                githubDao.updateColumn(input, name)
+                dao.updateColumn(input, name)
             })
             thread.start()
         } catch (e: Exception) { }
@@ -56,9 +50,20 @@ class GithubRepository(application: Application) {
     fun deleteAll() {
         try {
             val thread = Thread(Runnable {
-                githubDao.deleteAll()
+                dao.deleteAll()
             })
             thread.start()
         } catch (e: Exception) { }
+    }
+
+    companion object {
+
+        @Volatile
+        private var instance: GithubRepository? = null
+
+        fun getInstance(dao: GithubDao) =
+            instance ?: synchronized(this) {
+                instance ?: GithubRepository(dao).also { instance = it }
+            }
     }
 }

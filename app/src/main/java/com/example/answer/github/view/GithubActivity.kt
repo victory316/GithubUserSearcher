@@ -55,7 +55,7 @@ class GithubActivity : AppCompatActivity() {
     // ViewModel 설정
     // TODO ViewModelProviders deprecated 해결
     private fun setupViewModel() {
-        githubViewModel = ViewModelProviders.of(this).get(GithubViewModel::class.java)
+//        githubViewModel = ViewModelProviders.of(this).get(GithubViewModel::class.java)
         githubViewModel.deleteAll()
         githubSearchAdapter = GithubListAdapter()
         githubLikeAdapter = GithubListAdapter()

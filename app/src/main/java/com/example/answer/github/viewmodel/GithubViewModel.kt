@@ -3,8 +3,9 @@ package com.example.answer.github.viewmodel
 import android.app.Application
 import android.util.Log
 import androidx.databinding.ObservableBoolean
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
 import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
@@ -18,10 +19,11 @@ import com.example.answer.github.data.source.DataBoundaryCallback
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class GithubViewModel(application: Application) : AndroidViewModel(application) {
+class GithubViewModel internal constructor(
+    private val repository: GithubRepository,
+    private val savedStateHandle: SavedStateHandle
+) : ViewModel() {
 
-    private val repository =
-        GithubRepository(application)
     private val contacts = repository.getAll()
     private val favorites = repository.getAllFavorites()
     private lateinit var viewPagerAdapter: GithubViewPagerAdapter
@@ -30,7 +32,7 @@ class GithubViewModel(application: Application) : AndroidViewModel(application) 
 
     private var personsLiveData: LiveData<PagedList<GithubData>>
     private var factory: DataSource.Factory<Int, GithubData> =
-        GithubDatabase.getInstance(application)!!.githubDao().getAllPaged()
+        repository.getAllPaged()
 
     private var pageCount = 1
 
