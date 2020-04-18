@@ -1,6 +1,8 @@
 package com.example.answer.github.viewmodel
 
 import android.util.Log
+import android.view.View
+import android.widget.EditText
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableBoolean
@@ -39,7 +41,7 @@ class GithubViewModel internal constructor(
     val searchString: LiveData<String>
         get() = _searchString
 
-    val testString: ObservableField<String> = ObservableField()
+    val testString = ObservableField<String>()
 
     init {
 
@@ -86,23 +88,15 @@ class GithubViewModel internal constructor(
 
     fun doSearch() {
 
-        Log.d("test", "viewModel : ${this.hashCode()}")
-
         deleteAll()
 
-//        val target = viewPagerAdapter.getText()
         doShimmerAnimation.set(true)
 
         doOnNewSearch()
 
-        Log.d("test","input : ${testString.get()}")
-
-//        Log.d("test", "target : ${getQueryString()} | $pageCount")
-
-
         // Gihub search query로 찾고자 하는 유저를 검색
         val searchDisposable = GithubClient()
-            .getApi().searchUserForPage(" ", pageCount, 30)
+            .getApi().searchUserForPage(searchString.value!!, pageCount, 30)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({ result ->

@@ -26,6 +26,7 @@ object BindingAdapters {
             imm.hideSoftInputFromWindow(view.windowToken, 0)
 
             viewModel.doSearch()
+//            viewModel.getStringFromEditText(view)
         }
     }
 
@@ -37,7 +38,6 @@ object BindingAdapters {
             Glide.with(view.context)
                 .load(imageUrl)
                 .placeholder(ContextCompat.getDrawable(view.context, R.drawable.pending_profile_image))
-                .crossFade()
                 .into(view)
         }
     }
