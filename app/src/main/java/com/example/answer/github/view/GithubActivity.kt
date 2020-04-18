@@ -38,7 +38,6 @@ class GithubActivity : AppCompatActivity() {
         setupViewModel()
     }
 
-
     // View 설정
     private fun setupView() {
         // 기기의 statusBar 색상을 디자인 시안에 맞게 변경
@@ -50,6 +49,7 @@ class GithubActivity : AppCompatActivity() {
             GithubViewPagerAdapter(
                 supportFragmentManager
             )
+
         val viewPager: ViewPager = findViewById(R.id.bottom_view_pager)
         viewPager.adapter = viewPagerAdapter
         binding.topTabLayout.setupWithViewPager(viewPager)
@@ -61,35 +61,11 @@ class GithubActivity : AppCompatActivity() {
         githubSearchAdapter = GithubListAdapter()
         githubLikeAdapter = GithubListAdapter()
 
-//        githubViewModel.getAll().observe(this, Observer<List<GithubData>> { githubData ->
-//            githubSearchAdapter.setContacts(githubData!!)
-//        })
-//
-//        githubViewModel.getAllFavorites().observe(this, Observer<List<GithubData>> { githubData ->
-//            githubLikeAdapter.setContacts(githubData!!)
-//        })
-
-//        githubSearchAdapter.setViewModel(githubViewModel)
-//        githubLikeAdapter.setViewModel(githubViewModel)
-
         viewPagerAdapter.setView(this)
-//        githubViewModel.setViewPagerAdapter(viewPagerAdapter)
         pagingAdapter = PagingAdapter(this)
-//        pagingAdapter.setViewModel(githubViewModel)
 
-        viewPagerAdapter.setAdapter(githubSearchAdapter, githubLikeAdapter, pagingAdapter)
-
-//        subscribeUi(pagingAdapter)
+//        viewPagerAdapter.setAdapter(githubSearchAdapter, githubLikeAdapter, pagingAdapter)
     }
-
-//    private fun subscribeUi(adapter: PagingAdapter) {
-//        githubViewModel.getPersonsLiveData().observe(this, Observer { name ->
-//
-//            if (name != null) {
-//                adapter.submitList(name)
-//            }
-//        })
-//    }
 
     override fun onDestroy() {
 //        githubViewModel.deleteAll()

@@ -40,6 +40,11 @@ class SearchFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
 
+
+        pagingAdapter = PagingAdapter(requireContext()).apply {
+            setViewModel(githubViewModel)
+        }
+
         binding.apply {
             Log.d("test", "viewModel : ${githubViewModel.hashCode()}")
 
@@ -62,11 +67,13 @@ class SearchFragment : Fragment() {
             }
         })
 
+        subscribeUi(pagingAdapter)
+
         return binding.root
     }
 
     fun clearText() {
-//        binding.searchEditText.text.clear()
+        binding.searchEditText.text.clear()
     }
 
     fun setContext(view: GithubActivity){
@@ -86,13 +93,16 @@ class SearchFragment : Fragment() {
     }
 
     private fun subscribeUi(adapter: PagingAdapter) {
-        githubViewModel.getPersonsLiveData().observe(this, Observer { name ->
+        githubViewModel.getPersonsLiveData().observe(viewLifecycleOwner, Observer { name ->
+
+            Log.d("test", "observing result : $name")
 
             if (name != null) {
                 adapter.submitList(name)
             }
         })
     }
+
 
     companion object {
         fun newInstance(): SearchFragment {

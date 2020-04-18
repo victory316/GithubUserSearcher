@@ -166,6 +166,8 @@ class GithubViewModel internal constructor(
                 0
             )
             repository.insert(githubData)
+
+            Log.d("test", "inserting list")
         }
     }
 

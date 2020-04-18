@@ -1,6 +1,7 @@
 package com.example.answer.github.ui
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
@@ -43,6 +44,8 @@ class PagingAdapter(val context: Context) : PagedListAdapter<GithubData, PagingA
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(person: GithubData) {
+            Log.d("test", "binding $person")
+
             binding.userName.text = person.name
             binding.favorite = person.favorite
             binding.imageUrl = person.avatar_url

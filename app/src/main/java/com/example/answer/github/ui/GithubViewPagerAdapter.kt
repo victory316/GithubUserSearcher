@@ -17,9 +17,9 @@ class GithubViewPagerAdapter(
 ) :
     FragmentPagerAdapter(fm!!) {
     private lateinit var view: GithubActivity
-    private lateinit var listAdapter: GithubListAdapter
+//    private lateinit var listAdapter: GithubListAdapter
     private lateinit var likeAdapter: GithubListAdapter
-    private lateinit var pagingAdapter: PagingAdapter
+//    private lateinit var pagingAdapter: PagingAdapter
     private lateinit var searchFragment: SearchFragment
     private lateinit var likeFragment: LikeFragment
 
@@ -28,13 +28,13 @@ class GithubViewPagerAdapter(
             searchFragment = SearchFragment.newInstance()
             searchFragment.setContext(view)
 //            searchFragment.setAdapter(listAdapter)
-            searchFragment.setPagingAdapter(pagingAdapter)
+//            searchFragment.setPagingAdapter(pagingAdapter)
 
             searchFragment
         } else {
             likeFragment = LikeFragment.newInstance()
             likeFragment.setContext(view)
-            likeFragment.setAdapter(likeAdapter)
+//            likeFragment.setAdapter(likeAdapter)
 
             likeFragment
         }
@@ -63,11 +63,5 @@ class GithubViewPagerAdapter(
 
     fun getText(): String {
         return searchFragment.getString()
-    }
-
-    fun setAdapter(listAdapter: GithubListAdapter, likeAdapter: GithubListAdapter, pagingAdapter: PagingAdapter) {
-        this.listAdapter = listAdapter
-        this.likeAdapter = likeAdapter
-        this.pagingAdapter = pagingAdapter
     }
 }
