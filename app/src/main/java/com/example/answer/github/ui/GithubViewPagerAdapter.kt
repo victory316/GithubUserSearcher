@@ -15,28 +15,14 @@ import com.example.answer.github.viewmodel.GithubViewModel
 class GithubViewPagerAdapter(
     fm: FragmentManager?
 ) :
-    FragmentPagerAdapter(fm!!) {
+    FragmentPagerAdapter(fm!!, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
     private lateinit var view: GithubActivity
-//    private lateinit var listAdapter: GithubListAdapter
-    private lateinit var likeAdapter: GithubListAdapter
-//    private lateinit var pagingAdapter: PagingAdapter
-    private lateinit var searchFragment: SearchFragment
-    private lateinit var likeFragment: LikeFragment
 
     override fun getItem(position: Int): Fragment {
         return if (position == 0) {
-            searchFragment = SearchFragment.newInstance()
-            searchFragment.setContext(view)
-//            searchFragment.setAdapter(listAdapter)
-//            searchFragment.setPagingAdapter(pagingAdapter)
-
-            searchFragment
+            SearchFragment.newInstance()
         } else {
-            likeFragment = LikeFragment.newInstance()
-            likeFragment.setContext(view)
-//            likeFragment.setAdapter(likeAdapter)
-
-            likeFragment
+            LikeFragment.newInstance()
         }
     }
 
@@ -53,15 +39,7 @@ class GithubViewPagerAdapter(
         return 2
     }
 
-    fun clearText() {
-        searchFragment.clearText()
-    }
-
     fun setView(input: GithubActivity) {
         view = input
-    }
-
-    fun getText(): String {
-        return searchFragment.getString()
     }
 }

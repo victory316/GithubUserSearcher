@@ -29,7 +29,7 @@ class LikeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val roomDetailLayoutManager = LinearLayoutManager(view)
+        val roomDetailLayoutManager = LinearLayoutManager(activity)
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_like, container, false)
         binding.apply {

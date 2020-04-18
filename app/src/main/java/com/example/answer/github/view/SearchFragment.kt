@@ -23,8 +23,6 @@ import com.example.answer.github.util.InjectorUtils
 
 class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
-    private lateinit var view: GithubActivity
-//    private lateinit var adapter: GithubListAdapter
     private lateinit var pagingAdapter: PagingAdapter
 
     private val githubViewModel: GithubViewModel by viewModels {
@@ -36,7 +34,7 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val roomDetailLayoutManager = LinearLayoutManager(view)
+        val roomDetailLayoutManager = LinearLayoutManager(activity)
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
 
@@ -70,26 +68,6 @@ class SearchFragment : Fragment() {
         subscribeUi(pagingAdapter)
 
         return binding.root
-    }
-
-    fun clearText() {
-        binding.searchEditText.text.clear()
-    }
-
-    fun setContext(view: GithubActivity){
-        this.view = view
-    }
-
-//    fun setAdapter(adapter : GithubListAdapter) {
-//        this.adapter = adapter
-//    }
-
-    fun setPagingAdapter(adapter : PagingAdapter) {
-        this.pagingAdapter = adapter
-    }
-
-    fun getString() : String {
-        return binding.searchEditText.text.toString()
     }
 
     private fun subscribeUi(adapter: PagingAdapter) {

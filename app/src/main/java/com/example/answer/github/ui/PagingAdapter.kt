@@ -44,8 +44,6 @@ class PagingAdapter(val context: Context) : PagedListAdapter<GithubData, PagingA
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(person: GithubData) {
-            Log.d("test", "binding $person")
-
             binding.userName.text = person.name
             binding.favorite = person.favorite
             binding.imageUrl = person.avatar_url

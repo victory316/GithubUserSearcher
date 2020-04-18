@@ -45,6 +45,9 @@ class GithubViewModel internal constructor(
 
     init {
 
+        // 실행 시점에서의 DB 초기화
+        repository.deleteAll()
+
         val config = PagedList.Config.Builder()
             .setInitialLoadSizeHint(10)
             .setPageSize(10)
@@ -166,8 +169,6 @@ class GithubViewModel internal constructor(
                 0
             )
             repository.insert(githubData)
-
-            Log.d("test", "inserting list")
         }
     }
 
@@ -176,11 +177,7 @@ class GithubViewModel internal constructor(
     }
 
     fun clearText() {
-//        viewPagerAdapter.clearText()
-    }
-
-    fun setViewPagerAdapter(adapter: GithubViewPagerAdapter) {
-//        viewPagerAdapter = adapter
+        _searchString.postValue("")
     }
 
     fun delete(contact: GithubData) {

@@ -56,7 +56,6 @@ class GithubActivity : AppCompatActivity() {
     }
 
     // ViewModel 설정
-    // TODO ViewModelProviders deprecated 해결
     private fun setupViewModel() {
         githubSearchAdapter = GithubListAdapter()
         githubLikeAdapter = GithubListAdapter()
@@ -64,11 +63,9 @@ class GithubActivity : AppCompatActivity() {
         viewPagerAdapter.setView(this)
         pagingAdapter = PagingAdapter(this)
 
-//        viewPagerAdapter.setAdapter(githubSearchAdapter, githubLikeAdapter, pagingAdapter)
     }
 
     override fun onDestroy() {
-//        githubViewModel.deleteAll()
         searchDisposable?.dispose()
 
         super.onDestroy()
