@@ -99,4 +99,7 @@ dependencies {
     api 'com.google.dagger:dagger-android-support:2.16'
     kapt 'com.google.dagger:dagger-android-processor:2.16'
     kapt 'com.google.dagger:dagger-compiler:2.25.2'
+
+    // Timber
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 }

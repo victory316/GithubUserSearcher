@@ -27,7 +27,6 @@ class GithubViewModel internal constructor(
 
     private val contacts = repository.getAll()
     private val favorites = repository.getAllFavorites()
-//    private lateinit var viewPagerAdapter: GithubViewPagerAdapter
 
     var doShimmerAnimation: ObservableBoolean = ObservableBoolean()
 
@@ -37,11 +36,9 @@ class GithubViewModel internal constructor(
 
     private var pageCount = 1
 
-    var _searchString = MutableLiveData<String>()
+    val _searchString = MutableLiveData<String>()
     val searchString: LiveData<String>
         get() = _searchString
-
-    val testString = ObservableField<String>()
 
     init {
 
@@ -122,7 +119,6 @@ class GithubViewModel internal constructor(
 
         if (!searchOnProgress) {
             searchOnProgress = true
-//            val target = viewPagerAdapter.getText()
             doShimmerAnimation.set(true)
 
             // Gihub search query로 찾고자 하는 유저를 검색
@@ -132,7 +128,6 @@ class GithubViewModel internal constructor(
                 .subscribeOn(Schedulers.io())
                 .subscribe({ result ->
                     insertList(result.getUserList())
-//                personsLiveData
 
                     doShimmerAnimation.set(false)
                     searchOnProgress = false

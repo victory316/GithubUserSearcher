@@ -1,8 +1,10 @@
 package com.example.answer.github.data.source
 
+import android.util.Log
 import androidx.paging.PagedList
 import com.example.answer.github.data.GithubData
 import com.example.answer.github.viewmodel.GithubViewModel
+import timber.log.Timber
 
 class DataBoundaryCallback(
     private val query: String,
@@ -13,6 +15,8 @@ class DataBoundaryCallback(
     }
 
     override fun onItemAtEndLoaded(itemAtEnd: GithubData) {
+        Timber.tag("paging").d("end loaded!")
+
         viewModel.doSearchByPaging()
     }
 }
