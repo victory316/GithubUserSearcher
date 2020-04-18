@@ -3,8 +3,6 @@ package com.example.answer.github.ui
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.example.answer.github.ui.GithubListAdapter
-import com.example.answer.github.ui.PagingAdapter
 import com.example.answer.github.view.LikeFragment
 import com.example.answer.github.view.SearchFragment
 import com.example.answer.github.view.GithubActivity
@@ -12,28 +10,14 @@ import com.example.answer.github.view.GithubActivity
 class GithubViewPagerAdapter(
     fm: FragmentManager?
 ) :
-    FragmentPagerAdapter(fm!!) {
+    FragmentPagerAdapter(fm!!, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
     private lateinit var view: GithubActivity
-    private lateinit var listAdapter: GithubListAdapter
-    private lateinit var likeAdapter: GithubListAdapter
-    private lateinit var pagingAdapter: PagingAdapter
-    private lateinit var searchFragment: SearchFragment
-    private lateinit var likeFragment: LikeFragment
 
     override fun getItem(position: Int): Fragment {
         return if (position == 0) {
-            searchFragment = SearchFragment.newInstance()
-            searchFragment.setContext(view)
-//            searchFragment.setAdapter(listAdapter)
-            searchFragment.setPagingAdapter(pagingAdapter)
-
-            searchFragment
+            SearchFragment.newInstance()
         } else {
-            likeFragment = LikeFragment.newInstance()
-            likeFragment.setContext(view)
-            likeFragment.setAdapter(likeAdapter)
-
-            likeFragment
+            LikeFragment.newInstance()
         }
     }
 
@@ -50,21 +34,7 @@ class GithubViewPagerAdapter(
         return 2
     }
 
-    fun clearText() {
-        searchFragment.clearText()
-    }
-
     fun setView(input: GithubActivity) {
         view = input
-    }
-
-    fun getText(): String {
-        return searchFragment.getString()
-    }
-
-    fun setAdapter(listAdapter: GithubListAdapter, likeAdapter: GithubListAdapter, pagingAdapter: PagingAdapter) {
-        this.listAdapter = listAdapter
-        this.likeAdapter = likeAdapter
-        this.pagingAdapter = pagingAdapter
     }
 }

@@ -7,8 +7,8 @@ import androidx.room.RoomDatabase
 import com.example.answer.github.data.FavoriteData
 import com.example.answer.github.data.GithubData
 
-@Database(entities = [GithubData::class, FavoriteData::class], version =2)
-abstract class GithubDatabase: RoomDatabase() {
+@Database(entities = [GithubData::class, FavoriteData::class], version = 2)
+abstract class GithubDatabase : RoomDatabase() {
 
     abstract fun githubDao(): GithubDao
 
@@ -18,8 +18,10 @@ abstract class GithubDatabase: RoomDatabase() {
         fun getInstance(context: Context): GithubDatabase? {
             if (INSTANCE == null) {
                 synchronized(GithubDatabase::class) {
-                    INSTANCE = Room.databaseBuilder(context.applicationContext,
-                        GithubDatabase::class.java, "github_database")
+                    INSTANCE = Room.databaseBuilder(
+                        context.applicationContext,
+                        GithubDatabase::class.java, "github_database"
+                    )
                         .fallbackToDestructiveMigration()
                         .build()
                 }

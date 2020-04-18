@@ -1,34 +1,30 @@
 package com.example.answer.github.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.NonNull
-import androidx.annotation.Nullable
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.Observable
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.answer.R
 import com.example.answer.databinding.FragmentSearchBinding
-import com.example.answer.github.viewmodel.GithubViewModel
 import com.example.answer.github.ui.PagingAdapter
+import com.example.answer.github.util.InjectorUtils
+import com.example.answer.github.viewmodel.GithubViewModel
+import timber.log.Timber
 
 
 class SearchFragment : Fragment() {
-    private var githubViewModel: GithubViewModel? = null
     private lateinit var binding: FragmentSearchBinding
-    private lateinit var view: GithubActivity
-//    private lateinit var adapter: GithubListAdapter
     private lateinit var pagingAdapter: PagingAdapter
 
-    override fun onCreate(@Nullable savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        githubViewModel =
-            ViewModelProviders.of(requireActivity()).get(GithubViewModel::class.java)
+    private val githubViewModel: GithubViewModel by viewModels {
+        InjectorUtils.proviedGithubViewModel(this)
     }
 
     override fun onCreateView(
@@ -36,17 +32,27 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val roomDetailLayoutManager = LinearLayoutManager(view)
+        val roomDetailLayoutManager = LinearLayoutManager(activity)
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
 
-        binding.searchRecyclerView.adapter = pagingAdapter
-        binding.searchRecyclerView.layoutManager = roomDetailLayoutManager
-        binding.searchRecyclerView.setHasFixedSize(true)
 
-        githubViewModel!!.doShimmerAnimation.addOnPropertyChangedCallback( object: Observable.OnPropertyChangedCallback() {
+        pagingAdapter = PagingAdapter(requireContext()).apply {
+            setViewModel(githubViewModel)
+        }
+
+        binding.apply {
+            viewModel = githubViewModel
+            lifecycleOwner = viewLifecycleOwner
+            searchRecyclerView.adapter = pagingAdapter
+            searchRecyclerView.layoutManager = roomDetailLayoutManager
+            searchRecyclerView.setHasFixedSize(true)
+        }
+
+        githubViewModel.doShimmerAnimation.addOnPropertyChangedCallback(object :
+            Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                if (githubViewModel!!.doShimmerAnimation.get()) {
+                if (githubViewModel.doShimmerAnimation.get()) {
                     binding.shimmerViewContainer.startShimmer()
                     binding.shimmerViewContainer.visibility = View.VISIBLE
                 } else {
@@ -56,35 +62,22 @@ class SearchFragment : Fragment() {
             }
         })
 
+        subscribeUi(pagingAdapter)
+
         return binding.root
     }
 
-    override fun onViewCreated(@NonNull view: View, @Nullable savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private fun subscribeUi(adapter: PagingAdapter) {
+        githubViewModel.getPersonsLiveData().observe(viewLifecycleOwner, Observer { name ->
 
-        binding.lifecycleOwner = this // 해제될 수 있음. viewlifecycleowner
-        binding.viewModel = githubViewModel
+            Timber.tag("paging").d("observing : $name")
+
+            if (name != null) {
+                adapter.submitList(name)
+            }
+        })
     }
 
-    fun clearText() {
-        binding.searchEditText.text.clear()
-    }
-
-    fun setContext(view: GithubActivity){
-        this.view = view
-    }
-
-//    fun setAdapter(adapter : GithubListAdapter) {
-//        this.adapter = adapter
-//    }
-
-    fun setPagingAdapter(adapter : PagingAdapter) {
-        this.pagingAdapter = adapter
-    }
-
-    fun getString() : String {
-        return binding.searchEditText.text.toString()
-    }
 
     companion object {
         fun newInstance(): SearchFragment {

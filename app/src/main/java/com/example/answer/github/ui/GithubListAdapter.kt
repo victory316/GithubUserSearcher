@@ -20,7 +20,8 @@ class GithubListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, i: Int): RecyclerView.ViewHolder {
         val view = GithubItemBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false)
+            LayoutInflater.from(parent.context), parent, false
+        )
 
         return ViewHolder(
             view,
@@ -62,10 +63,5 @@ class GithubListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun setViewModel(model: GithubViewModel) {
         viewModel = model
-    }
-
-    fun setContacts(contacts: List<GithubData>) {
-        this.contacts = contacts
-        notifyDataSetChanged()
     }
 }

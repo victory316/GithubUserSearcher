@@ -1,40 +1,42 @@
 package com.example.answer.github.viewmodel
 
-import android.app.Application
-import android.util.Log
 import androidx.databinding.ObservableBoolean
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
 import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.example.answer.github.ui.GithubViewPagerAdapter
 import com.example.answer.github.data.GithubData
 import com.example.answer.github.data.GithubRepo
-import com.example.answer.github.data.source.GithubRepository
-import com.example.answer.github.data.source.local.GithubDatabase
-import com.example.answer.github.data.source.remote.GithubClient
 import com.example.answer.github.data.source.DataBoundaryCallback
+import com.example.answer.github.data.source.GithubRepository
+import com.example.answer.github.data.source.remote.GithubClient
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 
-class GithubViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val repository =
-        GithubRepository(application)
-    private val contacts = repository.getAll()
-    private val favorites = repository.getAllFavorites()
-    private lateinit var viewPagerAdapter: GithubViewPagerAdapter
+class GithubViewModel internal constructor(
+    private val repository: GithubRepository,
+    private val savedStateHandle: SavedStateHandle
+) : ViewModel() {
 
     var doShimmerAnimation: ObservableBoolean = ObservableBoolean()
 
     private var personsLiveData: LiveData<PagedList<GithubData>>
     private var factory: DataSource.Factory<Int, GithubData> =
-        GithubDatabase.getInstance(application)!!.githubDao().getAllPaged()
+        repository.getAllPaged()
 
     private var pageCount = 1
 
+    val _searchString = MutableLiveData<String>()
+    val searchString: LiveData<String>
+        get() = _searchString
+
     init {
+        // 실행 시점에서의 DB 초기화
+        repository.deleteAll()
 
         val config = PagedList.Config.Builder()
             .setInitialLoadSizeHint(10)
@@ -45,13 +47,18 @@ class GithubViewModel(application: Application) : AndroidViewModel(application) 
         val boundaryCallback =
             DataBoundaryCallback("", this)
 
-        val pagedListBuilder: LivePagedListBuilder<Int, GithubData> = LivePagedListBuilder<Int, GithubData>(factory,
-            config).setBoundaryCallback(boundaryCallback)
+        val pagedListBuilder: LivePagedListBuilder<Int, GithubData> =
+            LivePagedListBuilder<Int, GithubData>(
+                factory,
+                config
+            ).setBoundaryCallback(boundaryCallback)
 
         personsLiveData = pagedListBuilder.build()
     }
 
     private fun doOnNewSearch() {
+        Timber.tag("paging").d("doOnNewSearch : $pageCount")
+
         pageCount = 1
 
         val config = PagedList.Config.Builder()
@@ -63,28 +70,28 @@ class GithubViewModel(application: Application) : AndroidViewModel(application) 
         val boundaryCallback =
             DataBoundaryCallback("", this)
 
-        val pagedListBuilder: LivePagedListBuilder<Int, GithubData> = LivePagedListBuilder<Int, GithubData>(factory,
-            config).setBoundaryCallback(boundaryCallback)
+        val pagedListBuilder: LivePagedListBuilder<Int, GithubData> =
+            LivePagedListBuilder<Int, GithubData>(
+                factory,
+                config
+            ).setBoundaryCallback(boundaryCallback)
 
         personsLiveData = pagedListBuilder.build()
     }
 
     fun getPersonsLiveData() = personsLiveData
 
-    fun doSearch(){
+    fun doSearch() {
 
         deleteAll()
 
-        val target = viewPagerAdapter.getText()
         doShimmerAnimation.set(true)
 
         doOnNewSearch()
 
-        Log.d("test", "target : $target | $pageCount")
-
         // Gihub search query로 찾고자 하는 유저를 검색
         val searchDisposable = GithubClient()
-            .getApi().searchUserForPage(target,pageCount, 30)
+            .getApi().searchUserForPage(searchString.value!!, pageCount, 30)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({ result ->
@@ -93,8 +100,7 @@ class GithubViewModel(application: Application) : AndroidViewModel(application) 
 
                 doShimmerAnimation.set(false)
 
-            }, {
-                    error ->
+            }, { error ->
                 run {
                     error.printStackTrace()
                     doShimmerAnimation.set(false)
@@ -104,27 +110,26 @@ class GithubViewModel(application: Application) : AndroidViewModel(application) 
 
     private var searchOnProgress = false
 
-    fun doSearchByPaging(){
+    fun doSearchByPaging() {
 
         if (!searchOnProgress) {
             searchOnProgress = true
-            val target = viewPagerAdapter.getText()
             doShimmerAnimation.set(true)
 
             // Gihub search query로 찾고자 하는 유저를 검색
             val searchDisposable = GithubClient()
-                .getApi().searchUserForPage(target,pageCount, 30)
+                .getApi().searchUserForPage(searchString.value!!, pageCount, 30)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ result ->
                     insertList(result.getUserList())
-//                personsLiveData
 
                     doShimmerAnimation.set(false)
                     searchOnProgress = false
-                }, {
-                        error ->
+                }, { error ->
                     run {
+                        Timber.tag("paging").d("error on paging!")
+
                         error.printStackTrace()
                         doShimmerAnimation.set(false)
                         searchOnProgress = false
@@ -133,14 +138,6 @@ class GithubViewModel(application: Application) : AndroidViewModel(application) 
 
             pageCount++
         }
-    }
-
-    fun getAll(): LiveData<List<GithubData>> {
-        return this.contacts
-    }
-
-    fun getAllFavorites(): LiveData<List<GithubData>> {
-        return this.favorites
     }
 
     fun insert(contact: GithubData) {
@@ -164,15 +161,7 @@ class GithubViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun clearText() {
-        viewPagerAdapter.clearText()
-    }
-
-    fun setViewPagerAdapter(adapter: GithubViewPagerAdapter) {
-        viewPagerAdapter = adapter
-    }
-
-    fun delete(contact: GithubData) {
-        repository.delete(contact)
+        _searchString.postValue("")
     }
 
     fun deleteAll() {

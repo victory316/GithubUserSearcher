@@ -11,6 +11,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".github.App"
         android:theme="@style/MainTheme">
         <activity android:name=".github.view.GithubActivity"
             android:configChanges="orientation"

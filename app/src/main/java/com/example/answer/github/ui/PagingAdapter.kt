@@ -10,9 +10,10 @@ import com.example.answer.github.data.GithubData
 import com.example.answer.github.data.source.UserDiffCallback
 import com.example.answer.github.viewmodel.GithubViewModel
 
-class PagingAdapter(val context: Context) : PagedListAdapter<GithubData, PagingAdapter.PersonViewHolder>(
-    UserDiffCallback()
-) {
+class PagingAdapter(val context: Context) :
+    PagedListAdapter<GithubData, PagingAdapter.PersonViewHolder>(
+        UserDiffCallback()
+    ) {
 
     private lateinit var viewModel: GithubViewModel
 
@@ -28,7 +29,8 @@ class PagingAdapter(val context: Context) : PagedListAdapter<GithubData, PagingA
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonViewHolder {
         val binding = GithubItemBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false)
+            LayoutInflater.from(parent.context), parent, false
+        )
 
         return PersonViewHolder(
             binding,
@@ -36,13 +38,13 @@ class PagingAdapter(val context: Context) : PagedListAdapter<GithubData, PagingA
         )
     }
 
-
-    class PersonViewHolder (
+    class PersonViewHolder(
         private val binding: GithubItemBinding,
         private val viewModel: GithubViewModel
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(person: GithubData) {
+
             binding.userName.text = person.name
             binding.favorite = person.favorite
             binding.imageUrl = person.avatar_url
