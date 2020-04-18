@@ -19,6 +19,7 @@ import com.example.answer.github.data.source.remote.GithubClient
 import com.example.answer.github.data.source.DataBoundaryCallback
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 
 class GithubViewModel internal constructor(
     private val repository: GithubRepository,
@@ -41,7 +42,6 @@ class GithubViewModel internal constructor(
         get() = _searchString
 
     init {
-
         // 실행 시점에서의 DB 초기화
         repository.deleteAll()
 
@@ -64,6 +64,8 @@ class GithubViewModel internal constructor(
     }
 
     private fun doOnNewSearch() {
+        Timber.tag("paging").d("doOnNewSearch : $pageCount")
+
         pageCount = 1
 
         val config = PagedList.Config.Builder()

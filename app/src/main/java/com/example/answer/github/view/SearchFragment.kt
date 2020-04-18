@@ -19,6 +19,7 @@ import com.example.answer.databinding.FragmentSearchBinding
 import com.example.answer.github.viewmodel.GithubViewModel
 import com.example.answer.github.ui.PagingAdapter
 import com.example.answer.github.util.InjectorUtils
+import timber.log.Timber
 
 
 class SearchFragment : Fragment() {
@@ -73,7 +74,7 @@ class SearchFragment : Fragment() {
     private fun subscribeUi(adapter: PagingAdapter) {
         githubViewModel.getPersonsLiveData().observe(viewLifecycleOwner, Observer { name ->
 
-            Log.d("test", "observing result : $name")
+            Timber.tag("paging").d("observing : $name")
 
             if (name != null) {
                 adapter.submitList(name)

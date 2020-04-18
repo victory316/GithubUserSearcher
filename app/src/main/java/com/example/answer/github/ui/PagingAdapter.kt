@@ -10,6 +10,7 @@ import com.example.answer.databinding.GithubItemBinding
 import com.example.answer.github.data.GithubData
 import com.example.answer.github.data.source.UserDiffCallback
 import com.example.answer.github.viewmodel.GithubViewModel
+import timber.log.Timber
 
 class PagingAdapter(val context: Context) : PagedListAdapter<GithubData, PagingAdapter.PersonViewHolder>(
     UserDiffCallback()
@@ -44,6 +45,7 @@ class PagingAdapter(val context: Context) : PagedListAdapter<GithubData, PagingA
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(person: GithubData) {
+
             binding.userName.text = person.name
             binding.favorite = person.favorite
             binding.imageUrl = person.avatar_url

@@ -1,6 +1,5 @@
 package com.example.answer.github.data.source
 
-import android.util.Log
 import androidx.paging.PagedList
 import com.example.answer.github.data.GithubData
 import com.example.answer.github.viewmodel.GithubViewModel
