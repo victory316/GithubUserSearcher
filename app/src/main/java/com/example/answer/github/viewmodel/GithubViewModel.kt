@@ -1,22 +1,18 @@
 package com.example.answer.github.viewmodel
 
-import android.util.Log
-import android.view.View
-import android.widget.EditText
-import androidx.databinding.BaseObservable
-import androidx.databinding.Bindable
 import androidx.databinding.ObservableBoolean
-import androidx.databinding.ObservableField
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
 import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.example.answer.github.ui.GithubViewPagerAdapter
 import com.example.answer.github.data.GithubData
 import com.example.answer.github.data.GithubRepo
+import com.example.answer.github.data.source.DataBoundaryCallback
 import com.example.answer.github.data.source.GithubRepository
 import com.example.answer.github.data.source.remote.GithubClient
-import com.example.answer.github.data.source.DataBoundaryCallback
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
@@ -25,9 +21,6 @@ class GithubViewModel internal constructor(
     private val repository: GithubRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-
-    private val contacts = repository.getAll()
-    private val favorites = repository.getAllFavorites()
 
     var doShimmerAnimation: ObservableBoolean = ObservableBoolean()
 
@@ -125,7 +118,7 @@ class GithubViewModel internal constructor(
 
             // Gihub search query로 찾고자 하는 유저를 검색
             val searchDisposable = GithubClient()
-                .getApi().searchUserForPage("", pageCount, 30)
+                .getApi().searchUserForPage(searchString.value!!, pageCount, 30)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ result ->
@@ -135,6 +128,8 @@ class GithubViewModel internal constructor(
                     searchOnProgress = false
                 }, { error ->
                     run {
+                        Timber.tag("paging").d("error on paging!")
+
                         error.printStackTrace()
                         doShimmerAnimation.set(false)
                         searchOnProgress = false
@@ -143,14 +138,6 @@ class GithubViewModel internal constructor(
 
             pageCount++
         }
-    }
-
-    fun getAll(): LiveData<List<GithubData>> {
-        return this.contacts
-    }
-
-    fun getAllFavorites(): LiveData<List<GithubData>> {
-        return this.favorites
     }
 
     fun insert(contact: GithubData) {
@@ -175,10 +162,6 @@ class GithubViewModel internal constructor(
 
     fun clearText() {
         _searchString.postValue("")
-    }
-
-    fun delete(contact: GithubData) {
-        repository.delete(contact)
     }
 
     fun deleteAll() {

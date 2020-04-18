@@ -1,7 +1,6 @@
 package com.example.answer.github.ui
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
@@ -10,11 +9,11 @@ import com.example.answer.databinding.GithubItemBinding
 import com.example.answer.github.data.GithubData
 import com.example.answer.github.data.source.UserDiffCallback
 import com.example.answer.github.viewmodel.GithubViewModel
-import timber.log.Timber
 
-class PagingAdapter(val context: Context) : PagedListAdapter<GithubData, PagingAdapter.PersonViewHolder>(
-    UserDiffCallback()
-) {
+class PagingAdapter(val context: Context) :
+    PagedListAdapter<GithubData, PagingAdapter.PersonViewHolder>(
+        UserDiffCallback()
+    ) {
 
     private lateinit var viewModel: GithubViewModel
 
@@ -30,7 +29,8 @@ class PagingAdapter(val context: Context) : PagedListAdapter<GithubData, PagingA
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonViewHolder {
         val binding = GithubItemBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false)
+            LayoutInflater.from(parent.context), parent, false
+        )
 
         return PersonViewHolder(
             binding,
@@ -38,8 +38,7 @@ class PagingAdapter(val context: Context) : PagedListAdapter<GithubData, PagingA
         )
     }
 
-
-    class PersonViewHolder (
+    class PersonViewHolder(
         private val binding: GithubItemBinding,
         private val viewModel: GithubViewModel
     ) : RecyclerView.ViewHolder(binding.root) {

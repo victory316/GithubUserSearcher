@@ -11,7 +11,7 @@ class GithubViewModelFactory(
     private val repository: GithubRepository,
     owner: SavedStateRegistryOwner,
     defaultArgs: Bundle? = null
-): AbstractSavedStateViewModelFactory(owner, defaultArgs) {
+) : AbstractSavedStateViewModelFactory(owner, defaultArgs) {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(

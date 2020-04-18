@@ -7,7 +7,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 // parsing한 회의실 데이터를 넣기 위한 data class
-@Entity(tableName= "favorite")
+@Entity(tableName = "favorite")
 data class FavoriteData(
 
     @PrimaryKey(autoGenerate = false)

@@ -19,7 +19,8 @@ object BindingAdapters {
 
     // 키보드 숨김 및 검색 수행
     @BindingAdapter("hideKeyboardAndDoSearch")
-    @JvmStatic fun hideKeyboardAndDoSearch(view: ImageView, viewModel: GithubViewModel) {
+    @JvmStatic
+    fun hideKeyboardAndDoSearch(view: ImageView, viewModel: GithubViewModel) {
         view.setOnClickListener {
             val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE)
                     as InputMethodManager
@@ -32,28 +33,41 @@ object BindingAdapters {
 
     // 이미지 적용
     @BindingAdapter("setImageWithGlide")
-    @JvmStatic fun setImageWithGlide(view: ImageView, imageUrl: String) {
+    @JvmStatic
+    fun setImageWithGlide(view: ImageView, imageUrl: String) {
 
-        if (!imageUrl.isNullOrEmpty()) {
+        if (imageUrl.isNotEmpty()) {
             Glide.with(view.context)
                 .load(imageUrl)
-                .placeholder(ContextCompat.getDrawable(view.context, R.drawable.pending_profile_image))
+                .placeholder(
+                    ContextCompat.getDrawable(
+                        view.context,
+                        R.drawable.pending_profile_image
+                    )
+                )
                 .into(view)
         }
     }
 
     // 즐겨찾기 적용
     @BindingAdapter("setFavoriteIcon")
-    @JvmStatic fun setFavoriteIcon(view: ImageView, favorite: Int) {
+    @JvmStatic
+    fun setFavoriteIcon(view: ImageView, favorite: Int) {
         if (favorite == 1) {
             view.setImageDrawable(
-                ContextCompat.getDrawable(view.context,
-                    R.drawable.like_icon))
+                ContextCompat.getDrawable(
+                    view.context,
+                    R.drawable.like_icon
+                )
+            )
         } else {
 
             view.setImageDrawable(
-                ContextCompat.getDrawable(view.context,
-                    R.drawable.unlike_icon))
+                ContextCompat.getDrawable(
+                    view.context,
+                    R.drawable.unlike_icon
+                )
+            )
         }
     }
 }
