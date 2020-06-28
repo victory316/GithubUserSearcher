@@ -13,6 +13,32 @@ import io.reactivex.schedulers.Schedulers
 class GithubRepository private constructor(private val dao: GithubDao) {
     private lateinit var searchDisposable: Disposable
 
+    fun getSearchedList(input: String): LiveData<List<GithubData>> {
+        dao.getAll().value?.let { list ->
+            if (list.isEmpty()) {
+                return dao.getAll()
+            } else {
+                // Gihub search query로 찾고자 하는 유저를 검색
+                searchDisposable = GithubClient()
+                    .getApi().searchUser(input)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe({ result ->
+                        insertList(result.getUserList())
+                        searchDisposable.dispose()
+
+                    }, { error ->
+                        run {
+                            error.printStackTrace()
+                            searchDisposable.dispose()
+                        }
+                    })
+            }
+        }
+
+        return dao.getAll()
+    }
+
     fun getAllPaged(inputString: String, pageCount: Int): DataSource.Factory<Int, GithubData> {
         dao.getAll().value?.let { list ->
             if (list.isNotEmpty()) {

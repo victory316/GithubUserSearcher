@@ -16,6 +16,7 @@ class DataBoundaryCallback(
     override fun onItemAtEndLoaded(itemAtEnd: GithubData) {
         Timber.tag("paging").d("end loaded!")
 
-        viewModel.doSearchByPaging()
+        // 뷰모델 및 레포지토리 재정립을 끝낸 이후 페이징 재구현할것.
+//        viewModel.doSearchByPaging()
     }
 }

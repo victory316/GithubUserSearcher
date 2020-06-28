@@ -56,14 +56,6 @@ class GithubViewModel internal constructor(
         personsLiveData = pagedListBuilder.build()
     }
 
-    fun getSearchString(): String? {
-        return searchString.value
-    }
-
-    fun setSearchString(input: String) {
-        _searchString.postValue(input)
-    }
-
     private fun doOnNewSearch() {
         Timber.tag("paging").d("doOnNewSearch : $pageCount")
 
@@ -92,82 +84,14 @@ class GithubViewModel internal constructor(
     fun doSearch() {
 
         deleteAll()
-
-        doShimmerAnimation.set(true)
+//        doShimmerAnimation.set(true)
 
         doOnNewSearch()
-
-        // Gihub search query로 찾고자 하는 유저를 검색
-        val searchDisposable = GithubClient()
-            .getApi().searchUserForPage(searchString.value!!, pageCount, 30)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe({ result ->
-                insertList(result.getUserList())
-//                personsLiveData
-
-                doShimmerAnimation.set(false)
-
-            }, { error ->
-                run {
-                    error.printStackTrace()
-                    doShimmerAnimation.set(false)
-                }
-            })
-    }
-
-    private var searchOnProgress = false
-
-    fun doSearchByPaging() {
-
-        doShimmerAnimation.set(false)
-
-        if (!searchOnProgress) {
-            searchOnProgress = true
-            doShimmerAnimation.set(true)
-
-            searchString.value?.let {
-
-                // G ihub search query로 찾고자 하는 유저를 검색
-                val searchDisposable = GithubClient()
-                    .getApi().searchUserForPage(it, pageCount, 30)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io())
-                    .subscribe({ result ->
-                        insertList(result.getUserList())
-
-                        doShimmerAnimation.set(false)
-                        searchOnProgress = false
-                    }, { error ->
-                        run {
-                            Timber.tag("paging").d("error on paging!")
-
-                            error.printStackTrace()
-                            doShimmerAnimation.set(false)
-                            searchOnProgress = false
-                        }
-                    })
-
-                pageCount++
-            }
-
-        }
+        repository.getSearchedList("a")
     }
 
     fun insert(contact: GithubData) {
         repository.insert(contact)
-    }
-
-    fun insertList(contactList: List<GithubRepo>) {
-        for (indices in contactList) {
-            val githubData = GithubData(
-                indices.login,
-                indices.avatar_url,
-                indices.score.toInt(),
-                0
-            )
-            repository.insert(githubData)
-        }
     }
 
     fun updateList(input: Int, name: String) {
