@@ -25,14 +25,14 @@ class GithubViewModel internal constructor(
     var doShimmerAnimation: ObservableBoolean = ObservableBoolean()
 
     private var personsLiveData: LiveData<PagedList<GithubData>>
-    private var factory: DataSource.Factory<Int, GithubData> =
-        repository.getAllPaged()
-
     private var pageCount = 1
 
     val _searchString = MutableLiveData<String>()
     val searchString: LiveData<String>
         get() = _searchString
+
+    private var factory: DataSource.Factory<Int, GithubData> =
+        repository.getAllPaged("", pageCount)
 
     init {
         // 실행 시점에서의 DB 초기화
@@ -54,6 +54,14 @@ class GithubViewModel internal constructor(
             ).setBoundaryCallback(boundaryCallback)
 
         personsLiveData = pagedListBuilder.build()
+    }
+
+    fun getSearchString(): String? {
+        return searchString.value
+    }
+
+    fun setSearchString(input: String) {
+        _searchString.postValue(input)
     }
 
     private fun doOnNewSearch() {
@@ -112,31 +120,37 @@ class GithubViewModel internal constructor(
 
     fun doSearchByPaging() {
 
+        doShimmerAnimation.set(false)
+
         if (!searchOnProgress) {
             searchOnProgress = true
             doShimmerAnimation.set(true)
 
-            // Gihub search query로 찾고자 하는 유저를 검색
-            val searchDisposable = GithubClient()
-                .getApi().searchUserForPage(searchString.value!!, pageCount, 30)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({ result ->
-                    insertList(result.getUserList())
+            searchString.value?.let {
 
-                    doShimmerAnimation.set(false)
-                    searchOnProgress = false
-                }, { error ->
-                    run {
-                        Timber.tag("paging").d("error on paging!")
+                // G ihub search query로 찾고자 하는 유저를 검색
+                val searchDisposable = GithubClient()
+                    .getApi().searchUserForPage(it, pageCount, 30)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe({ result ->
+                        insertList(result.getUserList())
 
-                        error.printStackTrace()
                         doShimmerAnimation.set(false)
                         searchOnProgress = false
-                    }
-                })
+                    }, { error ->
+                        run {
+                            Timber.tag("paging").d("error on paging!")
 
-            pageCount++
+                            error.printStackTrace()
+                            doShimmerAnimation.set(false)
+                            searchOnProgress = false
+                        }
+                    })
+
+                pageCount++
+            }
+
         }
     }
 
